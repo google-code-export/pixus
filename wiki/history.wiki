@@ -1,38 +1,66 @@
 #labels version,history
-Pixus Version History
+Pixus
+The Pixel Ruler for Screen Objects
 
---------------------------------------------------------------------------
+Version History
+
+Pixus Version 1.0.0 - Coming up
+
+Features to add
+- Keyboard fine control
+- Shortcut keys
+
+Bugs to fix
+- Press ESC under overlay (fullscreen) mode
+- Skin minimal size (partial fixed)
+
+
+Pixus Version 0.9.0 - July 16, 2008
+
+Features
+- Ruler interfaced improved.
+- Popular browser skins added.
+  i)  Microsoft Internnet - Explorer 6 Windows XP
+  ii) Apple Safari 3 - Mac OS X
+- Preferences windows now with 4 panels
+  i)   Presets
+  ii)  Skins
+  iii) Help
+  iv)  About
+
+Bugs fixed
+- Sync scrollbar when adding / removing a preset row (fixed)
+- Resizer out of the panel if released outside the NativeWindow (fixed)
+- Dragger buttons. (fixed)
+- Mask mode mask 10px shifted horizontally under Windows
+
+
 Pixus Version 0.8.0 - June 18, 2008
 
 Features
-- Based on Adobe AIR 1
-- Preferences dialog added
-- Add / Remove / Edit / Drag presets in Preferences
-- Presets can be activated by Windows system tray icon menu or Mac OS X dock icon menu
-- SharedObject bug under Mac OS X fixed
-- Mac OS X dock icon menu support added
+- Based on Adobe AIR 1.
+- Preferences dialog added.
+- Add / Remove / Edit / Drag presets in Preferences.
+- Presets can be activated by Windows system tray icon menu or Mac OS X dock icon menu.
+- SharedObject bug under Mac OS X fixed.
+- Mac OS X dock icon menu support added.
 
 
---------------------------------------------------------------------------
 Pixus Version 0.7.0 - November 13, 2007
 
 Features
-- Based on Adobe Apollo Beta 2
-- Exclusive Pixus icons added
-- Windows system tray icon and menu added
-- Hide / Show / Exit using system tray menu
-- Task bar icon hidden
-- Window position, size and mode remember
+- Based on Adobe Apollo Beta 2.
+- Exclusive Pixus icons added.
+- Windows system tray icon and menu added.
+- Hide / Show / Exit using system tray menu.
+- Task bar icon hidden.
+- Window position, size and mode remember.
 
 
---------------------------------------------------------------------------
 Pixus Version 0.6.0 - Released Oct 18, 2007
 
 Features
-- Based on Adobe Apollo Beta 1
-- Resizable Rulers
-- Minimizable
-- Fullscreen overlay mode
-
-
-(cc)2007-2008 01media jungle
+- Based on Adobe Apollo Beta 1.
+- Resizable Rulers.
+- Minimizable.
+- Fullscreen overlay mode.
