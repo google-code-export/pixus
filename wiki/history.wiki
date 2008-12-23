@@ -3,7 +3,7 @@ Pixus
 The Pixel Ruler for Screen Objects
 
 Version History
-
+ 
 Pixus Version 1.0.0 - Coming up
 
 Features to add
@@ -13,7 +13,8 @@ Features to add
 Bugs to fix
 - Press ESC under overlay (fullscreen) mode
 - Skin minimal size (partial fixed)
-
+- Ruler out of screen and no way back (event by reinstalling Pixus)
+- Auto-update (Brilliant framework included in AIR 1.5)
 
 Pixus Version 0.9.0 - July 16, 2008
 
