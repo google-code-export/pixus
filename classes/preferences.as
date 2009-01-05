@@ -24,9 +24,9 @@ package {
 
 		const MARGIN_TOP:int=80;
 		const MARGIN_BOTTOM:int=40;
-		const PANEL_WIDTH:int=261;
-		const MIN_HEIGHT:int=200;
-		const MAX_HEIGHT:int=400;
+//		const pixusShell.PREFERENCES_PANEL_WIDTH:int=261;
+		const MIN_HEIGHT:int=320;
+		const MAX_HEIGHT:int=600;
 
 		public var shell:pixusShell;
 		var presets:scrollPanel;
@@ -43,6 +43,7 @@ package {
 		public function init(event:Event):void {
 			var l,n:int;
 
+			maskPanel.width=resizer.x=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH+1;
 			if(pixusShell.options.preferencesWindowPosition.height!=undefined)
 				resizer.y=bg.height=pixusShell.options.preferencesWindowPosition.height;
 			stage.addEventListener(pixusShell.EVENT_SYNC_WINDOW_SIZE,handleSyncWindowSize);
@@ -59,7 +60,7 @@ package {
 			panelsX0=panels.x;
 
 			// Presets Panel
-			presets=new scrollPanel({width:PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
+			presets=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
 			panels.panelPresets.bottomControl.bAdd.addEventListener(MouseEvent.CLICK, handleAdd);
 			panels.panelPresets.addChild(presets);
 			l=pixusShell.options.presets.length;
@@ -74,7 +75,13 @@ package {
 				skins.addChild(new skinRow());
 			}
 
+			panels.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
+
 			syncWindowSize();
+		}
+
+		function handleFindBack(event:MouseEvent):void {
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_FIND_BACK));
 		}
 
 		public function handleResize(event:MouseEvent):void {
@@ -154,7 +161,7 @@ package {
 		function panelSlide(id:int) {
 			if (currentPanel!=id) {
 				currentPanel=id;
-				Tweener.addTween(panels,{x:panelsX0-id*PANEL_WIDTH,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+				Tweener.addTween(panels,{x:panelsX0-id*pixusShell.PREFERENCES_PANEL_WIDTH,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			}
 		}
 

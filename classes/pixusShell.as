@@ -1,5 +1,5 @@
 ﻿// pixusShell class
-// Version 0.9.0 2008-07-09
+// Version 0.9.1 2008-12-30
 // (cc)2007-2008 codeplay
 // By Jam Zhang
 // jam@01media.cn
@@ -26,6 +26,7 @@ package {
 	import flash.events.MouseEvent;
 	import flash.events.ScreenMouseEvent;
 	import flash.geom.Point;
+	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 
 	public class pixusShell extends MovieClip {
@@ -35,23 +36,30 @@ package {
 		public static  const ROW_WIDTH:int=260;
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
+		public static  const PREFERENCES_PANEL_WIDTH:int=260;
 
 		// Custom Events
 		public static  const EVENT_SYNC_WINDOW_SIZE:String='PixusEventSyncWindowSize';
 		public static  const EVENT_SYNC_MENU:String='PixusEventSyncMenu';// Sync System Tray / Dock Icon Menu To The Presets
 		public static  const EVENT_SYNC_PRESETS:String='PixusEventSyncPresets';// Sync Preferences / Presets
 		public static  const EVENT_APPLY_SKIN:String='PixusEventApplySkin';// Apply Skin
+		public static  const EVENT_FIND_BACK:String='PixusEventFindPixusBack';// Apply Skin
 
 		// Defult Presets
 		public static  const PRESETS:Array=[
-		{width:320,height:240,comments:'CGA'},
+		{width:480,height:272,comments:'PSP'},
+		{width:480,height:320,comments:'iPhone Landscape'},
+		{width:320,height:480,comments:'iPhone Portrait'},
 		{width:640,height:480,comments:'VGA'},
+		{width:760,height:420,comments:'SVGA Windowed'},
+		{width:800,height:600,comments:'SVGA'},
+		{width:955,height:600,comments:'XGA Windowed'},
 		{width:1024,height:768,comments:'XGA'}
 		];
 
 		var windowPixus:NativeWindow;
 		var windowPreferences:NativeWindow;
-		public static var skinpresets:XML;
+		public static var skinpresets, settings:XML;
 		var loader:URLLoader=new URLLoader();
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
 		// Must initialize SharedObject first for Max OS X compatibility. Never use SharedObject.getLocal(APP_NAME,APP_PATH).data directly.
@@ -64,11 +72,12 @@ package {
 			}
 
 			loader.addEventListener(Event.COMPLETE,init);
-			loader.load(new URLRequest('skin.xml'));
+			loader.load(new URLRequest('pixus-settings.xml'));
 		}
 
 		function init(event:Event):void {
-			skinpresets=new XML(event.target.data);
+			settings=new XML(event.target.data);
+			skinpresets=settings.skinpresets;
 			if (options.skin==undefined) {
 				options.skin=0;
 			}
@@ -81,7 +90,7 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPixus=new NativeWindow(option);
-			windowPixus.visible=false;
+			windowPixus.visible=true;
 			windowPixus.title = 'Pixus';
 			windowPixus.width = 600;
 			windowPixus.height = 400;
@@ -103,7 +112,7 @@ package {
 			}
 			windowPreferences.visible=false;
 			windowPreferences.title = 'Pixus Preferences';
-			windowPreferences.width = 400;
+			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
 			windowPreferences.height = 600;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
 			windowPreferences.stage.align=StageAlign.TOP_LEFT;
@@ -138,6 +147,7 @@ package {
 
 			NativeApplication.nativeApplication.addEventListener(EVENT_SYNC_MENU, handleSyncMenu);
 			NativeApplication.nativeApplication.addEventListener(customEvent.OPEN_PREFERENCES, handlePreferences);
+			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
 		}
 
 		function syncMenu():void {
@@ -151,6 +161,12 @@ package {
 				iconMenu.addItem(item);
 			}
 			iconMenu.addItem(new NativeMenuItem('',true));
+
+			item=new NativeMenuItem('Find Pixus');
+			item.addEventListener(Event.SELECT,handleFindBack);
+			item.mnemonicIndex=0;
+			item.keyEquivalent='f';
+			iconMenu.addItem(item);
 
 			item=new NativeMenuItem('Preferences');
 			item.addEventListener(Event.SELECT,handlePreferences);
@@ -176,6 +192,19 @@ package {
 
 		function handleIcon(event:Event):void {
 			windowPixus.visible=!windowPixus.visible;// Hide / Show NativeWindow
+		}
+
+		function handleFindBack(event:Event):void {
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
+		}
+
+		function handleFindBackEvent(event:customEvent):void { // Real find back codes
+			windowPixus.visible=true;
+			windowPreferences.visible=true;
+			options.preferencesWindowPosition.x=100; //int(windowPreferences.stage.nativeWindow.width*.5);
+			options.preferencesWindowPosition.y=100; //int(windowPreferences.stage.nativeWindow.height*.5);
+			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function handleExit(event:Event):void {
