@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<application xmlns="http://ns.adobe.com/air/application/1.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><application xmlns="http://ns.adobe.com/air/application/1.5">
 
   <id>com.codeplay.pixus</id>
 
-  <version>0.9.0</version>
+  <version>0.9.1</version>
 
   <filename>Pixus</filename>
 
@@ -11,13 +10,13 @@
 
   <name>Pixus</name>
 
-  <copyright>(cc) 2007-2008 codeplay</copyright>
+  <copyright>(cc) 2007-2009 codeplay</copyright>
 
   <initialWindow>
     <content>pixus.swf</content>
     <systemChrome>none</systemChrome>
     <transparent>true</transparent>
-    <visible>false</visible>
+    <visible>true</visible>
     <maximizable>true</maximizable>
     <minimizable>true</minimizable>
     <resizable>true</resizable>
@@ -26,14 +25,20 @@
   <programMenuFolder>codeplay</programMenuFolder>
 
   <icon>
-    <image128x128>icons/AIRApp_128.png</image128x128>
-    <image48x48>icons/AIRApp_48.png</image48x48>
-    <image32x32>icons/AIRApp_32.png</image32x32>
-    <image16x16>icons/AIRApp_16.png</image16x16>
+    
+    
+    
+    
+    
+    
+    
+    
   </icon>
 
   <customUpdateUI>false</customUpdateUI>
 
   <allowBrowserInvocation>false</allowBrowserInvocation>
 
-  <installFolder>codeplay</installFolder></application>
+  <installFolder>codeplay</installFolder>
+
+</application>

@@ -5,6 +5,12 @@ You can not only measure the screen object size with easy. With overlay mode and
 
 No support yet. Any comment, suggestion and correction will be welcomed. Please contact jammind@gmail.com
 
+On Adobe AIR Marketplace
+http://www.adobe.com/cfusion/exchange/index.cfm?event=extensionDetail&loc=en_us&extid=1619518
+
+On GoogleCode
+http://code.google.com/p/pixus/
+
 (cc)2007-2008 codeplay
 Created by Jam Zhang a.k.a. BigDaddyJay
 jammind@gmail.com
@@ -12,18 +18,31 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1.0 - Coming up
+
+Features to add
+- Screen capture
+
+
 Pixus Version 1.0.0 - Coming up
 
 Features to add
+- Auto-update
 - Keyboard fine control
 - Shortcut keys
 
-Bugs to fix
+
+Pixus Version 0.9.1 R13 - Jan 5, 2009
+
+Features
+- Find Pixus button to centralize windows in case out of the reach of mouse
+
+Bugs fixed
 - Press ESC under overlay (fullscreen) mode
 - Skin minimal size (partial fixed)
 
 
-Pixus Version 0.9.0 - July 16, 2008
+Pixus Version 0.9.0 R12 - July 16, 2008
 
 Features
 - Ruler interfaced improved.
