@@ -15,7 +15,7 @@ package codeplay.ui.aqua{
 
 	public class scrollPanel extends Sprite {
 
-		var viewWidtht:int=200;
+		var viewWidth:int=200;
 		var viewHeight:int=200;
 		var vScrollBar:scrollBar=null;
 		var panelMask:Sprite=new Sprite();
@@ -25,7 +25,7 @@ package codeplay.ui.aqua{
 		public function scrollPanel(data:Object=null):void {
 			if (data!=null) {
 				if (data.width!=undefined) {
-					viewWidtht=data.width;
+					viewWidth=data.width;
 				}
 				if (data.viewHeight!=undefined) {
 					viewHeight=data.viewHeight;
@@ -38,6 +38,7 @@ package codeplay.ui.aqua{
 				}
 			}
 			addEventListener(Event.ADDED_TO_STAGE,init);
+			addEventListener(Event.REMOVED_FROM_STAGE,dispose);
 		}
 
 		function init(event:Event):void {
@@ -46,7 +47,7 @@ package codeplay.ui.aqua{
 
 			// Adding mask
 			panelMask.graphics.beginFill(0x000000);
-			panelMask.graphics.drawRect(0,0,viewWidtht,viewHeight);
+			panelMask.graphics.drawRect(0,0,viewWidth,viewHeight);
 			panelMask.graphics.endFill();
 			parent.addChild(panelMask);
 			mask=panelMask;
@@ -58,6 +59,11 @@ package codeplay.ui.aqua{
 			parent.addEventListener(customEvent.SCROLLED,handleScroll);
 			vScrollBar=new scrollBar({x:pixusShell.ROW_WIDTH-scrollBar.MINIMAL_WIDTH});
 			parent.addChild(vScrollBar);
+		}
+
+		function dispose(event:Event):void {
+			parent.removeChild(panelMask);
+			parent.removeChild(vScrollBar);
 		}
 
 		function handleScroll(event:customEvent):void {
@@ -85,12 +91,15 @@ package codeplay.ui.aqua{
 		function handleResize(event:customEvent):void {
 			var contentHeight:int=height;
 			if (event.data!=null) {
+				if (event.data.viewWidth!=null)
+					viewWidth=event.data.viewWidth;
 				if (event.data.viewHeight!=null)
 					viewHeight=event.data.viewHeight;
 				if (event.data.contentHeight!=null)
 					contentHeight=event.data.contentHeight;
 			}
 			y=Math.min(Math.max(viewHeight-contentHeight,y),0);
+			panelMask.width=viewWidth;
 			panelMask.height=viewHeight;
 			vScrollBar.visible=(viewHeight<contentHeight);
 			if (vScrollBar.visible) {

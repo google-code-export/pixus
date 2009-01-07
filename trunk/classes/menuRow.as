@@ -18,7 +18,7 @@ package {
 
 	public class menuRow extends MovieClip {
 		public static var dragging:Boolean=false;
-		static var rows:Array=new Array();
+		static var rows:Array=[];
 		var id, rowWidth, rowHeight:int;
 		var group:String;
 
@@ -36,6 +36,10 @@ package {
 		}
 
 		public function handleInit(event:Event):void {
+		}
+
+		public static function clearRows():void {
+			rows=[];
 		}
 
 		function get currentRow():Array{

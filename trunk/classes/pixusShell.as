@@ -44,6 +44,7 @@ package {
 		public static  const EVENT_SYNC_PRESETS:String='PixusEventSyncPresets';// Sync Preferences / Presets
 		public static  const EVENT_APPLY_SKIN:String='PixusEventApplySkin';// Apply Skin
 		public static  const EVENT_FIND_BACK:String='PixusEventFindPixusBack';// Apply Skin
+		public static  const EVENT_RESET_PRESETS:String='PixusEventResetPresets';// Reset Preferences / Presets
 
 		// Defult Presets
 		public static  const PRESETS:Array=[
@@ -194,11 +195,11 @@ package {
 			windowPixus.visible=!windowPixus.visible;// Hide / Show NativeWindow
 		}
 
-		function handleFindBack(event:Event):void {
-			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
+		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
+			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_FIND_BACK));
 		}
 
-		function handleFindBackEvent(event:customEvent):void { // Real find back codes
+		function handleFindBackEvent(event:Event):void { // Real find back codes
 			windowPixus.visible=true;
 			windowPreferences.visible=true;
 			options.preferencesWindowPosition.x=100; //int(windowPreferences.stage.nativeWindow.width*.5);
