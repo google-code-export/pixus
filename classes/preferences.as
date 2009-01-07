@@ -24,13 +24,12 @@ package {
 
 		const MARGIN_TOP:int=80;
 		const MARGIN_BOTTOM:int=40;
-//		const pixusShell.PREFERENCES_PANEL_WIDTH:int=261;
-		const MIN_HEIGHT:int=320;
+		const MIN_HEIGHT:int=240;//320;
 		const MAX_HEIGHT:int=600;
 
 		public var shell:pixusShell;
 		var presets:scrollPanel;
-		var skins:Sprite=new Sprite();
+		var skins:scrollPanel;
 		var currentPanel:int=0;
 		//var panelArray:Array=new Array();
 		var panelsX0:int;
@@ -54,34 +53,57 @@ package {
 			bTabHelp.addEventListener(MouseEvent.CLICK, handleTab);
 			bTabAbout.addEventListener(MouseEvent.CLICK, handleTab);
 			resizer.addEventListener(MouseEvent.MOUSE_DOWN, handleResize);
+			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_RESET_PRESETS,doResetPresets);
 			iconPresets.activate();
 
 			//panelArray=[panels.panelPresets,panels.panelSkins];
 			panelsX0=panels.x;
 
 			// Presets Panel
-			presets=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
 			panels.panelPresets.bottomControl.bAdd.addEventListener(MouseEvent.CLICK, handleAdd);
-			panels.panelPresets.addChild(presets);
-			l=pixusShell.options.presets.length;
-			for (n=0; n<l; n++) {
-				presets.addChild(new presetRow());
-			}
+			rebuildPresets();
 
 			// Skins Panel
+			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length()+1;
 			for (n=0; n<l; n++) {
 				skins.addChild(new skinRow());
 			}
 
-			panels.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
+			// Help Panel
+			panels.panelHelp.inner.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
+			panels.panelHelp.inner.bResetPresets.addEventListener(MouseEvent.CLICK, handleResetPresets);
 
 			syncWindowSize();
 		}
 
 		function handleFindBack(event:MouseEvent):void {
-			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_FIND_BACK));
+			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_FIND_BACK));
+		}
+
+		function handleResetPresets(event:MouseEvent):void {
+			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_RESET_PRESETS));
+		}
+
+		function doResetPresets(event:Event):void {
+			pixusShell.options.presets=pixusShell.PRESETS;
+			rebuildPresets();
+			syncWindowSize();
+		}
+
+		function rebuildPresets():void {
+			var l,n:int;
+			if(presets!=null){
+				panels.panelPresets.removeChild(presets);
+				menuRow.clearRows();
+			}
+			presets=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
+			panels.panelPresets.addChild(presets);
+			l=pixusShell.options.presets.length;
+			for (n=0; n<l; n++) {
+				presets.addChild(new presetRow());
+			}
 		}
 
 		public function handleResize(event:MouseEvent):void {
@@ -173,7 +195,10 @@ package {
 			resizer.y=bg.height;
 			maskPanel.height=bg.height-MARGIN_TOP;
 			panels.panelPresets.bottomControl.y=presetListHeight;
-			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE,{viewHeight:presetListHeight}));
+			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
+			panels.panelSkins.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
+			panels.panelHelp.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
+			panels.panelAbout.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
 			stage.nativeWindow.height=bg.height+20;
 		}
 
