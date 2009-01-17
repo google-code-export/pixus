@@ -53,7 +53,6 @@ package {
 			bTabHelp.addEventListener(MouseEvent.CLICK, handleTab);
 			bTabAbout.addEventListener(MouseEvent.CLICK, handleTab);
 			resizer.addEventListener(MouseEvent.MOUSE_DOWN, handleResize);
-			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_RESET_PRESETS,doResetPresets);
 			iconPresets.activate();
 
 			//panelArray=[panels.panelPresets,panels.panelSkins];
@@ -75,19 +74,20 @@ package {
 			panels.panelHelp.inner.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
 			panels.panelHelp.inner.bResetPresets.addEventListener(MouseEvent.CLICK, handleResetPresets);
 
+			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_PRESETS_CHANGE, handlePresetsChange);
 			syncWindowSize();
 		}
 
 		function handleFindBack(event:MouseEvent):void {
-			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_FIND_BACK));
+			// Strange! The handler accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_FIND_BACK));
 		}
 
-		function handleResetPresets(event:MouseEvent):void {
+		function handleResetPresets(event:Event):void {
 			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_RESET_PRESETS));
 		}
 
-		function doResetPresets(event:Event):void {
-			pixusShell.options.presets=pixusShell.PRESETS;
+		function handlePresetsChange(event:Event):void {
 			rebuildPresets();
 			syncWindowSize();
 		}

@@ -26,6 +26,7 @@ package {
 	import flash.events.MouseEvent;
 	import flash.events.ScreenMouseEvent;
 	import flash.geom.Point;
+	import flash.utils.ByteArray;
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 
@@ -45,6 +46,7 @@ package {
 		public static  const EVENT_APPLY_SKIN:String='PixusEventApplySkin';// Apply Skin
 		public static  const EVENT_FIND_BACK:String='PixusEventFindPixusBack';// Apply Skin
 		public static  const EVENT_RESET_PRESETS:String='PixusEventResetPresets';// Reset Preferences / Presets
+		public static  const EVENT_PRESETS_CHANGE:String='PixusEventPresetsChange';// Presets Data Changed
 
 		// Defult Presets
 		public static  const PRESETS:Array=[
@@ -149,6 +151,7 @@ package {
 			NativeApplication.nativeApplication.addEventListener(EVENT_SYNC_MENU, handleSyncMenu);
 			NativeApplication.nativeApplication.addEventListener(customEvent.OPEN_PREFERENCES, handlePreferences);
 			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
+			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_RESET_PRESETS,doResetPresets);
 		}
 
 		function syncMenu():void {
@@ -196,7 +199,8 @@ package {
 		}
 
 		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
-			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_FIND_BACK));
+			// Strange! handleFindBackEvent accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
 		}
 
 		function handleFindBackEvent(event:Event):void { // Real find back codes
@@ -206,6 +210,18 @@ package {
 			options.preferencesWindowPosition.y=100; //int(windowPreferences.stage.nativeWindow.height*.5);
 			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+		}
+
+		function copyObjectDeep(src:Object){
+			var ba:ByteArray = new ByteArray();
+			ba.writeObject(src);
+			ba.position = 0;
+			return ba.readObject();
+		}
+
+		function doResetPresets(event:Event):void {
+			pixusShell.options.presets=copyObjectDeep(pixusShell.PRESETS);
+			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_PRESETS_CHANGE));
 		}
 
 		function handleExit(event:Event):void {
