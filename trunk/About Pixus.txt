@@ -32,10 +32,11 @@ Features to add
 - Shortcut keys
 
 
-Pixus Version 0.9.1 R15 - Jan 5, 2009
+Pixus Version 0.9.1 R16 - Jan 17, 2009
 
 Features
-- Find Pixus button to centralize windows in case out of the reach of mouse
+- Find Pixus feature added, in Preference / Help and the system tray / dock menu, to centralize windows in case windows are out of screen and no way to move
+- Reset Presets button added in Preference / Help to roll-back presets to the default settings
 
 Bugs fixed
 - Press ESC under overlay (fullscreen) mode
