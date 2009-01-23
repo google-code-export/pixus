@@ -63,7 +63,7 @@ package {
 			rebuildPresets();
 
 			// Skins Panel
-			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
+			skins=new scrollPanel();//{width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length()+1;
 			for (n=0; n<l; n++) {
@@ -75,6 +75,12 @@ package {
 			panels.panelHelp.inner.bResetPresets.addEventListener(MouseEvent.CLICK, handleResetPresets);
 
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_PRESETS_CHANGE, handlePresetsChange);
+			addEventListener(Event.ENTER_FRAME,init2);
+		}
+
+		// Things must be done 1-frame after init()
+		function init2(event:Event):void {
+			removeEventListener(Event.ENTER_FRAME,init2);
 			syncWindowSize();
 		}
 
