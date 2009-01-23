@@ -6,7 +6,7 @@
 
   <filename>Pixus</filename>
 
-  <description>Easily measure screen object size in pixel. My very first  AIR sample.</description>
+  <description>Rule the pixles in your screen. My very first  AIR application.</description>
 
   <name>Pixus</name>
 
@@ -16,10 +16,14 @@
     <content>pixus.swf</content>
     <systemChrome>none</systemChrome>
     <transparent>true</transparent>
-    <visible>true</visible>
-    <maximizable>true</maximizable>
-    <minimizable>true</minimizable>
-    <resizable>true</resizable>
+    <visible>false</visible>
+    <maximizable>false</maximizable>
+    <minimizable>false</minimizable>
+    <resizable>false</resizable>
+    
+    
+    
+    
   </initialWindow>
 
   <programMenuFolder>codeplay</programMenuFolder>
@@ -36,6 +40,7 @@
   <allowBrowserInvocation>false</allowBrowserInvocation>
 
   <installFolder>codeplay</installFolder>
+
 
 
 </application>

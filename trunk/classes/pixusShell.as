@@ -203,6 +203,7 @@ package {
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
 		}
 
+		// pixusShell handle finding back of the preferences window
 		function handleFindBackEvent(event:Event):void { // Real find back codes
 			windowPixus.visible=true;
 			windowPreferences.visible=true;
