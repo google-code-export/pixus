@@ -15,7 +15,7 @@ package {
 	import flash.geom.Point;
 
 	public class pixusRulerResizer extends MovieClip {
-		private var p:pixusMain=parent as pixusMain;
+		private var _pixus:pixus=parent.parent as pixus; // _pixus will handle resizing and moving
 		private var dx, dy:int;
 
 		public function pixusRulerResizer():void {
@@ -50,14 +50,14 @@ package {
 		}
 
 		public function syncSize(point:Point):void{
-			point=p.globalToLocal(point);
+			point=parent.globalToLocal(point);
 			for (var n=0;n<name.length;n++){
 				switch(name.charAt(n).toUpperCase()){
 					case 'R':
-						p.rulerWidth=point.x;
+						_pixus.resizeTo(point.x,-1);
 						break;
 					case 'B':
-						p.rulerHeight=point.y;
+						_pixus.resizeTo(-1,point.y);
 						break;
 				}
 			}

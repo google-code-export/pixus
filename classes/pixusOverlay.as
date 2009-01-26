@@ -17,6 +17,14 @@ package {
 			themask.inner.y=y1;
 		}
 
+		public function get overlayWidth(){
+			return themask.inner.width;
+		}
+
+		public function get overlayHeight(){
+			return themask.inner.height;
+		}
+
 		public function set overlayWidth(w:uint){
 			themask.inner.width=w;
 		}
