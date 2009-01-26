@@ -36,8 +36,6 @@ package {
 
 		public function init(event:Event):void {
 			shell=(parent as pixus).shell;
-//			rulerWidth=frame.width;
-//			rulerHeight=frame.height;
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_APPLY_SKIN, handleSkin);
 			handleSkin();
 		}
@@ -102,9 +100,6 @@ package {
 			pixusShell.options.width=w;
 			rulers.bg.width=w+RULER_WIDTH*2;
 			frame.width=_rulerWidth=r.x=br.x=w;
-			if (stage!=null) {
-				_root.syncWindowWidth(w);
-			}
 			rulers.rulerHorizontal.setLength(w);
 			showSize(_rulerWidth,_rulerHeight);
 			if (currentSkin!=null) {
@@ -122,9 +117,6 @@ package {
 			rulers.bg.height=h+RULER_HEIGHT*2;
 			frame.height=
 			_rulerHeight=b.y=br.y=h;
-			if (stage!=null) {
-				_root.syncWindowHeight(h);
-			}
 			rulers.rulerVertical.setLength(h);
 			showSize(_rulerWidth,_rulerHeight);
 			if (currentSkin!=null) {

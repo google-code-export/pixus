@@ -28,8 +28,14 @@ Pixus Version 1.0.0 - Coming up
 
 Features to add
 - Auto-update
-- Keyboard fine control
 - Shortcut keys
+
+
+Pixus Version 0.9.2 R19 - Jan 27, 2009
+
+Features
+- Keyboard fine control
+- Keyboard Tips and First Aid added to the Help Panel
 
 
 Pixus Version 0.9.1 R16 - Jan 17, 2009

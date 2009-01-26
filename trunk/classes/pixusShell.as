@@ -27,6 +27,7 @@ package {
 	import flash.events.ScreenMouseEvent;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
+	import flash.system.Capabilities;
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 
@@ -207,8 +208,8 @@ package {
 		function handleFindBackEvent(event:Event):void { // Real find back codes
 			windowPixus.visible=true;
 			windowPreferences.visible=true;
-			options.preferencesWindowPosition.x=100; //int(windowPreferences.stage.nativeWindow.width*.5);
-			options.preferencesWindowPosition.y=100; //int(windowPreferences.stage.nativeWindow.height*.5);
+			options.preferencesWindowPosition.x=int(Capabilities.screenResolutionX*.25); //int(windowPreferences.stage.nativeWindow.width*.5);
+			options.preferencesWindowPosition.y=int(Capabilities.screenResolutionY*.25); //int(windowPreferences.stage.nativeWindow.height*.5);
 			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}

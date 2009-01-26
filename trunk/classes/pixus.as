@@ -54,11 +54,11 @@ package {
 			if (pixusShell.options.width==undefined) {
 				pixusShell.options.width=480;
 			}
-			main.rulerWidth=pixusShell.options.width;
+//			main.rulerWidth=pixusShell.options.width;
 			if (pixusShell.options.height==undefined) {
 				pixusShell.options.height=360;
 			}
-			main.rulerHeight=pixusShell.options.height;
+//			main.rulerHeight=pixusShell.options.height;
 
 			if (pixusShell.options.x==undefined) {
 				pixusShell.options.x=120;
@@ -66,7 +66,9 @@ package {
 			if (pixusShell.options.y==undefined) {
 				pixusShell.options.y=80;
 			}
-			overlay.move(main.x=pixusShell.options.x,main.y=pixusShell.options.y);
+			resizeTo(pixusShell.options.width,pixusShell.options.height);
+			moveTo(pixusShell.options.x,pixusShell.options.y);
+//			overlay.move(main.x=pixusShell.options.x,main.y=pixusShell.options.y);
 
 			if (pixusShell.options.overlayMode==undefined) {
 				pixusShell.options.overlayMode=false;
@@ -80,8 +82,16 @@ package {
 			NativeApplication.nativeApplication.addEventListener(customEvent.SET_WINDOW_SIZE,handleWindowSize);
 			shell.stage.nativeWindow.close();
 			stage.nativeWindow.maximize();
-			addEventListener(KeyboardEvent.KEY_DOWN,handleKeys);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN,handleKeys);
 
+		}
+
+		function get rulerWidth():int{
+			return pixusShell.options.width;
+		}
+
+		function get rulerHeight():int{
+			return pixusShell.options.height;
 		}
 
 		function set rulerWidth(w:int){
@@ -98,8 +108,67 @@ package {
 			main.startDrag();
 		}
 
+		//
 		function handleKeys(event:KeyboardEvent) {
-			trace('handleKeys');
+			var inc:int=event.shiftKey?10:1; // Shift = Speed Up
+			if(event.controlKey){ // Control / Command + Directions = Resize
+				switch(event.keyCode){
+					case Keyboard.LEFT:
+						resizeRel(-inc,0);
+						break;
+					case Keyboard.RIGHT:
+						resizeRel(inc,0);
+						break;
+					case Keyboard.UP:
+						resizeRel(0,-inc);
+						break;
+					case Keyboard.DOWN:
+						resizeRel(0,inc);
+						break;
+				}
+			}else{ // Directions = Move
+				switch(event.keyCode){
+					case Keyboard.LEFT:
+						moveRel(-inc,0);
+						break;
+					case Keyboard.RIGHT:
+						moveRel(inc,0);
+						break;
+					case Keyboard.UP:
+						moveRel(0,-inc);
+						break;
+					case Keyboard.DOWN:
+						moveRel(0,inc);
+						break;
+				}
+			}
+		}
+
+		function moveRel(dx:int,dy:int){
+			main.x+=dx;
+			main.y+=dy;
+			overlay.themask.inner.x+=dx;
+			overlay.themask.inner.y+=dy;
+		}
+
+		function moveTo(x:int,y:int){
+			main.x=overlay.themask.inner.x=x;
+			main.y=overlay.themask.inner.y=y;
+		}
+
+		function resizeRel(dw:int,dh:int){
+			overlay.overlayWidth=rulerWidth=rulerWidth+dw;
+			overlay.overlayHeight=rulerHeight=rulerHeight+dh;
+		}
+
+		// resize will ignore the negative parameters incase you want to resize a specific dimension
+		function resizeTo(w:int,h:int){
+			if(w>0){
+				overlay.overlayWidth=rulerWidth=w;
+			}
+			if(h>0){
+				overlay.overlayHeight=rulerHeight=h;
+			}
 		}
 
 		function handleWindowSize(event:customEvent) {
@@ -146,20 +215,6 @@ package {
 			} else {
 				pixusShell.options.overlayMode=overlay.visible=true;
 			}
-		}
-
-		function syncWindowWidth(w:int):void {
-			overlay.overlayWidth=w;
-//			if (!pixusShell.options.overlayMode) {
-//				stage.nativeWindow.width=w+MARGIN_RIGHT;
-//			}
-		}
-
-		function syncWindowHeight(h:int):void {
-			overlay.overlayHeight=h;
-//			if (!pixusShell.options.overlayMode) {
-//				stage.nativeWindow.height=h+MARGIN_BOTTOM;
-//			}
 		}
 
 	}
