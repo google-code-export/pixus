@@ -1,4 +1,5 @@
 ﻿// pixusShell class
+// The Application Root Class
 // Version 0.9.1 2008-12-30
 // (cc)2007-2008 codeplay
 // By Jam Zhang
@@ -32,6 +33,7 @@ package {
 	import codeplay.event.customEvent;
 
 	public class pixusShell extends MovieClip {
+		public static  const CURRENT_VERSION:String='0.9.2';
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
@@ -48,6 +50,7 @@ package {
 		public static  const EVENT_FIND_BACK:String='PixusEventFindPixusBack';// Apply Skin
 		public static  const EVENT_RESET_PRESETS:String='PixusEventResetPresets';// Reset Preferences / Presets
 		public static  const EVENT_PRESETS_CHANGE:String='PixusEventPresetsChange';// Presets Data Changed
+		public static  const EVENT_CHECK_UPDATE:String='PixusEventCheckUpdate';// Check For Update
 
 		// Defult Presets
 		public static  const PRESETS:Array=[
@@ -63,6 +66,7 @@ package {
 
 		var windowPixus:NativeWindow;
 		var windowPreferences:NativeWindow;
+		var windowUpdate:NativeWindow;
 		public static var skinpresets, settings:XML;
 		var loader:URLLoader=new URLLoader();
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
@@ -126,6 +130,20 @@ package {
 			p.y=10;
 			windowPreferences.stage.addChild(p);
 
+			//Create Update Window
+			option=new NativeWindowInitOptions();
+//			option.type=NativeWindowType.LIGHTWEIGHT ;
+//			option.systemChrome=NativeWindowSystemChrome.NONE;
+//			option.transparent=true;
+			windowUpdate=new NativeWindow(option);
+			windowUpdate.width=280;
+			windowUpdate.height=190;
+			var u:update=new update();
+			u.x=10;
+			u.y=10;
+			u.scaleX=u.scaleY=1;
+			windowUpdate.stage.addChild(u);
+
 			// Dock and SystemTray Icon
 			syncMenu();
 			NativeApplication.nativeApplication.icon.addEventListener(MouseEvent.CLICK,handleIcon);// For Windows Tray Icon
@@ -177,6 +195,12 @@ package {
 			item.addEventListener(Event.SELECT,handlePreferences);
 			item.mnemonicIndex=0;
 			item.keyEquivalent='k';
+			iconMenu.addItem(item);
+
+			item=new NativeMenuItem('Update');
+			item.addEventListener(Event.SELECT,handleUpdate);
+			item.mnemonicIndex=0;
+			item.keyEquivalent='u';
 			iconMenu.addItem(item);
 
 			item=new NativeMenuItem('Exit');
@@ -233,6 +257,11 @@ package {
 		function handlePreferences(event:Event):void {
 			windowPreferences.visible=true;
 			windowPreferences.orderToFront();
+		}
+
+		function handleUpdate(event:Event):void {
+			windowUpdate.visible=true;
+			windowUpdate.orderToFront();
 		}
 
 		public function get currentSkin():XML {

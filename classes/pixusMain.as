@@ -1,4 +1,5 @@
 ﻿// pixusMain class
+// The ruler MovieClip inside the pixus NativeWindow
 // Version 0.9.0 2008-07-04
 // (cc)2007-2008 codeplay
 // By Jam Zhang

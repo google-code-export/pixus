@@ -1,4 +1,5 @@
 ﻿// pixus class
+// The First Child MovieClip of pixus NativeWindow
 // Version 0.9.1 2008-12-30
 // (cc)2007-2008 codeplay
 // By Jam Zhang
