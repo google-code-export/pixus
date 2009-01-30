@@ -33,6 +33,7 @@ package {
 	import codeplay.event.customEvent;
 
 	public class pixusShell extends MovieClip {
+		public static  const UPDATE_FEED:String='http://jpeg.cn/download/pixus_update.xml';
 		public static  const CURRENT_VERSION:String='0.9.2';
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
@@ -132,12 +133,14 @@ package {
 
 			//Create Update Window
 			option=new NativeWindowInitOptions();
-//			option.type=NativeWindowType.LIGHTWEIGHT ;
-//			option.systemChrome=NativeWindowSystemChrome.NONE;
-//			option.transparent=true;
+			option.type=NativeWindowType.LIGHTWEIGHT ;
+			option.systemChrome=NativeWindowSystemChrome.NONE;
+			option.transparent=true;
 			windowUpdate=new NativeWindow(option);
 			windowUpdate.width=280;
 			windowUpdate.height=190;
+			windowUpdate.visible=true;
+			windowUpdate.alwaysInFront=true;
 			var u:update=new update();
 			u.x=10;
 			u.y=10;
