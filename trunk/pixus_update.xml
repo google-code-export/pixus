@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+		<latest>
+			<version>0.9.3</version>
+			<release>20</release>
+			<date>1-31-2009</date>
+			<size>192KB</size>
+			<note>Features
+- Auto-update
+- Shortcut keys</note>
+		</latest>
+		<nosource>http://pixus.googlecode.com/files/pixus_v0.9.3.air</nosource>
+		<source>http://www.withloveandjoy.net/download/pixus_v0.9.3.air</source>
+</data>
