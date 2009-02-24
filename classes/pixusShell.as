@@ -65,9 +65,9 @@ package {
 		{width:1024,height:768,comments:'XGA'}
 		];
 
-		var windowPixus:NativeWindow;
-		var windowPreferences:NativeWindow;
-		var windowUpdate:NativeWindow;
+		var windowPixus:hidingWindow;
+		var windowPreferences:hidingWindow;
+		var windowUpdate:hidingWindow;
 		public static var skinpresets, settings:XML;
 		var loader:URLLoader=new URLLoader();
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
@@ -98,7 +98,7 @@ package {
 			option.type=NativeWindowType.LIGHTWEIGHT ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
-			windowPixus=new NativeWindow(option);
+			windowPixus=new hidingWindow(option);
 			windowPixus.visible=true;
 			windowPixus.title = 'Pixus';
 			windowPixus.width = 600;
@@ -111,7 +111,7 @@ package {
 			option.type=NativeWindowType.LIGHTWEIGHT;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
-			windowPreferences=new NativeWindow(option);
+			windowPreferences=new hidingWindow(option);
 			if (options.preferencesWindowPosition==undefined) {
 				options.preferencesWindowPosition={x:300,y:200,height:600};
 			}
@@ -136,7 +136,7 @@ package {
 			option.type=NativeWindowType.LIGHTWEIGHT ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
-			windowUpdate=new NativeWindow(option);
+			windowUpdate=new hidingWindow(option);
 			windowUpdate.width=280;
 			windowUpdate.height=190;
 			windowUpdate.visible=true;
