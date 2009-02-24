@@ -6,6 +6,7 @@
 // jam@01media.cn
 
 package {
+	import flash.display.NativeWindow;
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -48,32 +49,46 @@ package {
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
-		public function init(event:Event):void {
+		function init(event:Event):void {
 			stage.scaleMode=StageScaleMode.NO_SCALE;
 			stage.align=StageAlign.TOP_LEFT;
+			bClose.addEventListener(MouseEvent.CLICK, handleCloseButton);
 			bg.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
+			control.bCheck01.addEventListener(MouseEvent.CLICK,handleButtons);
+			control.bCheck02.addEventListener(MouseEvent.CLICK,handleButtons);
 			control.bDownload01.addEventListener(MouseEvent.CLICK,handleButtons);
 			control.bDownload02.addEventListener(MouseEvent.CLICK,handleButtons);
 			control.bInstall.addEventListener(MouseEvent.CLICK,handleButtons);
+			control.bCancel.addEventListener(MouseEvent.CLICK,handleButtons);
 			urlStream.addEventListener(ProgressEvent.PROGRESS,updateProgress); 
 			urlStream.addEventListener(Event.COMPLETE,updateLoaded); 
 			urlLoader.addEventListener(Event.COMPLETE,handleLoader);
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR,handleLoader);
 			urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,handleLoader);
-			urlLoader.load(new URLRequest(pixusShell.UPDATE_FEED));
+			checkUpdate();
+		}
+
+		public function handleCloseButton(event:MouseEvent):void {
+			stage.nativeWindow.visible=false;
 		}
 
 		function handleButtons(event:MouseEvent):void {
 			switch (event.target) {
+				case control.bCheck01 :
+				case control.bCheck02 :
+					checkUpdate();
+					break;
 				case control.bDownload01 :
 				case control.bDownload02 :
-					trace(updateInfo.source[0]);
+//					trace(updateInfo.source[0]);
 					downloadUpdate(updateInfo.source[0]);
-					setState(STATE_DOWNLOADING);
 					break;
 				case control.bInstall :
 					var updater:Updater=new Updater();
 					updater.update(file,updateInfo.latest.version.toString());
+					break;
+				case control.bCancel :
+					cancelUpdate();
 					break;
 			}
 		}
@@ -91,17 +106,30 @@ package {
 			}
 		}
 
+		function checkUpdate():void {
+			setState(STATE_CHECKING);
+			urlLoader.load(new URLRequest(pixusShell.UPDATE_FEED));
+		}
+
+		function cancelUpdate():void {
+			setState(STATE_OUTOFDATE);
+			urlLoader.close();
+		}
+
 		function downloadUpdate(url:XML){
+			setState(STATE_DOWNLOADING);
 			urlStream.load(new URLRequest(url.toString())); 
 		}
 
 		function updateProgress(event:ProgressEvent):void {
 			control.tfProgress.text=int(event.bytesLoaded*0.001)+'/'+int(event.bytesTotal*0.001)+'KB';
 			control.progress01.setProgress(event.bytesLoaded/event.bytesTotal);
+			control.progress02.setProgress(event.bytesLoaded/event.bytesTotal);
 		} 
  
 		function updateLoaded(event:Event):void { 
 			control.progress01.setProgress(1);
+			control.progress02.setProgress(1);
 		    urlStream.readBytes(fileData, 0, urlStream.bytesAvailable); 
 		    writeAirFile(); 
 			setState(STATE_DOWNLOADED);
