@@ -33,8 +33,7 @@ package {
 	import codeplay.event.customEvent;
 
 	public class pixusShell extends MovieClip {
-		public static  const UPDATE_FEED:String='http://jpeg.cn/download/pixus_update.xml';
-		public static  const CURRENT_VERSION:String='0.9.2';
+//		public static  const CURRENT_VERSION:String='0.9.2';
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
@@ -90,6 +89,8 @@ package {
 			if (options.skin==undefined) {
 				options.skin=0;
 			}
+			options.updateFeedURL=settings.updatefeedurl;
+			options.version=settings.version;
 
 			// Create Pixus Window
 			var option:NativeWindowInitOptions;
