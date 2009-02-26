@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <settings>
-		<version>
-			<version>0.9.4</version>
-			<release>25</release>
-			<date>2-27-2009</date>
-		</version>
-		<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
+	<version>
+		<version>0.9.4</version>
+		<release>25</release>
+		<date>2-27-2009</date>
+	</version>
+	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
 	<skinpresets>
 		<skin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />
