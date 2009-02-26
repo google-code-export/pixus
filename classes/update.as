@@ -93,23 +93,26 @@ package {
 			}
 		}
 
+		function checkUpdate():void {
+			setState(STATE_CHECKING);
+			urlLoader.load(new URLRequest(pixusShell.options.updateFeedURL));
+		}
+
 		function handleLoader(event:Event):void {
 			switch(event.type){
 				case Event.COMPLETE: // Update feed XML successfully loaded
 					updateInfo=new XML(event.target.data);
-					trace('handleLoader'+new XML(event.target.data));
-					control.tfInfo01.text=control.tfInfo02.text=updateInfo.latest.version+'\n'updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
-					setState(pixusShell.options.version.release<updateInfo.latest.release?STATE_OUTOFDATE:STATE_LATEST);
+					control.tfInfo01.text=control.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
+					if(pixusShell.options.version.release<updateInfo.latest.release){
+						setState(STATE_OUTOFDATE);
+						stage.nativeWindow.visible=true;
+					} else
+						setState(STATE_LATEST);
 					break;
 				default:
 					setState(STATE_CONNECTION_FAILED);
 					break;
 			}
-		}
-
-		function checkUpdate():void {
-			setState(STATE_CHECKING);
-			urlLoader.load(new URLRequest(pixusShell.options.updateFeedURL));
 		}
 
 		function cancelUpdate():void {

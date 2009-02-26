@@ -114,7 +114,7 @@ package {
 			option.transparent=true;
 			windowPreferences=new hidingWindow(option);
 			if (options.preferencesWindowPosition==undefined) {
-				options.preferencesWindowPosition={x:300,y:200,height:600};
+				options.preferencesWindowPosition={x:100,y:300,height:600};
 			}
 			if (options.preferencesWindowPosition!=undefined) {
 				windowPreferences.x=options.preferencesWindowPosition.x;
@@ -140,7 +140,10 @@ package {
 			windowUpdate=new hidingWindow(option);
 			windowUpdate.width=280;
 			windowUpdate.height=190;
-			windowUpdate.visible=true;
+			if (options.updateWindowPosition==undefined) {
+				options.updateWindowPosition={x:100,y:100};
+			}
+			windowUpdate.visible=false;
 			windowUpdate.alwaysInFront=true;
 			var u:update=new update();
 			u.x=10;
@@ -236,10 +239,17 @@ package {
 		function handleFindBackEvent(event:Event):void { // Real find back codes
 			windowPixus.visible=true;
 			windowPreferences.visible=true;
-			options.preferencesWindowPosition.x=int(Capabilities.screenResolutionX*.25); //int(windowPreferences.stage.nativeWindow.width*.5);
-			options.preferencesWindowPosition.y=int(Capabilities.screenResolutionY*.25); //int(windowPreferences.stage.nativeWindow.height*.5);
+			windowUpdate.visible=true;
+			// Find Preferences window
+			options.preferencesWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25);
+			options.preferencesWindowPosition.y=300; //int(Capabilities.screenResolutionY*.25);
 			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			// Find Update window
+			options.updateWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25)
+			options.updateWindowPosition.y=100; //int(Capabilities.screenResolutionY*.25)
+			Tweener.addTween(windowUpdate,{x:options.updateWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowUpdate,{y:options.updateWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function copyObjectDeep(src:Object){
