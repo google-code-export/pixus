@@ -95,10 +95,11 @@ package {
 
 		function handleLoader(event:Event):void {
 			switch(event.type){
-				case Event.COMPLETE:
+				case Event.COMPLETE: // Update feed XML successfully loaded
 					updateInfo=new XML(event.target.data);
-					control.tfInfo01.text=control.tfInfo02.text=pixusShell.CURRENT_VERSION+'\n'+updateInfo.latest.version+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
-					setState(pixusShell.CURRENT_VERSION<updateInfo.latest.version?STATE_OUTOFDATE:STATE_LATEST);
+					trace('handleLoader'+new XML(event.target.data));
+					control.tfInfo01.text=control.tfInfo02.text=updateInfo.latest.version+'\n'updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
+					setState(pixusShell.options.version.release<updateInfo.latest.release?STATE_OUTOFDATE:STATE_LATEST);
 					break;
 				default:
 					setState(STATE_CONNECTION_FAILED);
@@ -108,7 +109,7 @@ package {
 
 		function checkUpdate():void {
 			setState(STATE_CHECKING);
-			urlLoader.load(new URLRequest(pixusShell.UPDATE_FEED));
+			urlLoader.load(new URLRequest(pixusShell.options.updateFeedURL));
 		}
 
 		function cancelUpdate():void {
