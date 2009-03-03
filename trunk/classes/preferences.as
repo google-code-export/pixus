@@ -42,14 +42,15 @@ package {
 		public function init(event:Event):void {
 			var l,n:int;
 
-			maskPanel.width=resizer.x=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH+1;
+			maskPanel.width=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH+1;
+			resizer.x=int(bg.width*.5);
 			if(pixusShell.options.preferencesWindowPosition.height!=undefined)
 				resizer.y=bg.height=pixusShell.options.preferencesWindowPosition.height;
-			stage.addEventListener(pixusShell.EVENT_SYNC_WINDOW_SIZE,handleSyncWindowSize);
 			bClose.addEventListener(MouseEvent.CLICK, handleClose);
 			bg.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
 			bTabPresets.addEventListener(MouseEvent.CLICK, handleTab);
 			bTabSkins.addEventListener(MouseEvent.CLICK, handleTab);
+			bTabOptions.addEventListener(MouseEvent.CLICK, handleTab);
 			bTabHelp.addEventListener(MouseEvent.CLICK, handleTab);
 			bTabAbout.addEventListener(MouseEvent.CLICK, handleTab);
 			resizer.addEventListener(MouseEvent.MOUSE_DOWN, handleResize);
@@ -160,13 +161,17 @@ package {
 					iconSkins.activate();
 					panelSlide(1);
 					break;
+				case bTabOptions :
+					iconOptions.activate();
+					panelSlide(2);
+					break;
 				case bTabHelp :
 					iconHelp.activate();
-					panelSlide(2);
+					panelSlide(3);
 					break;
 				case bTabAbout :
 					iconAbout.activate();
-					panelSlide(3);
+					panelSlide(4);
 					break;
 			}
 		}
@@ -183,10 +188,6 @@ package {
 			presets.addChild(new presetRow());
 			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE));
 			syncMenu();
-		}
-
-		public function handleSyncWindowSize(event:Event):void {
-			//syncWindowSize();
 		}
 
 		function panelSlide(id:int) {
@@ -208,7 +209,7 @@ package {
 			panels.panelSkins.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelHelp.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
 			panels.panelAbout.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
-			stage.nativeWindow.height=bg.height+20;
+			stage.nativeWindow.height=bg.height+50;
 		}
 
 	}

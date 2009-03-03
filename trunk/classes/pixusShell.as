@@ -1,7 +1,7 @@
 ﻿// pixusShell class
 // The Application Root Class
-// Version 0.9.1 2008-12-30
-// (cc)2007-2008 codeplay
+// 2009-3-3
+// (cc)2007-2009 codeplay
 // By Jam Zhang
 // jam@01media.cn
 
@@ -39,7 +39,7 @@ package {
 		public static  const ROW_WIDTH:int=260;
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
-		public static  const PREFERENCES_PANEL_WIDTH:int=260;
+		public static  const PREFERENCES_PANEL_WIDTH:int=300;
 
 		// Custom Events
 		public static  const EVENT_SYNC_WINDOW_SIZE:String='PixusEventSyncWindowSize';
