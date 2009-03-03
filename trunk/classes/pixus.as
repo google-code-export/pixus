@@ -1,7 +1,7 @@
 ﻿// pixus class
 // The First Child MovieClip of pixus NativeWindow
-// Version 0.9.1 2008-12-30
-// (cc)2007-2008 codeplay
+// 2009-3-3
+// (cc)2007-2009 codeplay
 // By Jam Zhang
 // jam@01media.cn
 
@@ -49,7 +49,6 @@ package {
 			stage.scaleMode=StageScaleMode.NO_SCALE;
 			stage.align=StageAlign.TOP_LEFT;
 			stage.nativeWindow.minSize=new Point(210,50);
-			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_FIND_BACK,handleFindBack);
 
 			// Default settings
 			if (pixusShell.options.width==undefined) {
@@ -81,6 +80,7 @@ package {
 
 			// Handles Menu And Closes The Primary Window
 			NativeApplication.nativeApplication.addEventListener(customEvent.SET_WINDOW_SIZE,handleWindowSize);
+			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_FIND_BACK,handleFindBack);
 			shell.stage.nativeWindow.close();
 			stage.nativeWindow.maximize();
 			stage.addEventListener(KeyboardEvent.KEY_DOWN,handleKeys);
@@ -112,7 +112,7 @@ package {
 		//
 		function handleKeys(event:KeyboardEvent) {
 			var inc:int=event.shiftKey?10:1; // Shift = Speed Up
-			if(event.controlKey){ // Control / Command + Directions = Resize
+			if(event.controlKey || event.commandKey){ // Control / Command + Directions = Resize
 				switch(event.keyCode){
 					case Keyboard.LEFT:
 						resizeRel(-inc,0);
@@ -173,8 +173,7 @@ package {
 		}
 
 		function handleWindowSize(event:customEvent) {
-			rulerWidth=event.data.width;
-			rulerHeight=event.data.height;
+			resizeTo(event.data.width,event.data.height);
 		}
 
 		// pixus handle finding back of the pixus window
@@ -182,9 +181,11 @@ package {
 			var w1:int=main.rulerWidth;
 			var h1:int=main.rulerHeight;
 			if(main.rulerWidth>stage.nativeWindow.width*.8)
-				main.rulerWidth=w1=stage.nativeWindow.width*.5;
+				w1=stage.nativeWindow.width*.5;
 			if(main.rulerHeight>stage.nativeWindow.height*.8)
-				main.rulerHeight=h1=stage.nativeWindow.height*.5;
+				h1=stage.nativeWindow.height*.5;
+			if(w1!=main.rulerWidth||h1!=main.rulerHeight)
+				resizeTo(w1,h1);
 			
 			Tweener.addTween(main,{x:int((stage.nativeWindow.width-w1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(main,{y:int((stage.nativeWindow.height-h1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});

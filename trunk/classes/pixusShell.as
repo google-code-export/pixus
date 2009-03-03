@@ -33,7 +33,6 @@ package {
 	import codeplay.event.customEvent;
 
 	public class pixusShell extends MovieClip {
-//		public static  const CURRENT_VERSION:String='0.9.2';
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
