@@ -24,7 +24,7 @@ package {
 
 		const MARGIN_TOP:int=80;
 		const MARGIN_BOTTOM:int=40;
-		const MIN_HEIGHT:int=240;//320;
+		const MIN_HEIGHT:int=360;
 		const MAX_HEIGHT:int=600;
 
 		public var shell:pixusShell;
