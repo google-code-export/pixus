@@ -23,7 +23,7 @@ package {
 	public class preferences extends Sprite {
 
 		const MARGIN_TOP:int=80;
-		const MARGIN_BOTTOM:int=40;
+		const MARGIN_BOTTOM:int=50;
 		const MIN_HEIGHT:int=360;
 		const MAX_HEIGHT:int=600;
 
@@ -64,7 +64,7 @@ package {
 			rebuildPresets();
 
 			// Skins Panel
-			skins=new scrollPanel();//{width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
+			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length()+1;
 			for (n=0; n<l; n++) {
@@ -209,7 +209,7 @@ package {
 			panels.panelSkins.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelHelp.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
 			panels.panelAbout.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
-			stage.nativeWindow.height=bg.height+50;
+			stage.nativeWindow.height=bg.height+100;
 		}
 
 	}

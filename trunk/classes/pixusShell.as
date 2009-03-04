@@ -36,10 +36,10 @@ package {
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
-		public static  const ROW_WIDTH:int=260;
+		public static  const PREFERENCES_PANEL_WIDTH:int=300;
+		public static  const ROW_WIDTH:int=300;
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
-		public static  const PREFERENCES_PANEL_WIDTH:int=300;
 
 		// Custom Events
 		public static  const EVENT_SYNC_WINDOW_SIZE:String='PixusEventSyncWindowSize';
