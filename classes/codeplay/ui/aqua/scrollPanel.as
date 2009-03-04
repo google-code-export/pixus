@@ -1,6 +1,6 @@
 ﻿// scrollPanel class
-// Version 0.9.0 2008-07-09
-// (cc)2007-2008 codeplay
+// 2009-03-04
+// (cc)2007-2009 codeplay
 // By Jam Zhang
 // jam@01media.cn
 
@@ -15,10 +15,14 @@ package codeplay.ui.aqua{
 
 	public class scrollPanel extends Sprite {
 
+		public static const HEAT_SINK_HEIGHT:int=20;
+
 		var viewWidth:int=200;
 		var viewHeight:int=200;
 		var vScrollBar:scrollBar=null;
 		var panelMask:Sprite=new Sprite();
+		var panelBg:Sprite=new Sprite();
+		var heatSink:scrollPanelHeatSink=new scrollPanelHeatSink();
 		public var scrollDelta:int=10;
 		public var snapping:Boolean=false;
 
@@ -52,12 +56,22 @@ package codeplay.ui.aqua{
 			parent.addChild(panelMask);
 			mask=panelMask;
 
+			// Adding panel bg
+			panelBg.graphics.beginFill(0x222222);
+			panelBg.graphics.drawRect(0,0,viewWidth,viewHeight);
+			panelBg.graphics.endFill();
+			panelBg.alpha=.5;
+			parent.addChild(panelBg);
+
+			// Adding heat sink
+			parent.addChild(heatSink);
+
 			// Adding scrollbar
 			parent.addEventListener(customEvent.RESIZE,handleResize);
 			parent.addEventListener(customEvent.CONTENT_RESIZED,handleResize);
 			parent.addEventListener(customEvent.SCROLLING,handleScroll);
 			parent.addEventListener(customEvent.SCROLLED,handleScroll);
-			vScrollBar=new scrollBar({x:pixusShell.ROW_WIDTH-scrollBar.MINIMAL_WIDTH});
+			vScrollBar=new scrollBar({x:viewWidth-scrollBar.MINIMAL_WIDTH});
 			parent.addChild(vScrollBar);
 		}
 
@@ -69,50 +83,63 @@ package codeplay.ui.aqua{
 		function handleScroll(event:customEvent):void {
 			switch (event.type) {
 				case customEvent.SCROLLING :
-					y=Math.round((viewHeight-height)*event.data.percentage);
+					y=Math.round((viewHeight-contentHeight)*event.data.percentage);
+					syncHeatSink();
 					break;
 				case customEvent.SCROLLED :
-					y=Math.round((viewHeight-height)*event.data.percentage);
+					y=Math.round((viewHeight-contentHeight)*event.data.percentage);
 					if (snapping) {
 						var y1:int=Math.round(y/scrollDelta)*scrollDelta;
-						Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+						Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic',onUpdate:syncHeatSink});
 						syncBarPercentage(y1);
-					}
+					} else
+						syncHeatSink();
 					break;
 			}
 		}
 
 		function handleWheel(event:MouseEvent):void {
-			var y1:int=Math.min(0,Math.max(viewHeight-height,y+scrollDelta*event.delta));
-			Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			var y1:int=Math.min(0,Math.max(viewHeight-contentHeight,y+scrollDelta*event.delta));
+			Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic',onUpdate:syncHeatSink});
 			syncBarPercentage(y1);
 		}
 
+		function get contentHeight():int{
+			return height+HEAT_SINK_HEIGHT;
+		}
+
 		function handleResize(event:customEvent):void {
-			var contentHeight:int=height;
 			if (event.data!=null) {
 				if (event.data.viewWidth!=null)
 					viewWidth=event.data.viewWidth;
 				if (event.data.viewHeight!=null)
 					viewHeight=event.data.viewHeight;
-				if (event.data.contentHeight!=null)
-					contentHeight=event.data.contentHeight;
 			}
 			y=Math.min(Math.max(viewHeight-contentHeight,y),0);
 			panelMask.width=viewWidth;
-			panelMask.height=viewHeight;
+			panelBg.height=panelMask.height=viewHeight;
 			vScrollBar.visible=(viewHeight<contentHeight);
 			if (vScrollBar.visible) {
 				vScrollBar.barLength=Math.round(viewHeight*viewHeight/contentHeight);
 				syncBarPercentage();
 			}
+			syncHeatSink();
+		}
+
+		function syncHeatSink(){
+			heatSink.y=contentHeight+y-HEAT_SINK_HEIGHT;
+			if(viewHeight>heatSink.y){
+				heatSink.visible=true;
+				heatSink.themask.height=viewHeight-heatSink.y;
+			} else
+				heatSink.visible=false;
 		}
 
 		function syncBarPercentage(y1:int=1):void {
 			if (y1>0) {
 				y1=y;
 			}
-			vScrollBar.percentage=-y1/(height-viewHeight);
+			vScrollBar.percentage=-y1/(contentHeight-viewHeight);
 		}
 
 	}
