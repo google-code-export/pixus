@@ -72,10 +72,12 @@ package {
 			}
 
 			// Help Panel
+			panels.panelHelp.inner.setViewWidth(pixusShell.PREFERENCES_PANEL_WIDTH);
 			panels.panelHelp.inner.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
 			panels.panelHelp.inner.bResetPresets.addEventListener(MouseEvent.CLICK, handleResetPresets);
 
 			// About Panel
+			panels.panelAbout.inner.setViewWidth(pixusShell.PREFERENCES_PANEL_WIDTH);
 			panels.panelAbout.inner.tfInfo.text=pixusShell.options.version.version+'\n'+pixusShell.options.version.release+'\n'+pixusShell.options.version.date;
 
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_PRESETS_CHANGE, handlePresetsChange);

@@ -20,6 +20,7 @@ package codeplay.ui.aqua{
 		var viewWidth:int=200;
 		var viewHeight:int=200;
 		var vScrollBar:scrollBar=null;
+		var panelBgContainer:MovieClip=new MovieClip();
 		var panelMask:Sprite=new Sprite();
 		var panelBg:Sprite=new Sprite();
 		var heatSink:scrollPanelHeatSink=new scrollPanelHeatSink();
@@ -61,10 +62,14 @@ package codeplay.ui.aqua{
 			panelBg.graphics.drawRect(0,0,viewWidth,viewHeight);
 			panelBg.graphics.endFill();
 			panelBg.alpha=.5;
-			parent.addChild(panelBg);
+			panelBgContainer.addChild(panelBg);
 
 			// Adding heat sink
-			parent.addChild(heatSink);
+			panelBgContainer.addChild(heatSink);
+
+			// Adding container
+			parent.addChild(panelBgContainer);
+			parent.swapChildren(this,panelBgContainer);
 
 			// Adding scrollbar
 			parent.addEventListener(customEvent.RESIZE,handleResize);
@@ -108,6 +113,12 @@ package codeplay.ui.aqua{
 			return height+HEAT_SINK_HEIGHT;
 		}
 
+		function setViewWidth(w:int):void{
+			panelMask.width=viewWidth=w;
+			if (vScrollBar.visible)
+				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
+		}
+
 		function handleResize(event:customEvent):void {
 			if (event.data!=null) {
 				if (event.data.viewWidth!=null)
@@ -120,6 +131,7 @@ package codeplay.ui.aqua{
 			panelBg.height=panelMask.height=viewHeight;
 			vScrollBar.visible=(viewHeight<contentHeight);
 			if (vScrollBar.visible) {
+				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
 				vScrollBar.barLength=Math.round(viewHeight*viewHeight/contentHeight);
 				syncBarPercentage();
 			}
