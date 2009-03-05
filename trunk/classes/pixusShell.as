@@ -273,6 +273,10 @@ package {
 		}
 
 		function handleUpdate(event:Event):void {
+			showUpdateWindow();
+		}
+
+		public function showUpdateWindow():void{
 			windowUpdate.visible=true;
 			windowUpdate.orderToFront();
 		}
