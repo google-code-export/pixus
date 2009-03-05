@@ -41,6 +41,7 @@ package {
 			syncWindowSize();
 			syncMenu();
 			hidden.bRemove.addEventListener(MouseEvent.CLICK, handleRemove);
+			hidden.bApply.addEventListener(MouseEvent.CLICK, handleApply);
 			hidden.bDrag.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 		}
 
@@ -66,6 +67,11 @@ package {
 				case MouseEvent.CLICK :
 					remove();
 			}
+		}
+
+		// Handles Apply Button Click
+		function handleApply(event:Event):void {
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,pixusShell.options.presets[id]));
 		}
 
 		// Handles Mouse Move When Dragging

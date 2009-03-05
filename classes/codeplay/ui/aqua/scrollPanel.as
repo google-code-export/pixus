@@ -20,10 +20,13 @@ package codeplay.ui.aqua{
 		var viewWidth:int=200;
 		var viewHeight:int=200;
 		var vScrollBar:scrollBar=null;
-		var panelBgContainer:MovieClip=new MovieClip();
+
+		var panelBgContainer:Sprite=new Sprite();
 		var panelMask:Sprite=new Sprite();
 		var panelBg:Sprite=new Sprite();
 		var heatSink:scrollPanelHeatSink=new scrollPanelHeatSink();
+		var edge:scrollPanelEdgeLight=new scrollPanelEdgeLight();
+
 		public var scrollDelta:int=10;
 		public var snapping:Boolean=false;
 
@@ -66,8 +69,16 @@ package codeplay.ui.aqua{
 
 			// Adding heat sink
 			panelBgContainer.addChild(heatSink);
+			syncHeatSink();
 
-			// Adding container
+			// Adding scroll panel bg shade
+			panelBgContainer.addChild(new scrollPanelBgShade());
+
+			// Adding bottom bar top edge
+			edge.y=viewHeight;
+			panelBgContainer.addChild(edge);
+
+			// Adding containers
 			parent.addChild(panelBgContainer);
 			parent.swapChildren(this,panelBgContainer);
 
@@ -83,6 +94,7 @@ package codeplay.ui.aqua{
 		function dispose(event:Event):void {
 			parent.removeChild(panelMask);
 			parent.removeChild(vScrollBar);
+			parent.removeChild(panelBgContainer);
 		}
 
 		function handleScroll(event:customEvent):void {
@@ -113,12 +125,6 @@ package codeplay.ui.aqua{
 			return height+HEAT_SINK_HEIGHT;
 		}
 
-		function setViewWidth(w:int):void{
-			panelMask.width=viewWidth=w;
-			if (vScrollBar.visible)
-				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
-		}
-
 		function handleResize(event:customEvent):void {
 			if (event.data!=null) {
 				if (event.data.viewWidth!=null)
@@ -127,8 +133,8 @@ package codeplay.ui.aqua{
 					viewHeight=event.data.viewHeight;
 			}
 			y=Math.min(Math.max(viewHeight-contentHeight,y),0);
-			panelMask.width=viewWidth;
-			panelBg.height=panelMask.height=viewHeight;
+			panelMask.width=panelBg.width=viewWidth;
+			panelBg.height=panelMask.height=edge.y=viewHeight;
 			vScrollBar.visible=(viewHeight<contentHeight);
 			if (vScrollBar.visible) {
 				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
@@ -139,6 +145,7 @@ package codeplay.ui.aqua{
 		}
 
 		function syncHeatSink(){
+			heatSink.themask.width=viewWidth;
 			heatSink.y=contentHeight+y-HEAT_SINK_HEIGHT;
 			if(viewHeight>heatSink.y){
 				heatSink.visible=true;

@@ -31,7 +31,6 @@ package {
 		var presets:scrollPanel;
 		var skins:scrollPanel;
 		var currentPanel:int=0;
-		//var panelArray:Array=new Array();
 		var panelsX0:int;
 
 		function preferences(pshell:pixusShell):void {
@@ -61,9 +60,11 @@ package {
 
 			// Presets Panel
 			panels.panelPresets.bottomControl.bAdd.addEventListener(MouseEvent.CLICK, handleAdd);
+			panels.panelPresets.bottomControl.bReset.addEventListener(MouseEvent.CLICK, handleResetPresets);
 			rebuildPresets();
 
 			// Skins Panel
+			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBack);
 			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length()+1;
@@ -72,12 +73,9 @@ package {
 			}
 
 			// Help Panel
-			panels.panelHelp.inner.setViewWidth(pixusShell.PREFERENCES_PANEL_WIDTH);
-			panels.panelHelp.inner.bFindBack.addEventListener(MouseEvent.CLICK, handleFindBack);
-			panels.panelHelp.inner.bResetPresets.addEventListener(MouseEvent.CLICK, handleResetPresets);
 
 			// About Panel
-			panels.panelAbout.inner.setViewWidth(pixusShell.PREFERENCES_PANEL_WIDTH);
+			panels.panelAbout.bottomControl.bUpdate.addEventListener(MouseEvent.CLICK, handleUpdate);
 			panels.panelAbout.inner.tfInfo.text=pixusShell.options.version.version+'\n'+pixusShell.options.version.release+'\n'+pixusShell.options.version.date;
 
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_PRESETS_CHANGE, handlePresetsChange);
@@ -97,6 +95,10 @@ package {
 
 		function handleResetPresets(event:Event):void {
 			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_RESET_PRESETS));
+		}
+
+		function handleUpdate(event:Event):void {
+			shell.showUpdateWindow();
 		}
 
 		function handlePresetsChange(event:Event):void {
@@ -206,7 +208,7 @@ package {
 		function syncWindowSize():void {
 			resizer.y=bg.height;
 			maskPanel.height=bg.height-MARGIN_TOP;
-			panels.panelPresets.bottomControl.y=presetListHeight;
+			panels.panelPresets.bottomControl.y=panels.panelSkins.bottomControl.y=panels.panelAbout.bottomControl.y=presetListHeight;
 			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelSkins.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelHelp.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
