@@ -31,6 +31,17 @@ Features to add
 - Multi-monitor support
 
 
+Pixus Version 0.9.4 R39 - Mar 7, 2009
+
+Features
+- New UI applied to the ruler and preferences window
+- Apply a preset from Preferences / Presets
+
+Bugs fixed
+- Mis-remembering of visibility and position of panels.
+- Ctrl+Arrow occupied by Mac OS X. Ctrl replaced with Command.
+
+
 Pixus Version 0.9.4 R31 - Mar 3, 2009
 
 Bugs fixed

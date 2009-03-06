@@ -47,21 +47,24 @@ package {
 				skin.removeChild(currentSkin);
 				currentSkin=null;
 			}
-			if(shell.currentSkin==null){
+			if(shell.currentSkin==null){ // Native Ruler
 				rulers.visible=true;
-				r.offsetx=r.offsety=br.offsetx=br.offsety=b.offsetx=b.offsety=0;
+				r.offsetx=b.offsety=20;
+				r.offsety=br.offsetx=br.offsety=b.offsetx=0;
+				br.hotspot.alpha=1;
 
 				Tweener.addTween(dragger,{x:0,y:-5,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			} else {
-				var pTR:XMLList=(shell.currentSkin.resizer.(@position=="tr"));
-				r.offsetx=int(pTR.@offsetx);
-				r.offsety=int(pTR.@offsety);
+			} else { // Custom Skin
+				var pR:XMLList=(shell.currentSkin.resizer.(@position=="r"));
+				r.offsetx=int(pR.@offsetx);
+				r.offsety=int(pR.@offsety);
 				var pBR:XMLList=(shell.currentSkin.resizer.(@position=="br"));
 				br.offsetx=int(pBR.@offsetx);
 				br.offsety=int(pBR.@offsety);
-				var pBL:XMLList=(shell.currentSkin.resizer.(@position=="bl"));
-				b.offsetx=int(pBL.@offsetx);
-				b.offsety=int(pBL.@offsety);
+				var pB:XMLList=(shell.currentSkin.resizer.(@position=="b"));
+				b.offsetx=int(pB.@offsetx);
+				b.offsety=int(pB.@offsety);
+				br.hotspot.alpha=0;
 
 				rulers.visible=false;
 				Tweener.addTween(dragger,{x:int(shell.currentSkin.dragger.@x),y:int(shell.currentSkin.dragger.@y),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
@@ -101,6 +104,7 @@ package {
 			pixusShell.options.width=w;
 			rulers.bg.width=w+RULER_WIDTH*2;
 			frame.width=_rulerWidth=r.x=br.x=w;
+			b.x=int(w*0.5);
 			rulers.rulerHorizontal.setLength(w);
 			showSize(_rulerWidth,_rulerHeight);
 			if (currentSkin!=null) {
@@ -116,8 +120,8 @@ package {
 			h=Math.max(h,minHeight);
 			pixusShell.options.height=h;
 			rulers.bg.height=h+RULER_HEIGHT*2;
-			frame.height=
-			_rulerHeight=b.y=br.y=h;
+			frame.height=_rulerHeight=b.y=br.y=h;
+			r.y=int(h*0.5);
 			rulers.rulerVertical.setLength(h);
 			showSize(_rulerWidth,_rulerHeight);
 			if (currentSkin!=null) {
@@ -127,7 +131,7 @@ package {
 
 		public function showSize(w:uint,h:uint):void {
 			var t=w+'x'+h;
-			dragger.text.tfSize.text=t;
+			dragger.tfSize.text=t;
 			if (stage!=null) {
 				stage.nativeWindow.title = "Pixus "+t;
 			}
