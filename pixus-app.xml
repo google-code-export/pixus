@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<application xmlns="http://ns.adobe.com/air/application/1.5">
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><application xmlns="http://ns.adobe.com/air/application/1.5">
 
   <id>com.codeplay.pixus</id>
 
@@ -25,6 +24,10 @@
     
     
     
+    <width>100</width>
+    <height>100</height>
+    <x>100</x>
+    <y>100</y>
   </initialWindow>
 
   <programMenuFolder>codeplay</programMenuFolder>
@@ -41,6 +44,7 @@
   <allowBrowserInvocation>false</allowBrowserInvocation>
 
   <installFolder>codeplay</installFolder>
+
 
 
 

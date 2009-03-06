@@ -51,30 +51,36 @@ package {
 			stage.nativeWindow.minSize=new Point(210,50);
 
 			// Default settings
-			if (pixusShell.options.width==undefined) {
-				pixusShell.options.width=480;
+			if (pixusShell.options.pixusWindow==undefined) {
+				pixusShell.options.pixusWindow={x:500,y:100,width:640,height:480,visible:true};
 			}
-//			main.rulerWidth=pixusShell.options.width;
-			if (pixusShell.options.height==undefined) {
-				pixusShell.options.height=360;
+			if (pixusShell.options.pixusWindow.width==undefined) {
+				pixusShell.options.pixusWindow.width=480;
 			}
-//			main.rulerHeight=pixusShell.options.height;
+			if (pixusShell.options.pixusWindow.height==undefined) {
+				pixusShell.options.pixusWindow.height=360;
+			}
 
-			if (pixusShell.options.x==undefined) {
-				pixusShell.options.x=120;
+			if (pixusShell.options.pixusWindow.x==undefined) {
+				pixusShell.options.pixusWindow.x=120;
 			}
-			if (pixusShell.options.y==undefined) {
-				pixusShell.options.y=80;
+			if (pixusShell.options.pixusWindow.y==undefined) {
+				pixusShell.options.pixusWindow.y=80;
 			}
-			resizeTo(pixusShell.options.width,pixusShell.options.height);
-			moveTo(pixusShell.options.x,pixusShell.options.y);
-//			overlay.move(main.x=pixusShell.options.x,main.y=pixusShell.options.y);
 
-			if (pixusShell.options.overlayMode==undefined) {
-				pixusShell.options.overlayMode=false;
+			if (pixusShell.options.pixusWindow.visible==undefined) {
+				pixusShell.options.pixusWindow.visible=true;
 			}
-			if (pixusShell.options.overlayMode) {
-				pixusShell.options.overlayMode=false;
+
+			stage.nativeWindow.visible=pixusShell.options.pixusWindow.visible;
+			resizeTo(pixusShell.options.pixusWindow.width,pixusShell.options.pixusWindow.height);
+			moveTo(pixusShell.options.pixusWindow.x,pixusShell.options.pixusWindow.y);
+
+			if (pixusShell.options.pixusWindow.overlayMode==undefined) {
+				pixusShell.options.pixusWindow.overlayMode=false;
+			}
+			if (pixusShell.options.pixusWindow.overlayMode) {
+				pixusShell.options.pixusWindow.overlayMode=false;
 				toggleOverlay();
 			}
 
@@ -88,19 +94,19 @@ package {
 		}
 
 		function get rulerWidth():int{
-			return pixusShell.options.width;
+			return pixusShell.options.pixusWindow.width;
 		}
 
 		function get rulerHeight():int{
-			return pixusShell.options.height;
+			return pixusShell.options.pixusWindow.height;
 		}
 
 		function set rulerWidth(w:int){
-			main.rulerWidth=pixusShell.options.width=w;
+			main.rulerWidth=pixusShell.options.pixusWindow.width=w;
 		}
 
 		function set rulerHeight(h:int){
-			main.rulerHeight=pixusShell.options.height=h;
+			main.rulerHeight=pixusShell.options.pixusWindow.height=h;
 		}
 
 		function startMove():void {
@@ -205,17 +211,17 @@ package {
 					if (stage==null) {
 						break;
 					}
-					pixusShell.options.x=main.x+stage.nativeWindow.x;// Because nativeWindow.x==-2 when maximized
-					pixusShell.options.y=main.y+stage.nativeWindow.y;// Because nativeWindow.x==-4 when maximized
+					pixusShell.options.pixusWindow.x=main.x+stage.nativeWindow.x;// Because nativeWindow.x==-2 when maximized
+					pixusShell.options.pixusWindow.y=main.y+stage.nativeWindow.y;// Because nativeWindow.x==-4 when maximized
 					break;
 			}
 		}
 
 		function toggleOverlay():void {
-			if (pixusShell.options.overlayMode) {
-				pixusShell.options.overlayMode=overlay.visible=false;
+			if (pixusShell.options.pixusWindow.overlayMode) {
+				pixusShell.options.pixusWindow.overlayMode=overlay.visible=false;
 			} else {
-				pixusShell.options.overlayMode=overlay.visible=true;
+				pixusShell.options.pixusWindow.overlayMode=overlay.visible=true;
 			}
 		}
 
