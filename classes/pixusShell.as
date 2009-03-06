@@ -13,7 +13,6 @@ package {
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.display.MovieClip;
-	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -74,25 +73,21 @@ package {
 		var windowUpdate:hidingWindow;
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
 		public static var skinpresets, settings:XML;
-		public static  var options:Object=so.data;
+		public static var options:Object=so.data;
 		var loader:URLLoader=new URLLoader();
 		// Must initialize SharedObject first for Max OS X compatibility. Never use SharedObject.getLocal(APP_NAME,APP_PATH).data directly.
 
-		public function pixusShell():void {
-			addEventListener(Event.ADDED_TO_STAGE,init);
-		}
-
-		function init(event:Event):void {
+		function pixusShell():void {
 			// Default settings
 			if (options.presets==undefined) {
 				options.presets=PRESETS;
 			}
 
-			loader.addEventListener(Event.COMPLETE,handleSettins);
+			loader.addEventListener(Event.COMPLETE,init);
 			loader.load(new URLRequest('pixus-settings.xml'));
 		}
 
-		function handleSettins(event:Event):void {
+		function init(event:Event):void {
 			settings=new XML(event.target.data);
 			skinpresets=settings.skinpresets;
 			if (options.skin==undefined) {
@@ -100,30 +95,6 @@ package {
 			}
 			options.updateFeedURL=settings.updatefeedurl;
 			options.version=settings.version;
-			trace('pixus x='+pixusShell.options.pixusWindow.x+' y='+pixusShell.options.pixusWindow.y+' height='+pixusShell.options.pixusWindow.height+' visible='+pixusShell.options.pixusWindow.visible);
-
-			// Dock and SystemTray Icon
-			syncMenu();
-			NativeApplication.nativeApplication.icon.addEventListener(MouseEvent.CLICK,handleIcon);// For Windows Tray Icon
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,handleInvoke);// For Mac OS Dock Icon Click or Reinvoke in Windows
-			NativeApplication.nativeApplication.icon.bitmaps  = [
-			new BitmapIconPixus512(512,512),
-			new BitmapIconPixus128(128,128),
-			new BitmapIconPixus48(48,48),
-			new BitmapIconPixus32(32,32),
-			new BitmapIconPixus16(16,16)
-			];
-
-			// Windows System Tray
-			if (NativeApplication.supportsSystemTrayIcon) {
-				var sysTrayIcon:SystemTrayIcon=NativeApplication.nativeApplication.icon as SystemTrayIcon;
-				sysTrayIcon.tooltip = APP_NAME;
-			}
-
-			// Max OSX Dock Bar
-			//if (NativeApplication.supportsDockIcon) {
-			//var dockIcon:DockIcon=NativeApplication.nativeApplication.icon as DockIcon;
-			//}
 
 			// Create Pixus Window
 			var option:NativeWindowInitOptions;
@@ -133,7 +104,10 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPixus=new hidingWindow(option);
+//			windowPixus.visible=true;
 			windowPixus.title = 'Pixus';
+//			windowPixus.width = 600;
+//			windowPixus.height = 400;
 			windowPixus.alwaysInFront=true;
 			windowPixus.stage.addChild(new pixus(this));
 
@@ -143,8 +117,17 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPreferences=new hidingWindow(option);
+			if (options.preferencesWindowPosition==undefined) {
+				options.preferencesWindowPosition={x:100,y:300,height:600};
+			}
+			if (options.preferencesWindowPosition!=undefined) {
+				windowPreferences.x=options.preferencesWindowPosition.x;
+				windowPreferences.y=options.preferencesWindowPosition.y;
+			}
+			windowPreferences.visible=false;
 			windowPreferences.title = 'Pixus Preferences';
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
+			windowPreferences.height = 600;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
 			windowPreferences.stage.align=StageAlign.TOP_LEFT;
 			windowPreferences.alwaysInFront=true;
@@ -172,6 +155,29 @@ package {
 			u.scaleX=u.scaleY=1;
 			windowUpdate.stage.addChild(u);
 
+			// Dock and SystemTray Icon
+			syncMenu();
+			NativeApplication.nativeApplication.icon.addEventListener(MouseEvent.CLICK,handleIcon);// For Windows Tray Icon
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,handleIcon);// For Mac OS Dock Icon Click or Reinvoke in Windows
+			NativeApplication.nativeApplication.icon.bitmaps  = [
+			new BitmapIconPixus512(512,512),
+			new BitmapIconPixus128(128,128),
+			new BitmapIconPixus48(48,48),
+			new BitmapIconPixus32(32,32),
+			new BitmapIconPixus16(16,16)
+			];
+
+			// Windows System Tray
+			if (NativeApplication.supportsSystemTrayIcon) {
+				var sysTrayIcon:SystemTrayIcon=NativeApplication.nativeApplication.icon as SystemTrayIcon;
+				sysTrayIcon.tooltip = APP_NAME;
+			}
+
+			// Max OSX Dock Bar
+			//if (NativeApplication.supportsDockIcon) {
+			//var dockIcon:DockIcon=NativeApplication.nativeApplication.icon as DockIcon;
+			//}
+
 			NativeApplication.nativeApplication.addEventListener(EVENT_SYNC_MENU, handleSyncMenu);
 			NativeApplication.nativeApplication.addEventListener(SHOW_PREFERENCES, handleWindows);
 			NativeApplication.nativeApplication.addEventListener(HIDE_PREFERENCES, handleWindows);
@@ -180,104 +186,10 @@ package {
 			NativeApplication.nativeApplication.addEventListener(TOGGLE_PIXUS, handleWindows);
 			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
 			NativeApplication.nativeApplication.addEventListener(EVENT_RESET_PRESETS,doResetPresets);
-		}
-
-		function syncMenu():void {
-			var iconMenu:NativeMenu = new NativeMenu();
-			var item:NativeMenuItem;
-			for (var n=0; n<options.presets.length; n++) {
-				var preset=options.presets[n];
-				item=new NativeMenuItem(preset.width+' x '+preset.height+' '+preset.comments);
-				item.data=preset;
-				item.addEventListener(Event.SELECT,handlePresets);
-				iconMenu.addItem(item);
-			}
-			iconMenu.addItem(new NativeMenuItem('',true));
-
-			item=new NativeMenuItem('Find Pixus');
-			item.addEventListener(Event.SELECT,handleMenuFindBack);
-			item.mnemonicIndex=0;
-			item.keyEquivalent='f';
-			iconMenu.addItem(item);
-
-			item=new NativeMenuItem('Preferences');
-			item.addEventListener(Event.SELECT,handleMenuPreferences);
-			item.mnemonicIndex=0;
-			item.keyEquivalent='k';
-			iconMenu.addItem(item);
-
-			item=new NativeMenuItem('Update');
-			item.addEventListener(Event.SELECT,handleMenuUpdate);
-			item.mnemonicIndex=0;
-			item.keyEquivalent='u';
-			iconMenu.addItem(item);
-
-			item=new NativeMenuItem('Exit');
-			item.keyEquivalent='q';
-			item.addEventListener(Event.SELECT,handleMenuExit);
-			iconMenu.addItem(item);
-			var sysTrayIcon=NativeApplication.nativeApplication.icon;
-			sysTrayIcon.menu = iconMenu;
-		}
-
-		function handleSyncMenu(event:Event):void {
-			syncMenu();
-		}
-
-		function handlePresets(event:Event):void {
-			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,(event.target as NativeMenuItem).data));
-		}
-
-		function handleMenuPreferences(event:Event):void {
-			togglePreferencesWindow(true);
-		}
-
-		// Toggle Pixus
-		function handleIcon(event:Event):void {
-			togglePixusWindow();
-		}
-
-		// Show Pixus when invoking
-		function handleInvoke(event:Event):void {
-			togglePixusWindow(true);
-		}
-
-		function handleMenuFindBack(event:Event):void { // Invoked from sys tray / dock menu
-			// Strange! handleFindBackEvent accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
-			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
-		}
-
-		// pixusShell handle finding back of the preferences window
-		function handleFindBackEvent(event:Event):void { // Real find back codes
-			windowPixus.visible=true;
-			togglePreferencesWindow(true);
-			windowUpdate.visible=true;
-			// Find Preferences window
-			options.preferencesWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25);
-			options.preferencesWindowPosition.y=300; //int(Capabilities.screenResolutionY*.25);
-			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			// Find Update window
-			options.updateWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25)
-			options.updateWindowPosition.y=100; //int(Capabilities.screenResolutionY*.25)
-			Tweener.addTween(windowUpdate,{x:options.updateWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(windowUpdate,{y:options.updateWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-		}
-
-		function copyObjectDeep(src:Object){
-			var ba:ByteArray = new ByteArray();
-			ba.writeObject(src);
-			ba.position = 0;
-			return ba.readObject();
-		}
-
-		function doResetPresets(event:Event):void {
-			pixusShell.options.presets=copyObjectDeep(pixusShell.PRESETS);
-			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_PRESETS_CHANGE));
-		}
-
-		function handleMenuExit(event:Event):void {
-			NativeApplication.nativeApplication.exit();
+//			NativeApplication.nativeApplication.addEventListener(EVENT_SYNC_MENU, handleSyncMenu);
+//			NativeApplication.nativeApplication.addEventListener(customEvent.OPEN_PREFERENCES, handlePreferences);
+//			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
+//			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_RESET_PRESETS,doResetPresets);
 		}
 
 		function handleWindows(event:Event):void {
@@ -303,10 +215,6 @@ package {
 			}
 		}
 
-		function handleMenuUpdate(event:Event):void {
-			showUpdateWindow();
-		}
-
 		public function togglePixusWindow(v:Object=null):void{
 			if(v==null)
 				v=!pixusShell.options.pixusWindow.visible;
@@ -322,6 +230,103 @@ package {
 			windowPreferences.visible=pixusShell.options.preferencesWindow.visible=v;
 			if(v)
 				windowPreferences.orderToFront();
+		}
+
+		function syncMenu():void {
+			var iconMenu:NativeMenu = new NativeMenu();
+			var item:NativeMenuItem;
+			for (var n=0; n<options.presets.length; n++) {
+				var preset=options.presets[n];
+				item=new NativeMenuItem(preset.width+' x '+preset.height+' '+preset.comments);
+				item.data=preset;
+				item.addEventListener(Event.SELECT,handlePresets);
+				iconMenu.addItem(item);
+			}
+			iconMenu.addItem(new NativeMenuItem('',true));
+
+			item=new NativeMenuItem('Find Pixus');
+			item.addEventListener(Event.SELECT,handleFindBack);
+			item.mnemonicIndex=0;
+			item.keyEquivalent='f';
+			iconMenu.addItem(item);
+
+			item=new NativeMenuItem('Preferences');
+			item.addEventListener(Event.SELECT,handlePreferences);
+			item.mnemonicIndex=0;
+			item.keyEquivalent='k';
+			iconMenu.addItem(item);
+
+			item=new NativeMenuItem('Update');
+			item.addEventListener(Event.SELECT,handleUpdate);
+			item.mnemonicIndex=0;
+			item.keyEquivalent='u';
+			iconMenu.addItem(item);
+
+			item=new NativeMenuItem('Exit');
+			item.keyEquivalent='q';
+			item.addEventListener(Event.SELECT,handleExit);
+			iconMenu.addItem(item);
+			var sysTrayIcon=NativeApplication.nativeApplication.icon;
+			sysTrayIcon.menu = iconMenu;
+		}
+
+		function handleSyncMenu(event:Event):void {
+			syncMenu();
+		}
+
+		function handlePresets(event:Event):void {
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,(event.target as NativeMenuItem).data));
+		}
+
+		function handleIcon(event:Event):void {
+			windowPixus.visible=!windowPixus.visible;// Hide / Show NativeWindow
+		}
+
+		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
+			// Strange! handleFindBackEvent accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
+		}
+
+		// pixusShell handle finding back of the preferences window
+		function handleFindBackEvent(event:Event):void { // Real find back codes
+			windowPixus.visible=true;
+			windowPreferences.visible=true;
+			windowUpdate.visible=true;
+			// Find Preferences window
+			options.preferencesWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25);
+			options.preferencesWindowPosition.y=300; //int(Capabilities.screenResolutionY*.25);
+			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			// Find Update window
+			options.updateWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25)
+			options.updateWindowPosition.y=100; //int(Capabilities.screenResolutionY*.25)
+			Tweener.addTween(windowUpdate,{x:options.updateWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowUpdate,{y:options.updateWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+		}
+
+		function copyObjectDeep(src:Object){
+			var ba:ByteArray = new ByteArray();
+			ba.writeObject(src);
+			ba.position = 0;
+			return ba.readObject();
+		}
+
+		function doResetPresets(event:Event):void {
+			pixusShell.options.presets=copyObjectDeep(pixusShell.PRESETS);
+			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_PRESETS_CHANGE));
+		}
+
+		function handleExit(event:Event):void {
+			NativeApplication.nativeApplication.exit();
+		}
+
+		function handlePreferences(event:Event):void {
+			windowPreferences.visible=true;
+			windowPreferences.orderToFront();
+		}
+
+		function handleUpdate(event:Event):void {
+			showUpdateWindow();
 		}
 
 		public function showUpdateWindow():void{
