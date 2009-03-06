@@ -17,8 +17,8 @@ package codeplay.ui.aqua{
 
 		public static const HEAT_SINK_HEIGHT:int=20;
 
-		var viewWidth:int=200;
-		var viewHeight:int=200;
+		var viewWidth:int=300;
+		var viewHeight:int=300;
 		var vScrollBar:scrollBar=null;
 
 		var panelBgContainer:Sprite=new Sprite();
@@ -65,14 +65,14 @@ package codeplay.ui.aqua{
 			panelBg.graphics.drawRect(0,0,viewWidth,viewHeight);
 			panelBg.graphics.endFill();
 			panelBg.alpha=.5;
-			panelBgContainer.addChild(panelBg);
+//			panelBgContainer.addChild(panelBg);
+
+			// Adding scroll panel bg shade
+//			panelBgContainer.addChild(new scrollPanelBgShade());
 
 			// Adding heat sink
 			panelBgContainer.addChild(heatSink);
 			syncHeatSink();
-
-			// Adding scroll panel bg shade
-			panelBgContainer.addChild(new scrollPanelBgShade());
 
 			// Adding bottom bar top edge
 			edge.y=viewHeight;

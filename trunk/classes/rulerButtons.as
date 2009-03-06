@@ -24,10 +24,10 @@ package {
 					(parent.parent.parent as pixus).toggleOverlay();
 					break;
 				case buttonPreferences:
-					NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.OPEN_PREFERENCES));
+					NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.SHOW_PREFERENCES));
 					break;
 				case buttonClose:
-					stage.nativeWindow.visible=!stage.nativeWindow.visible;
+					NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.HIDE_PIXUS));
 					break;
 			}
 		}

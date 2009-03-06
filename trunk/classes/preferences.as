@@ -36,6 +36,7 @@ package {
 		function preferences(pshell:pixusShell):void {
 			shell=pshell;
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
 		}
 
 		public function init(event:Event):void {
@@ -43,8 +44,20 @@ package {
 
 			maskPanel.width=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH+1;
 			resizer.x=int(bg.width*.5);
-			if(pixusShell.options.preferencesWindowPosition.height!=undefined)
-				resizer.y=bg.height=pixusShell.options.preferencesWindowPosition.height;
+
+			// Default settings
+			if (pixusShell.options.preferencesWindow==undefined) {
+				pixusShell.options.preferencesWindow={x:100,y:300,height:600,visible:false};
+			}
+			if(pixusShell.options.preferencesWindow.height!=undefined){
+				resizer.y=bg.height=pixusShell.options.preferencesWindow.height;
+				stage.nativeWindow.height = pixusShell.options.preferencesWindow.height+100;
+			}
+			if (pixusShell.options.preferencesWindow!=undefined) {
+				stage.nativeWindow.x=pixusShell.options.preferencesWindow.x;
+				stage.nativeWindow.y=pixusShell.options.preferencesWindow.y;
+			}
+			stage.nativeWindow.visible=pixusShell.options.preferencesWindow.visible;
 			bClose.addEventListener(MouseEvent.CLICK, handleClose);
 			bg.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
 			bTabPresets.addEventListener(MouseEvent.CLICK, handleTab);
@@ -65,7 +78,7 @@ package {
 
 			// Skins Panel
 			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBack);
-			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
+			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindow.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length()+1;
 			for (n=0; n<l; n++) {
@@ -112,7 +125,7 @@ package {
 				panels.panelPresets.removeChild(presets);
 				menuRow.clearRows();
 			}
-			presets=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindowPosition.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
+			presets=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH,viewHeight:pixusShell.options.preferencesWindow.height,delta:pixusShell.PRESET_ROW_HEIGHT,snapping:true});
 			panels.panelPresets.addChild(presets);
 			l=pixusShell.options.presets.length;
 			for (n=0; n<l; n++) {
@@ -130,7 +143,7 @@ package {
 				case MouseEvent.MOUSE_UP :
 					resizer.stopDrag();
 					syncWindowSize();
-					pixusShell.options.preferencesWindowPosition.height=bg.height=resizer.y;
+					pixusShell.options.preferencesWindow.height=bg.height=resizer.y;
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleResize);
 					stage.removeEventListener(MouseEvent.MOUSE_UP, handleResize);
 					break;
@@ -149,8 +162,8 @@ package {
 					break;
 				case MouseEvent.MOUSE_UP :
 					stage.removeEventListener(MouseEvent.MOUSE_UP,handleMove);
-					pixusShell.options.preferencesWindowPosition=new Object();
-					pixusShell.options.preferencesWindowPosition={x:stage.nativeWindow.x,y:stage.nativeWindow.y};
+					pixusShell.options.preferencesWindow.x=stage.nativeWindow.x;
+					pixusShell.options.preferencesWindow.y=stage.nativeWindow.y;
 					break;
 			}
 		}
@@ -185,7 +198,7 @@ package {
 		}
 
 		public function handleClose(event:MouseEvent):void {
-			stage.nativeWindow.visible=false;
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.HIDE_PREFERENCES));
 		}
 
 		public function handleAdd(event:MouseEvent):void {
