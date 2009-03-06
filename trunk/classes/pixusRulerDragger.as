@@ -14,7 +14,7 @@ package {
 
 	public class pixusRulerDragger extends MovieClip {
 		public function pixusRulerDragger():void {
-			text.tfSize.autoSize=TextFieldAutoSize.LEFT;
+			tfSize.autoSize=TextFieldAutoSize.LEFT;
 			hotspot.useHandCursor=false;
 			hotspot.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 		}

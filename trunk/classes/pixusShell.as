@@ -187,10 +187,6 @@ package {
 			NativeApplication.nativeApplication.addEventListener(TOGGLE_PIXUS, handleWindows);
 			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
 			NativeApplication.nativeApplication.addEventListener(EVENT_RESET_PRESETS,doResetPresets);
-//			NativeApplication.nativeApplication.addEventListener(EVENT_SYNC_MENU, handleSyncMenu);
-//			NativeApplication.nativeApplication.addEventListener(customEvent.OPEN_PREFERENCES, handlePreferences);
-//			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
-//			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_RESET_PRESETS,doResetPresets);
 		}
 
 		function handleWindows(event:Event):void {

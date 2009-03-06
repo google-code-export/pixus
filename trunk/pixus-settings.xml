@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>0.9.4</version>
-		<release>31</release>
-		<date>3-3-2009</date>
+		<release>39</release>
+		<date>3-7-2009</date>
 	</version>
 	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
 	<skinpresets>
@@ -13,6 +13,7 @@
 			<resizer position="tr" offsety="-30" />
 			<resizer position="br" offsety="-20" />
 			<resizer position="bl" offsetx="20" offsety="-20" />
+			<resizer position="r" offsetx="15" />
 			<slice position="tl" x="0" y="0" w="250" h="65" _minw="75" offsetx="-10" offsety="-65" />
 			<slice position="tc" x="250" y="0" w="10" h="65" offsety="-65" />
 			<slice position="tr" x="300" y="0" w="220" h="80" offsetx="-197" offsety="-65" />
@@ -27,6 +28,8 @@
 			<dragger x="20" y="-100" />
 			<resizer position="tr" offsety="-100" />
 			<resizer position="bl" offsetx="20" />
+			<resizer position="r" offsetx="24" />
+			<resizer position="b" offsety="28" />
 			<slice position="tl" x="0" y="0" w="525" h="120" minw="115" offsetx="-5" offsety="-119" />
 			<slice position="tc" x="500" y="0" w="25" h="120" offsety="-119" />
 			<slice position="tr" x="525" y="0" w="75" h="136" offsetx="-51" offsety="-119" />
