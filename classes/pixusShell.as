@@ -71,6 +71,7 @@ package {
 		var windowPixus:hidingWindow;
 		var windowPreferences:hidingWindow;
 		var windowUpdate:hidingWindow;
+		static var firstTimeInvoke:Boolean=true;
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
 		public static var skinpresets, settings:XML;
 		public static var options:Object=so.data;
@@ -124,10 +125,10 @@ package {
 				windowPreferences.x=options.preferencesWindowPosition.x;
 				windowPreferences.y=options.preferencesWindowPosition.y;
 			}
-			windowPreferences.visible=false;
+//			windowPreferences.visible=false;
 			windowPreferences.title = 'Pixus Preferences';
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
-			windowPreferences.height = 600;
+//			windowPreferences.height = 600;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
 			windowPreferences.stage.align=StageAlign.TOP_LEFT;
 			windowPreferences.alwaysInFront=true;
@@ -158,7 +159,7 @@ package {
 			// Dock and SystemTray Icon
 			syncMenu();
 			NativeApplication.nativeApplication.icon.addEventListener(MouseEvent.CLICK,handleIcon);// For Windows Tray Icon
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,handleIcon);// For Mac OS Dock Icon Click or Reinvoke in Windows
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,handleInvoke);// For Mac OS Dock Icon Click or Reinvoke in Windows
 			NativeApplication.nativeApplication.icon.bitmaps  = [
 			new BitmapIconPixus512(512,512),
 			new BitmapIconPixus128(128,128),
@@ -278,8 +279,19 @@ package {
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,(event.target as NativeMenuItem).data));
 		}
 
+		// Toggle Pixus
 		function handleIcon(event:Event):void {
-			windowPixus.visible=!windowPixus.visible;// Hide / Show NativeWindow
+			togglePixusWindow();
+		}
+
+		// Show Pixus when invoking
+		// Strange in Windows, even running for the 1st time will dispatch INVOKE
+		// Stop from always showing Pixus when launching
+		function handleInvoke(event:Event):void {
+			if(firstTimeInvoke)
+				firstTimeInvoke=false;
+			else
+				togglePixusWindow(true);
 		}
 
 		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
@@ -289,8 +301,8 @@ package {
 
 		// pixusShell handle finding back of the preferences window
 		function handleFindBackEvent(event:Event):void { // Real find back codes
-			windowPixus.visible=true;
-			windowPreferences.visible=true;
+			togglePixusWindow(true);
+			togglePreferencesWindow(true);
 			windowUpdate.visible=true;
 			// Find Preferences window
 			options.preferencesWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25);
@@ -321,8 +333,7 @@ package {
 		}
 
 		function handlePreferences(event:Event):void {
-			windowPreferences.visible=true;
-			windowPreferences.orderToFront();
+			togglePreferencesWindow(true);
 		}
 
 		function handleUpdate(event:Event):void {

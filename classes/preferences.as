@@ -36,7 +36,6 @@ package {
 		function preferences(pshell:pixusShell):void {
 			shell=pshell;
 			addEventListener(Event.ADDED_TO_STAGE, init);
-			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
 		}
 
 		public function init(event:Event):void {
@@ -49,6 +48,7 @@ package {
 			if (pixusShell.options.preferencesWindow==undefined) {
 				pixusShell.options.preferencesWindow={x:100,y:300,height:600,visible:false};
 			}
+			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
 			if(pixusShell.options.preferencesWindow.height!=undefined){
 				resizer.y=bg.height=pixusShell.options.preferencesWindow.height;
 				stage.nativeWindow.height = pixusShell.options.preferencesWindow.height+100;
