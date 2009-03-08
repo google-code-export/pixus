@@ -8,6 +8,7 @@
 package {
 	import flash.display.NativeWindow;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.display.StageDisplayState;
@@ -26,10 +27,9 @@ package {
 	import flash.desktop.Updater;
 	import flash.utils.ByteArray;
 
+	public class update extends Sprite {
 
-	public class update extends MovieClip {
-
-		const PANEL_WIDTH:int=260;
+		const PANEL_WIDTH:int=300;
 		const STATE_CHECKING:int=0;
 		const STATE_CONNECTION_FAILED:int=1;
 		const STATE_LATEST:int=2;
@@ -45,21 +45,32 @@ package {
 		var file:File;
 
 		function update():void {
-			stop();
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
 		function init(event:Event):void {
 			stage.scaleMode=StageScaleMode.NO_SCALE;
 			stage.align=StageAlign.TOP_LEFT;
+
+			// Default settings
+			if (pixusShell.options.updateWindow==undefined) {
+				pixusShell.options.updateWindow={x:pixusShell.UPDATE_PANEL_X,y:pixusShell.UPDATE_PANEL_Y,visible:false};
+			}
+//			trace('update x='+pixusShell.options.updateWindow.x+' y='+pixusShell.options.updateWindow.y+' visible='+pixusShell.options.updateWindow.visible);
+			if (pixusShell.options.preferencesWindow!=undefined) {
+				stage.nativeWindow.x=pixusShell.options.updateWindow.x;
+				stage.nativeWindow.y=pixusShell.options.updateWindow.y;
+				stage.nativeWindow.visible=false; // Always hide Update by default.
+			}
+
 			bClose.addEventListener(MouseEvent.CLICK, handleCloseButton);
 			bg.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
-			control.bCheck01.addEventListener(MouseEvent.CLICK,handleButtons);
-			control.bCheck02.addEventListener(MouseEvent.CLICK,handleButtons);
-			control.bDownload01.addEventListener(MouseEvent.CLICK,handleButtons);
-			control.bDownload02.addEventListener(MouseEvent.CLICK,handleButtons);
-			control.bInstall.addEventListener(MouseEvent.CLICK,handleButtons);
-			control.bCancel.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bCheck01.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bCheck02.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bDownload01.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bDownload02.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bInstall.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bCancel.addEventListener(MouseEvent.CLICK,handleButtons);
 			urlStream.addEventListener(ProgressEvent.PROGRESS,updateProgress); 
 			urlStream.addEventListener(Event.COMPLETE,updateLoaded); 
 			urlLoader.addEventListener(Event.COMPLETE,handleLoader);
@@ -74,27 +85,27 @@ package {
 
 		function handleButtons(event:MouseEvent):void {
 			switch (event.target) {
-				case control.bCheck01 :
-				case control.bCheck02 :
+				case panels.bCheck01 :
+				case panels.bCheck02 :
 					checkUpdate();
 					break;
-				case control.bDownload01 :
-				case control.bDownload02 :
+				case panels.bDownload01 :
+				case panels.bDownload02 :
 //					trace(updateInfo.source[0]);
 					downloadUpdate(updateInfo.source[0]);
 					break;
-				case control.bInstall :
+				case panels.bInstall :
 					var updater:Updater=new Updater();
 					updater.update(file,updateInfo.latest.version.toString());
 					break;
-				case control.bCancel :
+				case panels.bCancel :
 					cancelUpdate();
 					break;
 			}
 		}
 
 		function checkUpdate():void {
-			setState(STATE_CHECKING);
+			panels.slideToPanel(STATE_CHECKING);
 			urlLoader.load(new URLRequest(pixusShell.options.updateFeedURL));
 		}
 
@@ -102,41 +113,41 @@ package {
 			switch(event.type){
 				case Event.COMPLETE: // Update feed XML successfully loaded
 					updateInfo=new XML(event.target.data);
-					control.tfInfo01.text=control.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
+					panels.tfInfo01.text=panels.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
 					if(pixusShell.options.version.release<updateInfo.latest.release){
-						setState(STATE_OUTOFDATE);
+						panels.slideToPanel(STATE_OUTOFDATE);
 						stage.nativeWindow.visible=true;
 					} else
-						setState(STATE_LATEST);
+						panels.slideToPanel(STATE_LATEST);
 					break;
 				default:
-					setState(STATE_CONNECTION_FAILED);
+					panels.slideToPanel(STATE_CONNECTION_FAILED);
 					break;
 			}
 		}
 
 		function cancelUpdate():void {
-			setState(STATE_OUTOFDATE);
+			panels.slideToPanel(STATE_OUTOFDATE);
 			urlLoader.close();
 		}
 
 		function downloadUpdate(url:XML){
-			setState(STATE_DOWNLOADING);
+			panels.slideToPanel(STATE_DOWNLOADING);
 			urlStream.load(new URLRequest(url.toString())); 
 		}
 
 		function updateProgress(event:ProgressEvent):void {
-			control.tfProgress.text=int(event.bytesLoaded*0.001)+'/'+int(event.bytesTotal*0.001)+'KB';
-			control.progress01.setProgress(event.bytesLoaded/event.bytesTotal);
-			control.progress02.setProgress(event.bytesLoaded/event.bytesTotal);
+			panels.tfProgress.text=int(event.bytesLoaded*0.001)+'/'+int(event.bytesTotal*0.001)+'KB';
+			panels.progress01.setProgress(event.bytesLoaded/event.bytesTotal);
+			panels.progress02.setProgress(event.bytesLoaded/event.bytesTotal);
 		} 
  
 		function updateLoaded(event:Event):void { 
-			control.progress01.setProgress(1);
-			control.progress02.setProgress(1);
+			panels.progress01.setProgress(1);
+			panels.progress02.setProgress(1);
 		    urlStream.readBytes(fileData, 0, urlStream.bytesAvailable); 
 		    writeAirFile(); 
-			setState(STATE_DOWNLOADED);
+			panels.slideToPanel(STATE_DOWNLOADED);
 		} 
  
 		function writeAirFile():void { 
@@ -146,10 +157,6 @@ package {
 		    fileStream.writeBytes(fileData, 0, fileData.length); 
 		    fileStream.close(); 
 		    trace("The AIR file is written."); 
-		}
-
-		function setState(s:int){
-			control.x=-PANEL_WIDTH*s;
 		}
 
 		function handleMove(event:MouseEvent):void {

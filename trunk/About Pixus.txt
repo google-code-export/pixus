@@ -31,6 +31,13 @@ Features to add
 - Multi-monitor support
 - Find Panels also shrink Preferences panel to the minimal height
 
+
+Pixus Version 0.9.4 R41 - Mar 8, 2009
+
+Features
+- New UI applied to update window
+
+
 Pixus Version 0.9.4 R39 - Mar 7, 2009
 
 Features

@@ -31,15 +31,22 @@ package {
 	import flash.system.Capabilities;
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
+	import codeplay.utils.copyObjectDeep;
 
 	public class pixusShell extends MovieClip {
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
-		public static  const PREFERENCES_PANEL_WIDTH:int=300;
 		public static  const ROW_WIDTH:int=300;
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
+		public static  const PIXUS_PANEL_X:int=450;
+		public static  const PIXUS_PANEL_Y:int=100;
+		public static  const UPDATE_PANEL_X:int=100;
+		public static  const UPDATE_PANEL_Y:int=100;
+		public static  const PREFERENCES_PANEL_WIDTH:int=300;
+		public static  const PREFERENCES_PANEL_X:int=100;
+		public static  const PREFERENCES_PANEL_Y:int=400;
 
 		// Custom Events
 		public static  const EVENT_SYNC_WINDOW_SIZE:String='PixusEventSyncWindowSize';
@@ -105,10 +112,7 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPixus=new hidingWindow(option);
-//			windowPixus.visible=true;
 			windowPixus.title = 'Pixus';
-//			windowPixus.width = 600;
-//			windowPixus.height = 400;
 			windowPixus.alwaysInFront=true;
 			windowPixus.stage.addChild(new pixus(this));
 
@@ -128,7 +132,6 @@ package {
 //			windowPreferences.visible=false;
 			windowPreferences.title = 'Pixus Preferences';
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
-//			windowPreferences.height = 600;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
 			windowPreferences.stage.align=StageAlign.TOP_LEFT;
 			windowPreferences.alwaysInFront=true;
@@ -143,8 +146,8 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowUpdate=new hidingWindow(option);
-			windowUpdate.width=280;
-			windowUpdate.height=190;
+			windowUpdate.width=350;
+			windowUpdate.height=300;
 			if (options.updateWindowPosition==undefined) {
 				options.updateWindowPosition={x:100,y:100};
 			}
@@ -210,23 +213,6 @@ package {
 					togglePixusWindow();
 					break;
 			}
-		}
-
-		public function togglePixusWindow(v:Object=null):void{
-			if(v==null)
-				v=!pixusShell.options.pixusWindow.visible;
-			windowPixus.visible=pixusShell.options.pixusWindow.visible=v;
-			trace('togglePixusWindow '+pixusShell.options.pixusWindow.visible);
-			if(v)
-				windowPixus.orderToFront();
-		}
-
-		public function togglePreferencesWindow(v:Object=null):void{
-			if(v==null)
-				v=!pixusShell.options.preferencesWindow.visible;
-			windowPreferences.visible=pixusShell.options.preferencesWindow.visible=v;
-			if(v)
-				windowPreferences.orderToFront();
 		}
 
 		function syncMenu():void {
@@ -299,24 +285,17 @@ package {
 		function handleFindBackEvent(event:Event):void { // Real find back codes
 			togglePixusWindow(true);
 			togglePreferencesWindow(true);
-			windowUpdate.visible=true;
+			toggleUpdateWindow(true);
 			// Find Preferences window
-			options.preferencesWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25);
-			options.preferencesWindowPosition.y=300; //int(Capabilities.screenResolutionY*.25);
+			options.preferencesWindowPosition.x=PREFERENCES_PANEL_X;
+			options.preferencesWindowPosition.y=PREFERENCES_PANEL_Y;
 			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			// Find Update window
-			options.updateWindowPosition.x=100; //int(Capabilities.screenResolutionX*.25)
-			options.updateWindowPosition.y=100; //int(Capabilities.screenResolutionY*.25)
+			options.updateWindowPosition.x=UPDATE_PANEL_X;
+			options.updateWindowPosition.y=UPDATE_PANEL_Y;
 			Tweener.addTween(windowUpdate,{x:options.updateWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(windowUpdate,{y:options.updateWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-		}
-
-		function copyObjectDeep(src:Object){
-			var ba:ByteArray = new ByteArray();
-			ba.writeObject(src);
-			ba.position = 0;
-			return ba.readObject();
 		}
 
 		function doResetPresets(event:Event):void {
@@ -333,12 +312,32 @@ package {
 		}
 
 		function handleUpdate(event:Event):void {
-			showUpdateWindow();
+			toggleUpdateWindow(true);
 		}
 
-		public function showUpdateWindow():void{
-			windowUpdate.visible=true;
-			windowUpdate.orderToFront();
+		public function togglePixusWindow(v:Object=null):void{
+			if(v==null)
+				v=!pixusShell.options.pixusWindow.visible;
+			windowPixus.visible=pixusShell.options.pixusWindow.visible=v;
+			trace('togglePixusWindow '+pixusShell.options.pixusWindow.visible);
+			if(v)
+				windowPixus.orderToFront();
+		}
+
+		public function togglePreferencesWindow(v:Object=null):void{
+			if(v==null)
+				v=!pixusShell.options.preferencesWindow.visible;
+			windowPreferences.visible=pixusShell.options.preferencesWindow.visible=v;
+			if(v)
+				windowPreferences.orderToFront();
+		}
+
+		public function toggleUpdateWindow(v:Object=null):void{
+			if(v==null)
+				v=!pixusShell.options.updateWindow.visible;
+			windowUpdate.visible=pixusShell.options.updateWindow.visible=v;
+			if(v)
+				windowUpdate.orderToFront();
 		}
 
 		public function get currentSkin():XML {
