@@ -1,7 +1,7 @@
 Pixus
 The Pixel Ruler for Screen Objects
 
-You can not only measure the screen object size with easy. With overlay mode and presets, you can also preview how your design will look in the real environment. Ideal for web and interface designers. 
+You can not only measure the screen objects in pixels. With overlay mode and presets, you can also preview how your design will look in the real environment. Ideal for web and interface designers. 
 
 No support yet. Any comment, suggestion and correction will be welcomed. Please contact jammind@gmail.com
 
@@ -12,7 +12,7 @@ On GoogleCode
 http://code.google.com/p/pixus/
 
 (cc)2007-2009 codeplay
-Created by Jam Zhang a.k.a. BigDaddyJay
+Created by Jam Zhang a.k.a. BigDaddyJ
 jammind@gmail.com
 
 
@@ -21,7 +21,7 @@ Version History
 Pixus Version 1.1.0 - Coming up
 
 Features to add
-- Screen capture
+- Screen capture under Windows
 
 
 Pixus Version 1.0.0 - Coming up
@@ -29,7 +29,7 @@ Pixus Version 1.0.0 - Coming up
 Features to add
 - Auto-update from multi-source
 - Multi-monitor support
-
+- Find Panels also shrink Preferences panel to the minimal height
 
 Pixus Version 0.9.4 R39 - Mar 7, 2009
 
