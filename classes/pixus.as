@@ -193,10 +193,10 @@ package {
 			if(w1!=main.rulerWidth||h1!=main.rulerHeight)
 				resizeTo(w1,h1);
 			
-			Tweener.addTween(main,{x:int((stage.nativeWindow.width-w1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(main,{y:int((stage.nativeWindow.height-h1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(overlay.themask.inner,{x:int((stage.nativeWindow.width-w1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(overlay.themask.inner,{y:int((stage.nativeWindow.height-h1)*.5),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(main,{x:pixusShell.PIXUS_PANEL_X,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(main,{y:pixusShell.PIXUS_PANEL_Y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(overlay.themask.inner,{x:pixusShell.PIXUS_PANEL_X,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(overlay.themask.inner,{y:pixusShell.PIXUS_PANEL_Y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function handleMouse(event:MouseEvent) {

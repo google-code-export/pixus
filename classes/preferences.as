@@ -46,9 +46,9 @@ package {
 
 			// Default settings
 			if (pixusShell.options.preferencesWindow==undefined) {
-				pixusShell.options.preferencesWindow={x:100,y:300,height:600,visible:false};
+				pixusShell.options.preferencesWindow={x:pixusShell.PREFERENCES_PANEL_X,y:pixusShell.PREFERENCES_PANEL_Y,height:600,visible:false};
 			}
-			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
+//			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
 			if(pixusShell.options.preferencesWindow.height!=undefined){
 				resizer.y=bg.height=pixusShell.options.preferencesWindow.height;
 				stage.nativeWindow.height = pixusShell.options.preferencesWindow.height+100;
@@ -111,7 +111,7 @@ package {
 		}
 
 		function handleUpdate(event:Event):void {
-			shell.showUpdateWindow();
+			shell.toggleUpdateWindow(true);
 		}
 
 		function handlePresetsChange(event:Event):void {
@@ -172,23 +172,23 @@ package {
 			switch (event.target) {
 				case bTabPresets :
 					iconPresets.activate();
-					panelSlide(0);
+					panels.slideToPanel(0);
 					break;
 				case bTabSkins :
 					iconSkins.activate();
-					panelSlide(1);
+					panels.slideToPanel(1);
 					break;
 				case bTabOptions :
 					iconOptions.activate();
-					panelSlide(2);
+					panels.slideToPanel(2);
 					break;
 				case bTabHelp :
 					iconHelp.activate();
-					panelSlide(3);
+					panels.slideToPanel(3);
 					break;
 				case bTabAbout :
 					iconAbout.activate();
-					panelSlide(4);
+					panels.slideToPanel(4);
 					break;
 			}
 		}
@@ -205,13 +205,6 @@ package {
 			presets.addChild(new presetRow());
 			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE));
 			syncMenu();
-		}
-
-		function panelSlide(id:int) {
-			if (currentPanel!=id) {
-				currentPanel=id;
-				Tweener.addTween(panels,{x:panelsX0-id*pixusShell.PREFERENCES_PANEL_WIDTH,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			}
 		}
 
 		function get presetListHeight():int{
