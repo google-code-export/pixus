@@ -26,6 +26,7 @@ package {
 	import flash.filesystem.FileStream;
 	import flash.desktop.Updater;
 	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
 
 	public class update extends Sprite {
 
@@ -38,11 +39,12 @@ package {
 		const STATE_DOWNLOADED:int=5;
 		const STATE_DOWNLOAD_FAILED:int=6;
 
-		var urlLoader:URLLoader=new URLLoader();
-		var updateInfo:XML;
-		var urlStream:URLStream = new URLStream(); 
-		var fileData:ByteArray = new ByteArray(); 
-		var file:File;
+		private var urlLoader:URLLoader=new URLLoader();
+		private var updateInfo:XML;
+		private var urlStream:URLStream = new URLStream(); 
+		private var fileData:ByteArray = new ByteArray(); 
+		private var file:File;
+		private var downloadSince:int; // Time value for estimating time remaining
 
 		function update():void {
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -133,11 +135,17 @@ package {
 
 		function downloadUpdate(url:XML){
 			panels.slideToPanel(STATE_DOWNLOADING);
+			downloadSince=getTimer();
 			urlStream.load(new URLRequest(url.toString())); 
 		}
 
+		function downloadingSpeed(bl:int):int{
+			return Math.round(bl/(getTimer()-downloadSince)*1000); // Bytes per Second
+		}
+
 		function updateProgress(event:ProgressEvent):void {
-			panels.tfProgress.text=int(event.bytesLoaded*0.001)+'/'+int(event.bytesTotal*0.001)+'KB';
+			var bytesRemaining:int=event.bytesTotal-event.bytesLoaded;
+			panels.tfProgress01.text=Math.ceil(bytesRemaining*0.001)+' KB\n'+Math.round(bytesRemaining/downloadingSpeed(event.bytesLoaded))+' Seconds';
 			panels.progress01.setProgress(event.bytesLoaded/event.bytesTotal);
 			panels.progress02.setProgress(event.bytesLoaded/event.bytesTotal);
 		} 

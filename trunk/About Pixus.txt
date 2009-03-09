@@ -29,7 +29,15 @@ Pixus Version 1.0.0 - Coming up
 Features to add
 - Auto-update from multi-source
 - Multi-monitor support
-- Find Panels also shrink Preferences panel to the minimal height
+
+
+Pixus Version 0.9.4 R42 - Mar 10, 2009
+
+Features
+- Find Panels also shrink Preferences panel to the minimal height.
+
+Bugs fixed
+- Progress bar doesn't grow to the full width when 100% completed.
 
 
 Pixus Version 0.9.4 R41 - Mar 8, 2009
