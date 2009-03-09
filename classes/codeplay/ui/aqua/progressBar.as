@@ -1,5 +1,5 @@
 ﻿// progressBar class
-// Version 2009-01-31
+// Version 2009-03-10
 // (cc)2009 codeplay
 // By Jam Zhang
 // jam@01media.cn
@@ -17,7 +17,7 @@ package codeplay.ui.aqua{
 
 		public function progressBar(tweeningTime:Number=.5):void{
 			TWEENING_TIME=tweeningTime;
-			bg.width=width;
+			fg.masked.width=bg.width=width;
 			scaleX=1;
 			fg.mask.width=0;
 			enableBlinking();
@@ -29,7 +29,7 @@ package codeplay.ui.aqua{
 				disableBlinking();
 			else
 				enableBlinking();
-			Tweener.addTween(fg.mask,{width:int(bg.width*p),time:TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(fg.mask,{width:int((bg.width-2)*p),time:TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function handleEnterFrame(e:Event){

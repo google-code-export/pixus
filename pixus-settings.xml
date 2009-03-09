@@ -2,11 +2,14 @@
 <settings>
 	<version>
 		<version>0.9.4</version>
-		<release>41</release>
-		<date>3-8-2009</date>
+		<release>42</release>
+		<date>3-10-2009</date>
 	</version>
 	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
 	<skinpresets>
+		<skin title="Ruler" subtitle="Pixus Native Skin" >
+			<file thumbnail="skin/skin_pixus_ruler_tn.png" />
+		</skin>
 		<skin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />
 			<dragger x="70" y="-40" />
@@ -22,7 +25,7 @@
 			<slice position="bl" x="0" y="150" w="10" h="10" offsetx="-10" />
 			<slice position="bc" x="10" y="150" w="10" h="10" />
 			<slice position="br" x="497" y="90" w="23" h="70" offsety="-60" />
-		</skin>;
+		</skin>
 		<skin title="Internet Explorer 7" subtitle="Windows XP" >
 			<file filename="skin/skin_ie6_winxp.png" thumbnail="skin/skin_ie6_winxp_tn.png" />
 			<dragger x="20" y="-100" />
@@ -38,6 +41,6 @@
 			<slice position="bl" x="0" y="172" w="25" h="28" offsetx="-5" />
 			<slice position="bc" x="25" y="172" w="10" h="28" />
 			<slice position="br" x="480" y="153" w="120" h="47" offsetx="-96" offsety="-19" />
-		</skin>;
+		</skin>
 	</skinpresets>
 </settings>

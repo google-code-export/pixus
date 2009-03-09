@@ -273,7 +273,10 @@ package {
 			if(firstTimeInvoke)
 				firstTimeInvoke=false;
 			else
-				togglePixusWindow(true);
+				if(Capabilities.os.indexOf('mac')==-1) // Always show it when launching again under Windows
+					togglePixusWindow(true);
+				else // Toggle visibility when clicking the dock icon under Mac OS X
+					togglePixusWindow();
 		}
 
 		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
@@ -341,7 +344,7 @@ package {
 		}
 
 		public function get currentSkin():XML {
-			return options.skin==0?null:skinpresets.skin[options.skin-1];
+			return options.skin==0?null:skinpresets.skin[options.skin];
 		}
 	}
 }

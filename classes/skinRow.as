@@ -29,15 +29,10 @@ package {
 
 		public function init(event:Event):void {
 			// HandlesTextFields
-			if(id==0){
-				tfTitle.text='Ruler';
-				tfSubtitle.text='Pixus Native Skin';
-			} else {
-				tfTitle.text=pixusShell.skinpresets.skin[id-1].@title;
-				tfSubtitle.text=pixusShell.skinpresets.skin[id-1].@subtitle;
-				loader.load(new URLRequest(pixusShell.skinpresets.skin[id-1].file.@thumbnail));
-				tn.addChild(loader);
-			}
+			tfTitle.text=pixusShell.skinpresets.skin[id].@title;
+			tfSubtitle.text=pixusShell.skinpresets.skin[id].@subtitle;
+			loader.load(new URLRequest(pixusShell.skinpresets.skin[id].file.@thumbnail));
+			tn.addChild(loader);
 			hidden.bApply.addEventListener(MouseEvent.CLICK, handleApply);
 			tn.addEventListener(MouseEvent.CLICK, handleApply);
 			tn.buttonMode=true;

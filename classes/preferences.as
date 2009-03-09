@@ -24,8 +24,8 @@ package {
 
 		const MARGIN_TOP:int=80;
 		const MARGIN_BOTTOM:int=50;
-		const MIN_HEIGHT:int=360;
-		const MAX_HEIGHT:int=600;
+		public static const MIN_HEIGHT:int=360;
+		public static const MAX_HEIGHT:int=600;
 
 		public var shell:pixusShell;
 		var presets:scrollPanel;
@@ -49,10 +49,8 @@ package {
 				pixusShell.options.preferencesWindow={x:pixusShell.PREFERENCES_PANEL_X,y:pixusShell.PREFERENCES_PANEL_Y,height:600,visible:false};
 			}
 //			trace('preferences x='+pixusShell.options.preferencesWindow.x+' y='+pixusShell.options.preferencesWindow.y+' height='+pixusShell.options.preferencesWindow.height+' visible='+pixusShell.options.preferencesWindow.visible);
-			if(pixusShell.options.preferencesWindow.height!=undefined){
-				resizer.y=bg.height=pixusShell.options.preferencesWindow.height;
-				stage.nativeWindow.height = pixusShell.options.preferencesWindow.height+100;
-			}
+			if(pixusShell.options.preferencesWindow.height!=undefined)
+				setHeight(pixusShell.options.preferencesWindow.height);
 			if (pixusShell.options.preferencesWindow!=undefined) {
 				stage.nativeWindow.x=pixusShell.options.preferencesWindow.x;
 				stage.nativeWindow.y=pixusShell.options.preferencesWindow.y;
@@ -77,10 +75,10 @@ package {
 			rebuildPresets();
 
 			// Skins Panel
-			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBack);
+			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBackButton);
 			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindow.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
 			panels.panelSkins.addChild(skins);
-			l=pixusShell.skinpresets.skin.length()+1;
+			l=pixusShell.skinpresets.skin.length();
 			for (n=0; n<l; n++) {
 				skins.addChild(new skinRow());
 			}
@@ -92,6 +90,7 @@ package {
 			panels.panelAbout.inner.tfInfo.text=pixusShell.options.version.version+'\n'+pixusShell.options.version.release+'\n'+pixusShell.options.version.date;
 
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_PRESETS_CHANGE, handlePresetsChange);
+			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_FIND_BACK,handleFindBackEvent);
 			addEventListener(Event.ENTER_FRAME,init2);
 		}
 
@@ -101,7 +100,12 @@ package {
 			syncWindowSize();
 		}
 
-		function handleFindBack(event:MouseEvent):void {
+		function handleFindBackEvent(event:customEvent):void {
+			setHeight(MIN_HEIGHT);
+			syncWindowSize();
+		}
+
+		function handleFindBackButton(event:MouseEvent):void {
 			// Strange! The handler accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_FIND_BACK));
 		}
@@ -152,6 +156,11 @@ package {
 					syncWindowSize();
 					break;
 			}
+		}
+
+		public function setHeight(h:int){
+			resizer.y=bg.height=pixusShell.options.preferencesWindow.height=h;
+			stage.nativeWindow.height = h+100;
 		}
 
 		public function handleMove(event:MouseEvent):void {
