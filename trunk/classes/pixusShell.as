@@ -108,7 +108,7 @@ package {
 			var option:NativeWindowInitOptions;
 
 			option=new NativeWindowInitOptions();
-			option.type=NativeWindowType.LIGHTWEIGHT ;
+			option.type=NativeWindowType.UTILITY ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPixus=new hidingWindow(option);
@@ -118,7 +118,7 @@ package {
 
 			//Create Preferences Window
 			option=new NativeWindowInitOptions();
-			option.type=NativeWindowType.LIGHTWEIGHT;
+			option.type=NativeWindowType.UTILITY;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPreferences=new hidingWindow(option);
@@ -129,7 +129,6 @@ package {
 				windowPreferences.x=options.preferencesWindowPosition.x;
 				windowPreferences.y=options.preferencesWindowPosition.y;
 			}
-//			windowPreferences.visible=false;
 			windowPreferences.title = 'Pixus Preferences';
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
@@ -142,7 +141,7 @@ package {
 
 			//Create Update Window
 			option=new NativeWindowInitOptions();
-			option.type=NativeWindowType.LIGHTWEIGHT ;
+			option.type=NativeWindowType.UTILITY ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowUpdate=new hidingWindow(option);
