@@ -55,14 +55,14 @@ package codeplay.ui.aqua{
 
 			// Adding mask
 			panelMask.graphics.beginFill(0x000000);
-			panelMask.graphics.drawRect(0,0,viewWidth,viewHeight);
+			panelMask.graphics.drawRect(1,0,viewWidth-1,viewHeight);
 			panelMask.graphics.endFill();
 			parent.addChild(panelMask);
 			mask=panelMask;
 
 			// Adding panel bg
 			panelBg.graphics.beginFill(0x222222);
-			panelBg.graphics.drawRect(0,0,viewWidth,viewHeight);
+			panelBg.graphics.drawRect(1,0,viewWidth-1,viewHeight);
 			panelBg.graphics.endFill();
 			panelBg.alpha=.5;
 //			panelBgContainer.addChild(panelBg);

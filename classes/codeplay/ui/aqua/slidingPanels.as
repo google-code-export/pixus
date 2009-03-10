@@ -26,8 +26,8 @@ package codeplay.ui.aqua{
 		}
 
 		public function slideToPanel(id:int) {
-			filters=[blur];
 			if (currentPanel!=id) {
+				filters=[blur];
 				currentPanel=id;
 				Tweener.addTween(this,{x:x0-id*panelWidth,_blur_blurX:0,time:tweeningTime,transition:'easeOutCubic'});
 			}

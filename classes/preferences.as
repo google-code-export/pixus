@@ -76,14 +76,12 @@ package {
 
 			// Skins Panel
 			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBackButton);
-			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});//,viewHeight:pixusShell.options.preferencesWindow.height,delta:pixusShell.SKIN_ROW_HEIGHT,snapping:true});
+			skins=new scrollPanel({width:pixusShell.PREFERENCES_PANEL_WIDTH});
 			panels.panelSkins.addChild(skins);
 			l=pixusShell.skinpresets.skin.length();
 			for (n=0; n<l; n++) {
 				skins.addChild(new skinRow());
 			}
-
-			// Help Panel
 
 			// About Panel
 			panels.panelAbout.bottomControl.bUpdate.addEventListener(MouseEvent.CLICK, handleUpdate);
@@ -227,6 +225,7 @@ package {
 			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelSkins.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:presetListHeight}));
 			panels.panelHelp.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
+			panels.panelOptions.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
 			panels.panelAbout.dispatchEvent(new customEvent(customEvent.RESIZE,{viewWidth:pixusShell.PREFERENCES_PANEL_WIDTH, viewHeight:resizer.y-MARGIN_TOP-MARGIN_BOTTOM}));
 			stage.nativeWindow.height=bg.height+100;
 		}
