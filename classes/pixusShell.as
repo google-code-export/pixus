@@ -92,6 +92,8 @@ package {
 			if (options.presets==undefined) {
 				options.presets=PRESETS;
 			}
+			if (pixusShell.options.alwaysInFront==undefined)
+				pixusShell.options.alwaysInFront=true;
 
 			loader.addEventListener(Event.COMPLETE,init);
 			loader.load(new URLRequest('pixus-settings.xml'));
@@ -115,7 +117,6 @@ package {
 			option.transparent=true;
 			windowPixus=new hidingWindow(option);
 			windowPixus.title = 'Pixus';
-			windowPixus.alwaysInFront=true;
 			windowPixus.stage.addChild(new pixus(this));
 
 			//Create Preferences Window
@@ -135,7 +136,6 @@ package {
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
 			windowPreferences.stage.scaleMode=StageScaleMode.NO_SCALE;
 			windowPreferences.stage.align=StageAlign.TOP_LEFT;
-			windowPreferences.alwaysInFront=true;
 			var p:preferences=new preferences(this);
 			p.x=10;
 			p.y=10;
@@ -153,12 +153,14 @@ package {
 				options.updateWindowPosition={x:100,y:100};
 			}
 			windowUpdate.visible=false;
-			windowUpdate.alwaysInFront=true;
 			var u:update=new update();
 			u.x=10;
 			u.y=10;
 			u.scaleX=u.scaleY=1;
 			windowUpdate.stage.addChild(u);
+
+			// Set Always In Front State
+			alwaysInFront=pixusShell.options.alwaysInFront;
 
 			// Dock and SystemTray Icon
 			syncMenu();
@@ -191,6 +193,10 @@ package {
 			NativeApplication.nativeApplication.addEventListener(TOGGLE_PIXUS, handleWindows);
 			NativeApplication.nativeApplication.addEventListener(EVENT_FIND_BACK,handleFindBackEvent);
 			NativeApplication.nativeApplication.addEventListener(EVENT_RESET_PRESETS,doResetPresets);
+		}
+
+		public function set alwaysInFront(t:Boolean){
+			options.alwaysInFront=windowPixus.alwaysInFront=windowPreferences.alwaysInFront=windowUpdate.alwaysInFront=t;
 		}
 
 		function handleWindows(event:Event):void {

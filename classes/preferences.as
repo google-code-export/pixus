@@ -41,7 +41,7 @@ package {
 		public function init(event:Event):void {
 			var l,n:int;
 
-			maskPanel.width=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH+1;
+			maskPanel.width=bg.width=pixusShell.PREFERENCES_PANEL_WIDTH;
 			resizer.x=int(bg.width*.5);
 
 			// Default settings
@@ -55,6 +55,7 @@ package {
 				stage.nativeWindow.x=pixusShell.options.preferencesWindow.x;
 				stage.nativeWindow.y=pixusShell.options.preferencesWindow.y;
 			}
+
 			stage.nativeWindow.visible=pixusShell.options.preferencesWindow.visible;
 			bClose.addEventListener(MouseEvent.CLICK, handleClose);
 			bg.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
@@ -73,6 +74,12 @@ package {
 			panels.panelPresets.bottomControl.bAdd.addEventListener(MouseEvent.CLICK, handleAdd);
 			panels.panelPresets.bottomControl.bReset.addEventListener(MouseEvent.CLICK, handleResetPresets);
 			rebuildPresets();
+
+			// Optionss Panel
+			panels.panelOptions.inner.cbAlwaysInFront.checked=pixusShell.options.alwaysInFront;
+			panels.panelOptions.inner.cbAlwaysInFront.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
+			panels.panelOptions.inner.cbStartAtLogin.checked=NativeApplication.nativeApplication.startAtLogin;
+			panels.panelOptions.inner.cbStartAtLogin.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
 
 			// Skins Panel
 			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBackButton);
@@ -96,6 +103,17 @@ package {
 		function init2(event:Event):void {
 			removeEventListener(Event.ENTER_FRAME,init2);
 			syncWindowSize();
+		}
+
+		function handleOptionCheckBox(event:MouseEvent):void {
+			switch(event.target){
+				case panels.panelOptions.inner.cbAlwaysInFront:
+					shell.alwaysInFront=event.target.checked;
+					break;
+				case panels.panelOptions.inner.cbStartAtLogin:
+					NativeApplication.nativeApplication.startAtLogin=event.target.checked;
+					break;
+			}
 		}
 
 		function handleFindBackEvent(event:customEvent):void {
