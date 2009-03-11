@@ -13,6 +13,7 @@ package {
 	import flash.display.NativeWindowInitOptions;
 	import flash.display.NativeWindowSystemChrome;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.display.StageDisplayState;
@@ -30,7 +31,7 @@ package {
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 
-	public class pixus extends MovieClip {
+	public class pixus extends Sprite {
 		const MARGIN_LEFT:uint=25;
 		const MARGIN_TOP:uint=150;
 		const MARGIN_RIGHT:uint=60;

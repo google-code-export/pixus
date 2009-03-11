@@ -10,6 +10,7 @@ package {
 	import flash.display.NativeWindowInitOptions;
 	import flash.display.NativeWindowSystemChrome;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.events.MouseEvent;
@@ -18,7 +19,7 @@ package {
 	import caurina.transitions.Tweener;
 	import codeplay.display.slicePlus;
 
-	public class pixusMain extends MovieClip {
+	public class pixusMain extends Sprite {
 		const MIN_WIDTH:uint=20;
 		const MIN_HEIGHT:uint=20;
 		const RULER_WIDTH:uint=20;

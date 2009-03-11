@@ -55,14 +55,15 @@ package codeplay.ui.aqua{
 
 			// Adding mask
 			panelMask.graphics.beginFill(0x000000);
-			panelMask.graphics.drawRect(1,0,viewWidth-1,viewHeight);
+			panelMask.graphics.drawRect(0,0,viewWidth-2,viewHeight);
 			panelMask.graphics.endFill();
+			panelMask.x=1;
 			parent.addChild(panelMask);
 			mask=panelMask;
 
 			// Adding panel bg
 			panelBg.graphics.beginFill(0x222222);
-			panelBg.graphics.drawRect(1,0,viewWidth-1,viewHeight);
+			panelBg.graphics.drawRect(0,0,viewWidth-2,viewHeight);
 			panelBg.graphics.endFill();
 			panelBg.alpha=.5;
 //			panelBgContainer.addChild(panelBg);
@@ -79,6 +80,7 @@ package codeplay.ui.aqua{
 			panelBgContainer.addChild(edge);
 
 			// Adding containers
+			panelBgContainer.x=1;
 			parent.addChild(panelBgContainer);
 			parent.swapChildren(this,panelBgContainer);
 
@@ -145,7 +147,7 @@ package codeplay.ui.aqua{
 		}
 
 		function syncHeatSink(){
-			heatSink.themask.width=viewWidth;
+			heatSink.themask.width=viewWidth-1;
 			heatSink.y=contentHeight+y-HEAT_SINK_HEIGHT;
 			if(viewHeight>heatSink.y){
 				heatSink.visible=true;

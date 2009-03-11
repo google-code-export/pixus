@@ -5,6 +5,7 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.display.NativeWindow;
 	import flash.display.NativeWindowInitOptions;
@@ -12,7 +13,7 @@ package {
 	import flash.text.TextFieldAutoSize;
 	import flash.events.MouseEvent;
 
-	public class pixusRulerDragger extends MovieClip {
+	public class pixusRulerDragger extends Sprite {
 		public function pixusRulerDragger():void {
 			tfSize.autoSize=TextFieldAutoSize.LEFT;
 			hotspot.useHandCursor=false;

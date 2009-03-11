@@ -13,6 +13,7 @@ package {
 	import flash.display.NativeMenu;
 	import flash.display.NativeMenuItem;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -33,22 +34,23 @@ package {
 	import codeplay.event.customEvent;
 	import codeplay.utils.copyObjectDeep;
 
-	public class pixusShell extends MovieClip {
+	public class pixusShell extends Sprite {
 		public static  const APP_NAME:String='Pixus';
 		public static  const APP_PATH:String='/';
 		public static  const UI_TWEENING_TIME:Number=.3;
 		public static  const ROW_WIDTH:int=300;
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
-		public static  const PIXUS_PANEL_X:int=450;
+		public static  const PIXUS_PANEL_X:int=400;
 		public static  const PIXUS_PANEL_Y:int=100;
-		public static  const UPDATE_PANEL_X:int=100;
-		public static  const UPDATE_PANEL_Y:int=100;
+		public static  const UPDATE_PANEL_X:int=50;
+		public static  const UPDATE_PANEL_Y:int=50;
 		public static  const PREFERENCES_PANEL_WIDTH:int=300;
-		public static  const PREFERENCES_PANEL_X:int=100;
-		public static  const PREFERENCES_PANEL_Y:int=400;
+		public static  const PREFERENCES_PANEL_X:int=50;
+		public static  const PREFERENCES_PANEL_Y:int=350;
 
 		// Custom Events
+		public static  const EVENT_TAB_ACTIVATED:String='PixusEventTabActivated'; // Preferences Tab Icon Clicked
 		public static  const EVENT_SYNC_WINDOW_SIZE:String='PixusEventSyncWindowSize';
 		public static  const EVENT_SYNC_MENU:String='PixusEventSyncMenu';// Sync System Tray / Dock Icon Menu To The Presets
 		public static  const EVENT_SYNC_PRESETS:String='PixusEventSyncPresets';// Sync Preferences / Presets

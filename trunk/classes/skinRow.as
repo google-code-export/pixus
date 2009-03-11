@@ -5,6 +5,7 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.Loader;
 	import flash.text.TextField;
 	import flash.text.TextFormat;

@@ -5,9 +5,10 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 
-	public class pixusOverlay extends MovieClip {
+	public class pixusOverlay extends Sprite {
 		public function pixusOverlay():void {
 			visible=false;
 		}

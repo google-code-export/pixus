@@ -5,6 +5,7 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.display.NativeWindow;
 	import flash.display.NativeWindowInitOptions;
@@ -14,7 +15,7 @@ package {
 	import flash.geom.Rectangle;
 	import flash.geom.Point;
 
-	public class pixusRulerResizer extends MovieClip {
+	public class pixusRulerResizer extends Sprite {
 		private var _pixus:pixus=parent.parent as pixus; // _pixus will handle resizing and moving
 		private var dx, dy:int;
 
