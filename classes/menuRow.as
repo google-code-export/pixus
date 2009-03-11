@@ -5,6 +5,7 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.text.TextFieldAutoSize;
@@ -16,7 +17,7 @@ package {
 
 	import caurina.transitions.Tweener;
 
-	public class menuRow extends MovieClip {
+	public class menuRow extends Sprite {
 		public static var dragging:Boolean=false;
 		static var rows:Array=[];
 		var id, rowWidth, rowHeight:int;

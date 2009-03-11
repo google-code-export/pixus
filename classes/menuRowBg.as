@@ -5,6 +5,7 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -17,7 +18,7 @@ package {
 
 	import caurina.transitions.Tweener;
 
-	public class menuRowBg extends MovieClip {
+	public class menuRowBg extends Sprite {
 		const HIDE_BG:String='menuRowEventHideBg';
 		const SHOW_BG:String='menuRowEventShowBg';
 

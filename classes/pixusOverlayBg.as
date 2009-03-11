@@ -5,9 +5,10 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 
-	public class pixusOverlayBg extends MovieClip {
+	public class pixusOverlayBg extends Sprite {
 		public function pixusOverlayBg():void {
 			addEventListener(Event.ENTER_FRAME, handleInit);
 		}

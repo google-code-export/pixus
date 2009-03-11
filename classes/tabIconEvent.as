@@ -1,1 +1,0 @@
-﻿// tabIconEvent class// Version 0.8.0 2008-06-25// (cc)2007-2008 01media jungle// By Jam Zhang// jam@01media.cnpackage{	import flash.events.Event;	public class tabIconEvent extends Event{		public static const ACTIVATED:String='TabIconActivated';		var targetObj:Object;		function tabIconEvent(t:String, o:Object):void{			targetObj=o;			super(t);		}	}}

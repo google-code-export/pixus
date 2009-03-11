@@ -5,13 +5,14 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.display.SimpleButton;
 	import flash.display.NativeWindow;
 	import flash.events.MouseEvent;
 	import flash.desktop.NativeApplication;
 	import codeplay.event.customEvent;
 
-	public class rulerButtons extends MovieClip {
+	public class rulerButtons extends Sprite {
 		public function rulerButtons():void {
 			buttonOverlay.addEventListener(MouseEvent.CLICK, handleButtons);
 			buttonPreferences.addEventListener(MouseEvent.CLICK, handleButtons);

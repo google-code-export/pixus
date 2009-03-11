@@ -5,11 +5,12 @@
 
 package {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.text.TextFieldAutoSize;
 
-	public class rulerMark extends MovieClip {
+	public class rulerMark extends Sprite {
 
 		public function rulerMark(text:String) {
 			(getChildByName('tf') as TextField).text=text;
