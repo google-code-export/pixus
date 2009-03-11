@@ -2,12 +2,10 @@
 <data>
 		<latest>
 			<version>0.9.4</version>
-			<release>42</release>
-			<date>3-10-2009</date>
-			<size>193KB</size>
-			<note>Features
-- Auto-update
-- Shortcut keys</note>
+			<release>45</release>
+			<date>3-11-2009</date>
+			<size>196KB</size>
+			<note>Features added and bugs fixed.</note>
 		</latest>
 		<source>http://www.withloveandjoy.net/download/pixus.air</source>
 		<nosource>http://pixus.googlecode.com/files/pixus_v0.9.3.air</nosource>

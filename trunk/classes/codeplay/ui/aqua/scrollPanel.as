@@ -147,7 +147,7 @@ package codeplay.ui.aqua{
 		}
 
 		function syncHeatSink(){
-			heatSink.themask.width=viewWidth-1;
+			heatSink.themask.width=viewWidth-2;
 			heatSink.y=contentHeight+y-HEAT_SINK_HEIGHT;
 			if(viewHeight>heatSink.y){
 				heatSink.visible=true;

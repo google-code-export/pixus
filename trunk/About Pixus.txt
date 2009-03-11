@@ -31,6 +31,17 @@ Features to add
 - Multi-monitor support
 
 
+Pixus Version 0.9.4 R45 - Mar 11, 2009
+
+Features
+- Options added to Preferences | Options Panel
+	- Pixus Always In Front
+	- Start Pixus At Login
+
+Bugs fixed
+- Scroll panel background has 1px visual leaking at the right edge.
+
+
 Pixus Version 0.9.4 R42 - Mar 10, 2009
 
 Features
