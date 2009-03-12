@@ -42,12 +42,12 @@ package {
 		public static  const PRESET_ROW_HEIGHT:int=25;
 		public static  const SKIN_ROW_HEIGHT:int=50;
 		public static  const PIXUS_PANEL_X:int=400;
-		public static  const PIXUS_PANEL_Y:int=100;
+		public static  const PIXUS_PANEL_Y:int=200;
 		public static  const UPDATE_PANEL_X:int=50;
 		public static  const UPDATE_PANEL_Y:int=50;
 		public static  const PREFERENCES_PANEL_WIDTH:int=300;
 		public static  const PREFERENCES_PANEL_X:int=50;
-		public static  const PREFERENCES_PANEL_Y:int=350;
+		public static  const PREFERENCES_PANEL_Y:int=320;
 
 		// Custom Events
 		public static  const EVENT_TAB_ACTIVATED:String='PixusEventTabActivated'; // Preferences Tab Icon Clicked
@@ -77,6 +77,7 @@ package {
 		{width:1024,height:768,comments:'XGA'}
 		];
 
+		var mcPixus:pixus;
 		var windowPixus:hidingWindow;
 		var windowPreferences:hidingWindow;
 		var windowUpdate:hidingWindow;
@@ -117,7 +118,8 @@ package {
 			option.transparent=true;
 			windowPixus=new hidingWindow(option);
 			windowPixus.title = 'Pixus';
-			windowPixus.stage.addChild(new pixus(this));
+			mcPixus=new pixus(this);
+			windowPixus.stage.addChild(mcPixus);
 
 			//Create Preferences Window
 			option=new NativeWindowInitOptions();
@@ -234,7 +236,7 @@ package {
 			}
 			iconMenu.addItem(new NativeMenuItem('',true));
 
-			item=new NativeMenuItem('Find Pixus');
+			item=new NativeMenuItem('Find Panels');
 			item.addEventListener(Event.SELECT,handleFindBack);
 			item.mnemonicIndex=0;
 			item.keyEquivalent='f';
@@ -257,7 +259,7 @@ package {
 			item.addEventListener(Event.SELECT,handleExit);
 			iconMenu.addItem(item);
 			var sysTrayIcon=NativeApplication.nativeApplication.icon;
-			sysTrayIcon.menu = iconMenu;
+			sysTrayIcon.menu = mcPixus.main.dragger.contextMenu = iconMenu;
 		}
 
 		function handleSyncMenu(event:Event):void {
@@ -292,7 +294,7 @@ package {
 		}
 
 		// pixusShell handle finding back of the preferences window
-		function handleFindBackEvent(event:Event):void { // Real find back codes
+		function handleFindBackEvent(event:Event):void { // Real find panels codes
 			togglePixusWindow(true);
 			togglePreferencesWindow(true);
 			toggleUpdateWindow(true);

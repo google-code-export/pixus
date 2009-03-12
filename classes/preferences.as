@@ -76,10 +76,12 @@ package {
 			rebuildPresets();
 
 			// Optionss Panel
-			panels.panelOptions.inner.cbAlwaysInFront.checked=pixusShell.options.alwaysInFront;
-			panels.panelOptions.inner.cbAlwaysInFront.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
-			panels.panelOptions.inner.cbStartAtLogin.checked=NativeApplication.nativeApplication.startAtLogin;
-			panels.panelOptions.inner.cbStartAtLogin.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
+			try{
+				panels.panelOptions.inner.cbAlwaysInFront.checked=pixusShell.options.alwaysInFront;
+				panels.panelOptions.inner.cbAlwaysInFront.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
+				panels.panelOptions.inner.cbStartAtLogin.checked=NativeApplication.nativeApplication.startAtLogin;
+				panels.panelOptions.inner.cbStartAtLogin.addEventListener(MouseEvent.CLICK, handleOptionCheckBox);
+			}catch(error){}
 
 			// Skins Panel
 			panels.panelSkins.bottomControl.bFind.addEventListener(MouseEvent.CLICK, handleFindBackButton);

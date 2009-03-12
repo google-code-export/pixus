@@ -27,8 +27,14 @@ Features to add
 Pixus Version 1.0.0 - Coming up
 
 Features to add
-- Auto-update from multi-source
 - Multi-monitor support
+
+
+Pixus Version 0.9.4 R46 - Mar 12, 2009
+
+Features
+- Right-click on dragger will open up the System Tray menu.
+- Click anywhere on the Native Ruler Skin starts moving.
 
 
 Pixus Version 0.9.4 R45 - Mar 11, 2009

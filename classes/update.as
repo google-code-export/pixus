@@ -27,6 +27,8 @@ package {
 	import flash.desktop.Updater;
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
+	import flash.utils.setInterval;
+	import flash.utils.clearInterval;
 
 	public class update extends Sprite {
 
@@ -45,6 +47,7 @@ package {
 		private var fileData:ByteArray = new ByteArray(); 
 		private var file:File;
 		private var downloadSince:int; // Time value for estimating time remaining
+		private var intervalId:int;
 
 		function update():void {
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -108,7 +111,12 @@ package {
 
 		function checkUpdate():void {
 			panels.slideToPanel(STATE_CHECKING);
+			intervalId=setInterval(doCheckUpdate,2000);
+		}
+
+		function doCheckUpdate():void {
 			urlLoader.load(new URLRequest(pixusShell.options.updateFeedURL));
+			clearInterval(intervalId);
 		}
 
 		function handleLoader(event:Event):void {
