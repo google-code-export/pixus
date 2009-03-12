@@ -38,6 +38,7 @@ package {
 
 		public function init(event:Event):void {
 			shell=(parent as pixus).shell;
+			rulers.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_APPLY_SKIN, handleSkin);
 			handleSkin();
 		}
