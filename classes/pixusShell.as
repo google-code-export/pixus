@@ -59,6 +59,7 @@ package {
 		public static  const EVENT_RESET_PRESETS:String='PixusEventResetPresets';// Reset Preferences / Presets
 		public static  const EVENT_PRESETS_CHANGE:String='PixusEventPresetsChange';// Presets Data Changed
 		public static  const EVENT_CHECK_UPDATE:String='PixusEventCheckUpdate';// Check For Update
+		public static  const EVENT_START_FREE_DRAG:String='PixusEventStartFreeDrag';// Start Multi-screen Drag
 		public static  const SHOW_PREFERENCES:String='PixusEventShowPreferences';// Show Preferences Window
 		public static  const HIDE_PREFERENCES:String='PixusEventHidePreferences';// Hide Preferences Window
 		public static  const SHOW_PIXUS:String='PixusEventShowPixus';// Show Pixus Window
@@ -115,7 +116,7 @@ package {
 			option=new NativeWindowInitOptions();
 			option.type=NativeWindowType.UTILITY ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
-			option.transparent=true;
+//			option.transparent=true;
 			windowPixus=new hidingWindow(option);
 			windowPixus.title = 'Pixus';
 			mcPixus=new pixus(this);

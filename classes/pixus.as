@@ -152,16 +152,24 @@ package {
 			}
 		}
 
-		function moveRel(dx:int,dy:int){
+		function moveRel(dx:int,dy:int,save:Boolean=true){
 			main.x+=dx;
 			main.y+=dy;
 			overlay.themask.inner.x+=dx;
 			overlay.themask.inner.y+=dy;
+			if(save){
+				pixusShell.options.pixusWindow.x=main.x;
+				pixusShell.options.pixusWindow.y=main.y;
+			}
 		}
 
-		function moveTo(x:int,y:int){
+		function moveTo(x:int,y:int,save:Boolean=true){
 			main.x=overlay.themask.inner.x=x;
 			main.y=overlay.themask.inner.y=y;
+			if(save){
+				pixusShell.options.pixusWindow.x=x;
+				pixusShell.options.pixusWindow.y=y;
+			}
 		}
 
 		function resizeRel(dw:int,dh:int){
@@ -213,7 +221,7 @@ package {
 						break;
 					}
 					pixusShell.options.pixusWindow.x=main.x+stage.nativeWindow.x;// Because nativeWindow.x==-2 when maximized
-					pixusShell.options.pixusWindow.y=main.y+stage.nativeWindow.y;// Because nativeWindow.x==-4 when maximized
+					pixusShell.options.pixusWindow.y=main.y+stage.nativeWindow.y;// Because nativeWindow.y==-4 when maximized
 					break;
 			}
 		}
