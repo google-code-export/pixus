@@ -353,8 +353,10 @@ package {
 				windowUpdate.orderToFront();
 		}
 
-		public function get currentSkin():XML {
-			return options.skin==0?null:skinpresets.skin[options.skin];
+		public function getSkin(id:int=-1):XML {
+			if(id<0)
+				id=options.skin;
+			return skinpresets.skin[id];
 		}
 	}
 }
