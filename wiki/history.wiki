@@ -1,22 +1,106 @@
-#labels version,history
-Pixus
-The Pixel Ruler for Screen Objects
-
+#labels version,history,Featured,Phase-Support
 Version History
- 
-Pixus Version 1.0.0 - Coming up
+
+Pixus Version 1.1.0 - Coming up
 
 Features to add
-- Keyboard fine control
-- Shortcut keys
+- Screen capture under Windows
+
+
+Pixus Version 1.0 R49 - Mar 19, 2009
+
+Features
+- Multi-screen support.
+
+
+Pixus Version 0.9.4 R46 - Mar 12, 2009
+
+Features
+- Right-click on dragger will open up the System Tray menu.
+- Click anywhere on the Native Ruler Skin starts moving.
+
+
+Pixus Version 0.9.4 R45 - Mar 11, 2009
+
+Features
+- Options added to Preferences | Options Panel
+	- Pixus Always In Front
+	- Start Pixus At Login
+
+Bugs fixed
+- Scroll panel background has 1px visual leaking at the right edge.
+
+
+Pixus Version 0.9.4 R42 - Mar 10, 2009
+
+Features
+- Find Panels also shrink Preferences panel to the minimal height.
+
+Bugs fixed
+- Progress bar doesn't grow to the full width when 100% completed.
+
+
+Pixus Version 0.9.4 R41 - Mar 8, 2009
+
+Features
+- New UI applied to update window
+
+
+Pixus Version 0.9.4 R39 - Mar 7, 2009
+
+Features
+- New UI applied to the ruler and preferences window
+- Apply a preset from Preferences / Presets
+
+Bugs fixed
+- Mis-remembering of visibility and position of panels.
+- Ctrl+Arrow occupied by Mac OS X. Ctrl replaced with Command.
+
+
+Pixus Version 0.9.4 R31 - Mar 3, 2009
+
+Bugs fixed
+- Mask unsynchronized when applying another size from the presets or resizing due to Find Back.
+
+
+Pixus Version 0.9.4 R30 - Mar 2, 2009
+
+Bugs fixed
+- Unable to quit under Mac OS
+
+
+Pixus Version 0.9.4 R25 - Feb 27, 2009
+
+Features
+- Auto-update
+- New logo design
+
+Bug fixed
+- Alt-F4 in Windows will hide the panel instead of closing it
 
 Bugs to fix
+- Quit application doesn't work in Mac OS X
+
+
+Pixus Version 0.9.2 R19 - Jan 27, 2009
+
+Features
+- Keyboard fine control
+- Keyboard Tips and First Aid added to the Help Panel
+
+
+Pixus Version 0.9.1 R16 - Jan 17, 2009
+
+Features
+- Find Pixus feature added, in Preference / Help and the system tray / dock menu, to centralize windows in case windows are out of screen and no way to move
+- Reset Presets button added in Preference / Help to roll-back presets to the default settings
+
+Bugs fixed
 - Press ESC under overlay (fullscreen) mode
 - Skin minimal size (partial fixed)
-- Ruler out of screen and no way back (event by reinstalling Pixus)
-- Auto-update (Brilliant framework included in AIR 1.5)
 
-Pixus Version 0.9.0 - July 16, 2008
+
+Pixus Version 0.9.0 R12 - July 16, 2008
 
 Features
 - Ruler interfaced improved.
