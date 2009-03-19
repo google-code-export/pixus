@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <settings>
 	<version>
-		<version>0.9.4</version>
-		<release>46</release>
-		<date>3-12-2009</date>
+		<version>0.9.5</version>
+		<release>49</release>
+		<date>3-19-2009</date>
 	</version>
 	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
 	<skinpresets>
 		<skin title="Ruler" subtitle="Pixus Native Skin" >
 			<file thumbnail="skin/skin_pixus_ruler_tn.png" />
+			<dragger x="0" y="-5" />
+			<resizer position="r" offsetx="20" />
+			<resizer position="b" offsety="20" />
 		</skin>
 		<skin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />

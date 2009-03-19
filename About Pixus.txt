@@ -1,14 +1,16 @@
 Pixus
-The Pixel Ruler for Screen Objects
+The AIR pixel ruler application. A handy tool for web and interface designers.
 
-You can not only measure the screen objects in pixels. With overlay mode and presets, you can also preview how your design will look in the real environment. Ideal for web and interface designers. 
+1) Measure the screen objects in pixels using both mouse and keyboard control.
+2) Preview your design with skins and presets.
+3) Multi-screen supported.
 
-No support yet. Any comment, suggestion and correction will be welcomed. Please contact jammind@gmail.com
+Support via jammind@gmail.com
 
-On Adobe AIR Marketplace
+Installation package always updated at Adobe AIR Marketplace
 http://www.adobe.com/cfusion/marketplace/index.cfm?event=marketplace.offering&offeringid=10177&marketplaceid=1
 
-On GoogleCode
+Source code available at GoogleCode
 http://code.google.com/p/pixus/
 
 (cc)2007-2009 codeplay
@@ -24,10 +26,10 @@ Features to add
 - Screen capture under Windows
 
 
-Pixus Version 1.0.0 - Coming up
+Pixus Version 1.0 R49 - Mar 19, 2009
 
-Features to add
-- Multi-monitor support
+Features
+- Multi-screen support.
 
 
 Pixus Version 0.9.4 R46 - Mar 12, 2009

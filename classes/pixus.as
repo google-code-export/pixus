@@ -38,7 +38,6 @@ package {
 		const MARGIN_BOTTOM:uint=200;
 
 		public var shell:pixusShell;
-//		var options:Object=SharedObject.getLocal('preferences',pixusShell.APP_PATH).data;
 
 		function pixus(pshell:pixusShell):void {
 			shell=pshell;

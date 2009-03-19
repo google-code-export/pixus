@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data>
 		<latest>
-			<version>0.9.4</version>
-			<release>46</release>
-			<date>3-12-2009</date>
-			<size>197 KB</size>
+			<version>0.9.5</version>
+			<release>49</release>
+			<date>3-19-2009</date>
+			<size>201 KB</size>
 			<note>Features added and bugs fixed.</note>
 		</latest>
 		<source>http://www.withloveandjoy.net/download/pixus.air</source>

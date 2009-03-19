@@ -26,6 +26,10 @@ package {
 		const MIN_HEIGHT:uint=20;
 		const RULER_WIDTH:uint=20;
 		const RULER_HEIGHT:uint=20;
+		const FREE_DRAG_WIDTH:uint=310;
+		const FREE_DRAG_HEIGHT:uint=140;
+		const FREE_DRAG_OFFSET_X:int=30;
+		const FREE_DRAG_OFFSET_Y:int=50;
 
 		var shell:pixusShell;
 		private var _rulerWidth:uint;
@@ -49,14 +53,24 @@ package {
 			handleSkin();
 		}
 
+
 		// Multi-screen Drag Logic
+		// Tested in Windows
+		// Large displacement in Mac OS X
+
+		// Mouse-down
 		public function handleFreeDrag(event:Event=null):void {
 			trace('mouseDown');
 			trace('- Window '+w.x+','+w.y);
-			trace('- Pixus '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
-			tempPos={x:pixusShell.options.pixusWindow.x+w.x, y:pixusShell.options.pixusWindow.y+w.y};
+			trace('- Pixus '+_pixus.x+','+_pixus.y);
+			trace('- Pixus Main '+x+','+y);
+			trace('- Options '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
+			tempPos={
+				x:x+getDraggerX()-FREE_DRAG_OFFSET_X+w.x,
+				y:y+getDraggerY()-getDraggerY(0)-FREE_DRAG_OFFSET_Y+w.y
+			};
 			// Hide standard UI and show panel
-			rulers.visible=frame.visible=r.visible=b.visible=br.visible=false;
+			skin.visible=rulers.visible=frame.visible=r.visible=b.visible=br.visible=false;
 			panelFreeDrag.visible=true;
 			// Add event listeners
 			w.addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE,handleRestored);
@@ -66,25 +80,32 @@ package {
 		function handleRestored(e:NativeWindowDisplayStateEvent) {
 			trace('handleRestored');
 			w.removeEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE,handleRestored);
-			dragger.x=20;
-			dragger.y=-20;
+			dragger.x=getDraggerX(0);
+			dragger.y=getDraggerY(0);
+			_pixus.x=FREE_DRAG_OFFSET_X;
+			_pixus.y=FREE_DRAG_OFFSET_Y;
 			_pixus.moveTo(0,0);
 			w.x=tempPos.x;
 			w.y=tempPos.y;
-			stage.stageWidth=310;
-			stage.stageHeight=140;
+			stage.stageWidth=FREE_DRAG_WIDTH;
+			stage.stageHeight=FREE_DRAG_HEIGHT;
 			stage.addEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouseUp);
 			w.startMove();
 		}
 
+		// Mouse-up
 		function handleFreeDragMouseUp(e:MouseEvent) {
 			trace('mouseUp');
 			trace('- Window '+w.x+','+w.y);
-			trace('- Pixus '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
+			trace('- Pixus '+_pixus.x+','+_pixus.y);
+			trace('- Pixus Main '+x+','+y);
+			trace('- Options '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
 			stage.removeEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouseUp);
 			panelFreeDrag.visible=false;
-			syncDragger();
-			_pixus.moveTo(w.x,w.y);
+			dragger.x=getDraggerX();
+			dragger.y=getDraggerY();
+			_pixus.x=_pixus.y=0;
+			tempPos={x:w.x+FREE_DRAG_OFFSET_X-getDraggerX(), y:w.y+FREE_DRAG_OFFSET_Y-getDraggerY()+getDraggerY(0)};
 			w.addEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE,handleMaximized);
 			w.maximize();
 		}
@@ -92,45 +113,54 @@ package {
 		function handleMaximized(e:NativeWindowDisplayStateEvent) {
 			trace('handleMaximized');
 			w.removeEventListener(NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE,handleMaximized);
-			if(shell.currentSkin==null)
+//			_pixus.moveTo(tempPos.x,tempPos.y);
+			_pixus.moveTo(tempPos.x-w.x,tempPos.y-w.y);
+			if(pixusShell.options.skin==0)
 				rulers.visible=true;
-			frame.visible=r.visible=b.visible=br.visible=true;
+			skin.visible=frame.visible=r.visible=b.visible=br.visible=true;
+		}
+
+		function getDraggerX(id:int=-1):int{
+			return int(shell.getSkin(id).dragger.@x);
+		}
+
+		function getDraggerY(id:int=-1):int{
+			return int(shell.getSkin(id).dragger.@y);
 		}
 
 		public function syncDragger():void {
-			if(shell.currentSkin==null) // Native Ruler
-				Tweener.addTween(dragger,{x:0,y:-5,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			else
-				Tweener.addTween(dragger,{x:int(shell.currentSkin.dragger.@x),y:int(shell.currentSkin.dragger.@y),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(dragger,{x:getDraggerX(),y:getDraggerY(),time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		public function handleSkin(event:Event=null):void {
+			// Dispose of current skinPlus instance
 			if(currentSkin!=null){
 				skin.removeEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 				skin.removeChild(currentSkin);
 				currentSkin=null;
 			}
-			if(shell.currentSkin==null){ // Native Ruler
+
+			// Synchronizing positions
+			var pR:XMLList=(shell.getSkin().resizer.(@position=="r"));
+			r.offsetx=int(pR.@offsetx);
+			r.offsety=int(pR.@offsety);
+			var pBR:XMLList=(shell.getSkin().resizer.(@position=="br"));
+			br.offsetx=int(pBR.@offsetx);
+			br.offsety=int(pBR.@offsety);
+			var pB:XMLList=(shell.getSkin().resizer.(@position=="b"));
+			b.offsetx=int(pB.@offsetx);
+			b.offsety=int(pB.@offsety);
+
+			// Show and hide
+			if(pixusShell.options.skin==0){ // Native Ruler
 				rulers.visible=true;
-				r.offsetx=b.offsety=20;
-				r.offsety=br.offsetx=br.offsety=b.offsetx=0;
 				br.hotspot.alpha=1;
 				syncDragger();
 			} else { // Custom Skin
-				var pR:XMLList=(shell.currentSkin.resizer.(@position=="r"));
-				r.offsetx=int(pR.@offsetx);
-				r.offsety=int(pR.@offsety);
-				var pBR:XMLList=(shell.currentSkin.resizer.(@position=="br"));
-				br.offsetx=int(pBR.@offsetx);
-				br.offsety=int(pBR.@offsety);
-				var pB:XMLList=(shell.currentSkin.resizer.(@position=="b"));
-				b.offsetx=int(pB.@offsetx);
-				b.offsety=int(pB.@offsety);
 				br.hotspot.alpha=0;
-
 				rulers.visible=false;
 				syncDragger();
-				skin.addChild(currentSkin=new slicePlus(shell.currentSkin,pixusShell.options.width,pixusShell.options.height));
+				skin.addChild(currentSkin=new slicePlus(shell.getSkin(),pixusShell.options.width,pixusShell.options.height));
 				skin.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 			}
 		}
