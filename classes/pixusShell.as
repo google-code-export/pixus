@@ -116,7 +116,7 @@ package {
 			option=new NativeWindowInitOptions();
 			option.type=NativeWindowType.UTILITY ;
 			option.systemChrome=NativeWindowSystemChrome.NONE;
-//			option.transparent=true;
+			option.transparent=true;
 			windowPixus=new hidingWindow(option);
 			windowPixus.title = 'Pixus';
 			mcPixus=new pixus(this);
