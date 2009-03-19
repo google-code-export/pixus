@@ -86,6 +86,8 @@ package {
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
 		public static var skinpresets, settings:XML;
 		public static var options:Object=so.data;
+		public static var isMacOS:Boolean=(Capabilities.os.indexOf('mac')!=-1);
+
 		var loader:URLLoader=new URLLoader();
 		// Must initialize SharedObject first for Max OS X compatibility. Never use SharedObject.getLocal(APP_NAME,APP_PATH).data directly.
 
@@ -128,12 +130,12 @@ package {
 			option.systemChrome=NativeWindowSystemChrome.NONE;
 			option.transparent=true;
 			windowPreferences=new hidingWindow(option);
-			if (options.preferencesWindowPosition==undefined) {
-				options.preferencesWindowPosition={x:100,y:300,height:600};
+			if (options.preferencesWindow==undefined) {
+				options.preferencesWindow={x:100,y:300,height:600};
 			}
-			if (options.preferencesWindowPosition!=undefined) {
-				windowPreferences.x=options.preferencesWindowPosition.x;
-				windowPreferences.y=options.preferencesWindowPosition.y;
+			if (options.preferencesWindow!=undefined) {
+				windowPreferences.x=options.preferencesWindow.x;
+				windowPreferences.y=options.preferencesWindow.y;
 			}
 			windowPreferences.title = 'Pixus Preferences';
 			windowPreferences.width = PREFERENCES_PANEL_WIDTH+100;
@@ -202,6 +204,14 @@ package {
 			options.alwaysInFront=windowPixus.alwaysInFront=windowPreferences.alwaysInFront=windowUpdate.alwaysInFront=t;
 		}
 
+		public function get freeDragging():Boolean{
+			return mcPixus.main.freeDragging;
+		}
+
+		public function stopFreeDrag():void{
+			mcPixus.main.stopFreeDrag();
+		}
+
 		function handleWindows(event:Event):void {
 			switch(event.type){
 				case SHOW_PREFERENCES:
@@ -228,6 +238,7 @@ package {
 		function syncMenu():void {
 			var iconMenu:NativeMenu = new NativeMenu();
 			var item:NativeMenuItem;
+			
 			for (var n=0; n<options.presets.length; n++) {
 				var preset=options.presets[n];
 				item=new NativeMenuItem(preset.width+' x '+preset.height+' '+preset.comments);
@@ -236,8 +247,7 @@ package {
 				iconMenu.addItem(item);
 			}
 			iconMenu.addItem(new NativeMenuItem('',true));
-
-			item=new NativeMenuItem('Find Panels');
+				item=new NativeMenuItem('Find Panels');
 			item.addEventListener(Event.SELECT,handleFindBack);
 			item.mnemonicIndex=0;
 			item.keyEquivalent='f';
@@ -283,10 +293,10 @@ package {
 			if(firstTimeInvoke)
 				firstTimeInvoke=false;
 			else
-				if(Capabilities.os.indexOf('mac')==-1) // Always show it when launching again under Windows
-					togglePixusWindow(true);
-				else // Toggle visibility when clicking the dock icon under Mac OS X
-					togglePixusWindow();
+				if(isMacOS)
+					togglePixusWindow(); // Toggle visibility when clicking the dock icon under Mac OS X
+				else
+					togglePixusWindow(true); // Always show it when launching again under Windows
 		}
 
 		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
@@ -300,15 +310,15 @@ package {
 			togglePreferencesWindow(true);
 			toggleUpdateWindow(true);
 			// Find Preferences window
-			options.preferencesWindowPosition.x=PREFERENCES_PANEL_X;
-			options.preferencesWindowPosition.y=PREFERENCES_PANEL_Y;
-			Tweener.addTween(windowPreferences,{x:options.preferencesWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(windowPreferences,{y:options.preferencesWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			options.preferencesWindow.x=PREFERENCES_PANEL_X;
+			options.preferencesWindow.y=PREFERENCES_PANEL_Y;
+			Tweener.addTween(windowPreferences,{x:options.preferencesWindow.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowPreferences,{y:options.preferencesWindow.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			// Find Update window
-			options.updateWindowPosition.x=UPDATE_PANEL_X;
-			options.updateWindowPosition.y=UPDATE_PANEL_Y;
-			Tweener.addTween(windowUpdate,{x:options.updateWindowPosition.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(windowUpdate,{y:options.updateWindowPosition.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			options.updateWindow.x=UPDATE_PANEL_X;
+			options.updateWindow.y=UPDATE_PANEL_Y;
+			Tweener.addTween(windowUpdate,{x:options.updateWindow.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowUpdate,{y:options.updateWindown.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function doResetPresets(event:Event):void {

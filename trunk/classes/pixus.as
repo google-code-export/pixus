@@ -4,6 +4,13 @@
 // (cc)2007-2009 codeplay
 // By Jam Zhang
 // jam@01media.cn
+//
+// General Interface
+// Methods below have the complete logic are recommend to invoke for general purposes
+//   moveTo() - Absolute Move
+//   moveRel() - Relative Movement
+//   resizeTo() - Absolute Resizing
+//   resizeRel() - Relative Resizing
 
 package {
 	import flash.display.NativeWindow;
@@ -38,14 +45,16 @@ package {
 		const MARGIN_BOTTOM:uint=200;
 
 		public var shell:pixusShell;
+		private var w:NativeWindow;
 
 		function pixus(pshell:pixusShell):void {
 			shell=pshell;
-			addEventListener(Event.ADDED_TO_STAGE, handleInit);
+			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
-		public function handleInit(event:Event):void {
+		public function init(event:Event):void {
 
+			w=stage.nativeWindow;
 			stage.scaleMode=StageScaleMode.NO_SCALE;
 			stage.align=StageAlign.TOP_LEFT;
 			stage.nativeWindow.minSize=new Point(210,50);
@@ -110,14 +119,32 @@ package {
 		}
 
 		function startMove():void {
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
-			stage.addEventListener(MouseEvent.MOUSE_UP,handleMouse);
-			main.startDrag();
+//			if(!shell.freeDragging){
+				stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
+				stage.addEventListener(MouseEvent.MOUSE_UP,handleMouse);
+				main.startDrag();
+//			}
 		}
 
 		//
 		function handleKeys(event:KeyboardEvent) {
 			var inc:int=event.shiftKey?10:1; // Shift = Speed Up
+			if(shell.freeDragging){
+				switch(event.keyCode){
+					case Keyboard.LEFT:
+						w.x-=inc;
+						break;
+					case Keyboard.RIGHT:
+						w.x+=inc;
+						break;
+					case Keyboard.UP:
+						w.y-=inc;
+						break;
+					case Keyboard.DOWN:
+						w.y+=inc;
+						break;
+				}
+			} else {
 			if(event.controlKey || event.commandKey){ // Control / Command + Directions = Resize
 				switch(event.keyCode){
 					case Keyboard.LEFT:
@@ -148,6 +175,7 @@ package {
 						moveRel(0,inc);
 						break;
 				}
+			}
 			}
 		}
 
@@ -187,11 +215,13 @@ package {
 		}
 
 		function handleWindowSize(event:customEvent) {
+			shell.stopFreeDrag();
 			resizeTo(event.data.width,event.data.height);
 		}
 
 		// pixus handle finding back of the pixus window
 		function handleFindBack(event:customEvent) {
+			shell.stopFreeDrag();
 			var w1:int=main.rulerWidth;
 			var h1:int=main.rulerHeight;
 			if(main.rulerWidth>stage.nativeWindow.width*.8)
@@ -200,7 +230,9 @@ package {
 				h1=stage.nativeWindow.height*.5;
 			if(w1!=main.rulerWidth||h1!=main.rulerHeight)
 				resizeTo(w1,h1);
-			
+
+			pixusShell.options.pixusWindow.x=pixusShell.PIXUS_PANEL_X;
+			pixusShell.options.pixusWindow.y=pixusShell.PIXUS_PANEL_Y;
 			Tweener.addTween(main,{x:pixusShell.PIXUS_PANEL_X,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(main,{y:pixusShell.PIXUS_PANEL_Y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 			Tweener.addTween(overlay.themask.inner,{x:pixusShell.PIXUS_PANEL_X,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
@@ -226,6 +258,7 @@ package {
 		}
 
 		function toggleOverlay():void {
+			shell.stopFreeDrag();
 			if (pixusShell.options.pixusWindow.overlayMode) {
 				pixusShell.options.pixusWindow.overlayMode=overlay.visible=false;
 			} else {
