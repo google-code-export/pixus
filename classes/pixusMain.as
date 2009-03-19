@@ -38,6 +38,7 @@ package {
 		private var currentSkin:slicePlus=null;
 		private var w:NativeWindow;
 		private var tempPos:Object;
+		public var freeDragging:Boolean=false;
 
 		public function pixusMain() {
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -58,13 +59,19 @@ package {
 		// Tested in Windows
 		// Large displacement in Mac OS X
 
-		// Mouse-down
-		public function handleFreeDrag(event:Event=null):void {
+		function traceFreeDrag(){
 			trace('mouseDown');
 			trace('- Window '+w.x+','+w.y);
 			trace('- Pixus '+_pixus.x+','+_pixus.y);
 			trace('- Pixus Main '+x+','+y);
 			trace('- Options '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
+		}
+
+		// Mouse-down on Dragger Button
+		public function handleFreeDrag(event:Event=null):void {
+//			traceFreeDrag();
+			// Disable interactions that conflict with normal window mode
+			freeDragging=true;
 			tempPos={
 				x:x+getDraggerX()-FREE_DRAG_OFFSET_X+w.x,
 				y:y+getDraggerY()-getDraggerY(0)-FREE_DRAG_OFFSET_Y+w.y
@@ -89,18 +96,39 @@ package {
 			w.y=tempPos.y;
 			stage.stageWidth=FREE_DRAG_WIDTH;
 			stage.stageHeight=FREE_DRAG_HEIGHT;
-			stage.addEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouseUp);
+			if(pixusShell.isMacOS){
+				// 2 steps under Mac OS X to avoid startDrag() malfunctioning
+				panelFreeDrag.addEventListener(MouseEvent.MOUSE_DOWN,handleFreeDragMouse);
+				dragger.hotspot.addEventListener(MouseEvent.MOUSE_DOWN,handleFreeDragMouse);
+			} else
+				// Direct drag'n'drop under Windows
+				beginFreeDrag();
+		}
+
+		// Free Drag Panel Mouse Handler
+		function handleFreeDragMouse(e:MouseEvent) {
+			switch(e.type){
+				case MouseEvent.MOUSE_DOWN:
+					beginFreeDrag();
+					break;
+				case MouseEvent.MOUSE_UP:
+					stage.removeEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouse);
+					stopFreeDrag();
+					break;
+			}
+		}
+
+		public function beginFreeDrag(){
+			panelFreeDrag.removeEventListener(MouseEvent.MOUSE_DOWN,handleFreeDragMouse);
+			dragger.hotspot.removeEventListener(MouseEvent.MOUSE_DOWN,handleFreeDragMouse);
+			stage.addEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouse);
 			w.startMove();
 		}
 
-		// Mouse-up
-		function handleFreeDragMouseUp(e:MouseEvent) {
-			trace('mouseUp');
-			trace('- Window '+w.x+','+w.y);
-			trace('- Pixus '+_pixus.x+','+_pixus.y);
-			trace('- Pixus Main '+x+','+y);
-			trace('- Options '+pixusShell.options.pixusWindow.x+','+pixusShell.options.pixusWindow.y);
-			stage.removeEventListener(MouseEvent.MOUSE_UP,handleFreeDragMouseUp);
+		public function stopFreeDrag(){
+//			trace('mouseUp');
+//			traceFreeDrag();
+			freeDragging=false;
 			panelFreeDrag.visible=false;
 			dragger.x=getDraggerX();
 			dragger.y=getDraggerY();
@@ -133,6 +161,7 @@ package {
 		}
 
 		public function handleSkin(event:Event=null):void {
+			stopFreeDrag();
 			// Dispose of current skinPlus instance
 			if(currentSkin!=null){
 				skin.removeEventListener(MouseEvent.MOUSE_DOWN, handleDrag);

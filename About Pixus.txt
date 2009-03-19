@@ -26,7 +26,14 @@ Features to add
 - Screen capture under Windows
 
 
-Pixus Version 1.0 R49 - Mar 19, 2009
+Pixus Version 0.9.5 R51 - Mar 20, 2009
+
+Bugs Fixed
+- Multi-screen support under Mac OS X.
+- Positions not saved after Find Panels
+
+
+Pixus Version 0.9.5 R49 - Mar 19, 2009
 
 Features
 - Multi-screen support.
