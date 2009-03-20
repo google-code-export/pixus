@@ -86,7 +86,7 @@ package {
 		static var so:SharedObject=SharedObject.getLocal(APP_NAME,APP_PATH);
 		public static var skinpresets, settings:XML;
 		public static var options:Object=so.data;
-		public static var isMacOS:Boolean=(Capabilities.os.indexOf('mac')!=-1);
+		public static var isMacOS:Boolean=(Capabilities.os.indexOf('Mac')!=-1);
 
 		var loader:URLLoader=new URLLoader();
 		// Must initialize SharedObject first for Max OS X compatibility. Never use SharedObject.getLocal(APP_NAME,APP_PATH).data directly.
@@ -250,24 +250,25 @@ package {
 				item=new NativeMenuItem('Find Panels');
 			item.addEventListener(Event.SELECT,handleFindBack);
 			item.mnemonicIndex=0;
-			item.keyEquivalent='f';
+//			item.keyEquivalent='f';
 			iconMenu.addItem(item);
 
 			item=new NativeMenuItem('Preferences');
 			item.addEventListener(Event.SELECT,handlePreferences);
 			item.mnemonicIndex=0;
-			item.keyEquivalent='k';
+//			item.keyEquivalent='k';
 			iconMenu.addItem(item);
 
 			item=new NativeMenuItem('Update');
 			item.addEventListener(Event.SELECT,handleUpdate);
 			item.mnemonicIndex=0;
-			item.keyEquivalent='u';
+//			item.keyEquivalent='u';
 			iconMenu.addItem(item);
 
 			item=new NativeMenuItem('Exit');
-			item.keyEquivalent='q';
 			item.addEventListener(Event.SELECT,handleExit);
+			item.mnemonicIndex=1;
+//			item.keyEquivalent='q';
 			iconMenu.addItem(item);
 			var sysTrayIcon=NativeApplication.nativeApplication.icon;
 			sysTrayIcon.menu = mcPixus.main.dragger.contextMenu = iconMenu;
