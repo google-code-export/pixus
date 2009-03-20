@@ -2,7 +2,7 @@
 
   <id>com.codeplay.pixus</id>
 
-  <version>0.9.5</version>
+  <version>1.0</version>
 
   <filename>Pixus</filename>
 
@@ -28,10 +28,10 @@
     
     
     
-    <width>100</width>
-    <height>100</height>
-    <x>100</x>
-    <y>100</y>
+    
+    
+    
+    
   </initialWindow>
 
   <programMenuFolder>codeplay</programMenuFolder>

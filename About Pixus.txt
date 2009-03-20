@@ -26,6 +26,16 @@ Features to add
 - Screen capture under Windows
 
 
+Pixus Version 1.0 R59 - Mar 20, 2009
+
+Features
+- Help is now OS-specific.
+
+Bugs Fixed
+- Cannot detect Mac OS X.
+- Unfunctional context menu shortcuts. (Removed)
+
+
 Pixus Version 0.9.5 R51 - Mar 20, 2009
 
 Bugs Fixed

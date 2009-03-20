@@ -126,8 +126,8 @@ package {
 		}
 
 		public function stopFreeDrag(){
-//			trace('mouseUp');
-//			traceFreeDrag();
+			if(!freeDragging)
+				return;
 			freeDragging=false;
 			panelFreeDrag.visible=false;
 			dragger.x=getDraggerX();
