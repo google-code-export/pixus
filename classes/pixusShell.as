@@ -3,7 +3,7 @@
 // 2009-3-3
 // (cc)2007-2009 codeplay
 // By Jam Zhang
-// jam@01media.cn
+// jammind@gmail.com
 
 package {
 	import flash.display.NativeWindow;
@@ -319,7 +319,7 @@ package {
 			options.updateWindow.x=UPDATE_PANEL_X;
 			options.updateWindow.y=UPDATE_PANEL_Y;
 			Tweener.addTween(windowUpdate,{x:options.updateWindow.x,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
-			Tweener.addTween(windowUpdate,{y:options.updateWindown.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			Tweener.addTween(windowUpdate,{y:options.updateWindow.y,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic'});
 		}
 
 		function doResetPresets(event:Event):void {
