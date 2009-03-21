@@ -74,13 +74,15 @@ package {
 			panels.bCheck02.addEventListener(MouseEvent.CLICK,handleButtons);
 			panels.bDownload01.addEventListener(MouseEvent.CLICK,handleButtons);
 			panels.bDownload02.addEventListener(MouseEvent.CLICK,handleButtons);
+			panels.bDownload03.addEventListener(MouseEvent.CLICK,handleButtons);
 			panels.bInstall.addEventListener(MouseEvent.CLICK,handleButtons);
 			panels.bCancel.addEventListener(MouseEvent.CLICK,handleButtons);
-			urlStream.addEventListener(ProgressEvent.PROGRESS,updateProgress); 
-			urlStream.addEventListener(Event.COMPLETE,updateLoaded); 
 			urlLoader.addEventListener(Event.COMPLETE,handleLoader);
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR,handleLoader);
 			urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,handleLoader);
+			urlStream.addEventListener(IOErrorEvent.IO_ERROR,handleDownloadUpdateError);
+			urlStream.addEventListener(SecurityErrorEvent.SECURITY_ERROR,handleDownloadUpdateError);
+			urlStream.addEventListener(ProgressEvent.PROGRESS,updateProgress); 
 			checkUpdate();
 		}
 
@@ -96,6 +98,7 @@ package {
 					break;
 				case panels.bDownload01 :
 				case panels.bDownload02 :
+				case panels.bDownload03 :
 //					trace(updateInfo.source[0]);
 					downloadUpdate(updateInfo.source[0]);
 					break;
@@ -109,6 +112,27 @@ package {
 			}
 		}
 
+		function handleLoader(event:Event):void {
+			switch(event.type){
+				case Event.COMPLETE: // Update feed XML successfully loaded
+					updateInfo=new XML(event.target.data);
+					panels.tfInfo01.text=panels.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
+					compareVersions();
+					break;
+				default:
+					panels.slideToPanel(STATE_CONNECTION_FAILED);
+					break;
+			}
+		}
+
+		function compareVersions(){
+			if(pixusShell.options.version.release<updateInfo.latest.release){
+				panels.slideToPanel(STATE_OUTOFDATE);
+				stage.nativeWindow.visible=true;
+			} else
+				panels.slideToPanel(STATE_LATEST);
+		}
+
 		function checkUpdate():void {
 			panels.slideToPanel(STATE_CHECKING);
 			intervalId=setInterval(doCheckUpdate,2000);
@@ -119,32 +143,25 @@ package {
 			clearInterval(intervalId);
 		}
 
-		function handleLoader(event:Event):void {
-			switch(event.type){
-				case Event.COMPLETE: // Update feed XML successfully loaded
-					updateInfo=new XML(event.target.data);
-					panels.tfInfo01.text=panels.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
-					if(pixusShell.options.version.release<updateInfo.latest.release){
-						panels.slideToPanel(STATE_OUTOFDATE);
-						stage.nativeWindow.visible=true;
-					} else
-						panels.slideToPanel(STATE_LATEST);
-					break;
-				default:
-					panels.slideToPanel(STATE_CONNECTION_FAILED);
-					break;
-			}
-		}
-
 		function cancelUpdate():void {
-			panels.slideToPanel(STATE_OUTOFDATE);
-			urlLoader.close();
+			urlStream.removeEventListener(Event.COMPLETE,updateLoaded); 
+			compareVersions();
+			try{
+				urlStream.close();
+			} catch(Error) {
+			}
 		}
 
 		function downloadUpdate(url:XML){
 			panels.slideToPanel(STATE_DOWNLOADING);
 			downloadSince=getTimer();
+			urlStream.addEventListener(Event.COMPLETE,updateLoaded); 
 			urlStream.load(new URLRequest(url.toString())); 
+		}
+
+		function handleDownloadUpdateError():void {
+			panels.slideToPanel(STATE_DOWNLOAD_FAILED);
+			urlStream.removeEventListener(Event.COMPLETE,updateLoaded); 
 		}
 
 		function downloadingSpeed(bl:int):int{
@@ -161,6 +178,7 @@ package {
 		function updateLoaded(event:Event):void { 
 			panels.progress01.setProgress(1);
 			panels.progress02.setProgress(1);
+			urlStream.removeEventListener(Event.COMPLETE,updateLoaded); 
 		    urlStream.readBytes(fileData, 0, urlStream.bytesAvailable); 
 		    writeAirFile(); 
 			panels.slideToPanel(STATE_DOWNLOADED);

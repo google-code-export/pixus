@@ -28,9 +28,13 @@ Features to add
 
 Pixus Version 1.0 R60 - Mar 21, 2009
 
+Features Added
+- Update Anyway button added in case you want to manually install the update.
+
 Bugs Fixed
 - Find Update Panel only moves the X axis.
 - Cancel download update won't stop background downloading and will switch to Install Update screen when download finished.
+- Downloading error not handled.
 
 
 Pixus Version 1.0 R56 - Mar 20, 2009
