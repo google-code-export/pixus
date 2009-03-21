@@ -26,7 +26,14 @@ Features to add
 - Screen capture under Windows
 
 
-Pixus Version 1.0 R59 - Mar 20, 2009
+Pixus Version 1.0 R60 - Mar 21, 2009
+
+Bugs Fixed
+- Find Update Panel only moves the X axis.
+- Cancel download update won't stop background downloading and will switch to Install Update screen when download finished.
+
+
+Pixus Version 1.0 R56 - Mar 20, 2009
 
 Features
 - Help is now OS-specific.
