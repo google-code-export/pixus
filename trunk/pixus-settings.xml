@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>1.0</version>
-		<release>60</release>
-		<date>3-21-2009</date>
+		<release>61</release>
+		<date>3-31-2009</date>
 	</version>
 	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
 	<skinpresets>
