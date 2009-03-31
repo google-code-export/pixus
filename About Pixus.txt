@@ -26,6 +26,12 @@ Features to add
 - Screen capture under Windows
 
 
+Pixus Version 1.0 R61 - Mar 31, 2009
+
+Bugs Fixed
+- OS-specific help always show Windows version.
+
+
 Pixus Version 1.0 R60 - Mar 21, 2009
 
 Features Added
