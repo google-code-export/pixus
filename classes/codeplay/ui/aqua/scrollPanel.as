@@ -4,28 +4,28 @@
 // By Jam Zhang
 // jam@01media.cn
 
-package codeplay.ui.aqua{
+// Construction
+//
+
+package codeplay.ui.minimal{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
 	import flash.display.MovieClip;
+	import flash.geom.Rectangle;
 	import codeplay.ui.aqua.scrollBar;
 	import codeplay.event.customEvent;
+	import codeplay.utils.sharedVariables;
 	import caurina.transitions.Tweener;
 
 	public class scrollPanel extends Sprite {
 
-		public static const HEAT_SINK_HEIGHT:int=20;
-
 		var viewWidth:int=300;
 		var viewHeight:int=300;
 		var vScrollBar:scrollBar=null;
+		var hScrollBar:scrollBar=null;
 
-		var panelBgContainer:Sprite=new Sprite();
 		var panelMask:Sprite=new Sprite();
-		var panelBg:Sprite=new Sprite();
-		var heatSink:scrollPanelHeatSink=new scrollPanelHeatSink();
-		var edge:scrollPanelEdgeLight=new scrollPanelEdgeLight();
 
 		public var scrollDelta:int=10;
 		public var snapping:Boolean=false;
@@ -61,106 +61,94 @@ package codeplay.ui.aqua{
 			parent.addChild(panelMask);
 			mask=panelMask;
 
-			// Adding panel bg
-			panelBg.graphics.beginFill(0x222222);
-			panelBg.graphics.drawRect(0,0,viewWidth-2,viewHeight);
-			panelBg.graphics.endFill();
-			panelBg.alpha=.5;
-//			panelBgContainer.addChild(panelBg);
-
-			// Adding scroll panel bg shade
-//			panelBgContainer.addChild(new scrollPanelBgShade());
-
-			// Adding heat sink
-			panelBgContainer.addChild(heatSink);
-			syncHeatSink();
-
-			// Adding bottom bar top edge
-			edge.y=viewHeight;
-			panelBgContainer.addChild(edge);
-
-			// Adding containers
-			panelBgContainer.x=1;
-			parent.addChild(panelBgContainer);
-			parent.swapChildren(this,panelBgContainer);
-
-			// Adding scrollbar
+			// Adding scrollbars
 			parent.addEventListener(customEvent.RESIZE,handleResize);
 			parent.addEventListener(customEvent.CONTENT_RESIZED,handleResize);
 			parent.addEventListener(customEvent.SCROLLING,handleScroll);
 			parent.addEventListener(customEvent.SCROLLED,handleScroll);
 			vScrollBar=new scrollBar({x:viewWidth-scrollBar.MINIMAL_WIDTH});
+			hScrollBar=new scrollBar({y:viewHeight-scrollBar.MINIMAL_HEIGHT,vertical:false});
 			parent.addChild(vScrollBar);
+			parent.addChild(hScrollBar);
 		}
 
 		function dispose(event:Event):void {
 			parent.removeChild(panelMask);
 			parent.removeChild(vScrollBar);
-			parent.removeChild(panelBgContainer);
+		}
+
+		function get contentWidth():int{
+			return width;
+		}
+
+		function get contentHeight():int{
+			return height;
 		}
 
 		function handleScroll(event:customEvent):void {
 			switch (event.type) {
 				case customEvent.SCROLLING :
-					y=Math.round((viewHeight-contentHeight)*event.data.percentage);
-					syncHeatSink();
+					// Dispatched by scrollBar
+					if(event.data.vertical)
+						y=Math.round((viewHeight-contentHeight)*event.data.percentage);
+					else
+						x=Math.round((viewWidth-contentWidth)*event.data.percentage);
 					break;
 				case customEvent.SCROLLED :
-					y=Math.round((viewHeight-contentHeight)*event.data.percentage);
-					if (snapping) {
-						var y1:int=Math.round(y/scrollDelta)*scrollDelta;
-						Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic',onUpdate:syncHeatSink});
-						syncBarPercentage(y1);
-					} else
-						syncHeatSink();
+					// Dispatched by scrollBar
+					if(event.data.vertical){
+						y=Math.round((viewHeight-contentHeight)*event.data.percentage);
+						if (snapping) {
+							var y1:int=Math.round(y/scrollDelta)*scrollDelta;
+							Tweener.addTween(this,{y:y1,time:sharedVariables.UI_TWEENING_TIME,transition:'easeOutCubic'});
+							vScrollBar.percentage=-y1/(contentHeight-viewHeight);
+						}
+					} else {
+						x=Math.round((viewWidth-contentWidth)*event.data.percentage);
+						if (snapping) {
+							var x1:int=Math.round(x/scrollDelta)*scrollDelta;
+							Tweener.addTween(this,{x:x1,time:sharedVariables.UI_TWEENING_TIME,transition:'easeOutCubic'});
+							hScrollBar.percentage=-x1/(contentWidth-viewWidth);
+						}
+					}
 					break;
 			}
 		}
 
 		function handleWheel(event:MouseEvent):void {
 			var y1:int=Math.min(0,Math.max(viewHeight-contentHeight,y+scrollDelta*event.delta));
-			Tweener.addTween(this,{y:y1,time:pixusShell.UI_TWEENING_TIME,transition:'easeOutCubic',onUpdate:syncHeatSink});
-			syncBarPercentage(y1);
-		}
-
-		function get contentHeight():int{
-			return height+HEAT_SINK_HEIGHT;
+			Tweener.addTween(this,{y:y1,time:sharedVariables.UI_TWEENING_TIME,transition:'easeOutCubic'});
+			vScrollBar.percentage=-y1/(contentHeight-viewHeight);
 		}
 
 		function handleResize(event:customEvent):void {
 			if (event.data!=null) {
-				if (event.data.viewWidth!=null)
-					viewWidth=event.data.viewWidth;
-				if (event.data.viewHeight!=null)
-					viewHeight=event.data.viewHeight;
+				resizeView(event.data.viewWidth,event.data.viewHeight);
 			}
+		}
+
+		public function resizeView(w:Object=null, h:Object=null){
+			if (w!=null)
+				viewWidth=int(w);
+			if (h!=null)
+				viewHeight=int(h);
 			y=Math.min(Math.max(viewHeight-contentHeight,y),0);
-			panelMask.width=panelBg.width=viewWidth;
-			panelBg.height=panelMask.height=edge.y=viewHeight;
+			panelMask.width=viewWidth;
+			panelMask.height=viewHeight;
 			vScrollBar.visible=(viewHeight<contentHeight);
 			if (vScrollBar.visible) {
 				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
 				vScrollBar.barLength=Math.round(viewHeight*viewHeight/contentHeight);
-				syncBarPercentage();
+				vScrollBar.railLength=viewHeight;
+				vScrollBar.percentage=-y/(contentHeight-viewHeight);
 			}
-			syncHeatSink();
-		}
-
-		function syncHeatSink(){
-			heatSink.themask.width=viewWidth-2;
-			heatSink.y=contentHeight+y-HEAT_SINK_HEIGHT;
-			if(viewHeight>heatSink.y){
-				heatSink.visible=true;
-				heatSink.themask.height=viewHeight-heatSink.y;
-			} else
-				heatSink.visible=false;
-		}
-
-		function syncBarPercentage(y1:int=1):void {
-			if (y1>0) {
-				y1=y;
+			hScrollBar.visible=(viewWidth<contentWidth);
+			if (hScrollBar.visible) {
+				hScrollBar.y=viewHeight-scrollBar.MINIMAL_HEIGHT;
+				hScrollBar.barLength=Math.round(viewWidth*viewWidth/contentWidth);
+				hScrollBar.railLength=viewWidth;
+				hScrollBar.percentage=-x/(contentWidth-viewWidth);
 			}
-			vScrollBar.percentage=-y1/(contentHeight-viewHeight);
 		}
 
 	}
