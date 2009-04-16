@@ -4,7 +4,7 @@
 // By Jam Zhang
 // jam@01media.cn
 
-package codeplay.ui.aqua{
+package codeplay.ui.minimal{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite;
@@ -19,7 +19,8 @@ package codeplay.ui.aqua{
 		const DEFAULT_ALPHA:Number=.5;
 		const ROLLOVER_ALPHA:Number=.75;
 
-		var railLenght:int=300;
+		var vertical:Boolean=true;
+		var _railLength:int=300;
 		var _barLength:int=50;
 		var x0:int=x;
 		var y0:int=y;
@@ -34,18 +35,25 @@ package codeplay.ui.aqua{
 					x=x0=data.x0;
 				if(data.y0!=undefined)
 					y=y0=data.y0;
-				if(data.railLenght!=undefined)
-					railLenght=data.railLenght;
+				if(data._railLength!=undefined)
+					_railLength=data._railLength;
 				if(data._barLength!=undefined)
 					_barLength=data.barLength;
+				if(data.vertical!=undefined)
+					vertical=data.vertical;
 			}
 			addEventListener(Event.ADDED_TO_STAGE,init);
 		}
 
 		function init(event:Event):void{
+			if(vertical){
+				width=MINIMAL_WIDTH;
+				height=_barLength;
+			} else {
+				height=MINIMAL_HEIGHT;
+				width=_barLength;
+			}
 			alpha=DEFAULT_ALPHA;
-			width=MINIMAL_WIDTH;
-			height=_barLength;
 			buttonMode=true;
 			addEventListener(MouseEvent.MOUSE_DOWN,handleMouse);
 			addEventListener(MouseEvent.MOUSE_OVER,handleMouse);
@@ -54,19 +62,22 @@ package codeplay.ui.aqua{
 		}
 
 		function handleResize(event:customEvent):void{
-			var p:Number=percentage;
 			switch(event.type){
 				case customEvent.SCROLLBAR_RESIZED:
-					railLenght=event.data.railLength;
-					percentage=p;
+					railLength=event.data.railLength;
 					break;
 				case customEvent.RESIZE:
 					if(event.data!=null){
-						railLenght=event.data.viewHeight;
-						percentage=p;
+						railLength=vertical?event.data.viewHeight:event.data.viewWidth;
 					}
 					break;
 			}
+		}
+
+		function set railLength(l:int):void{
+			var p:Number=percentage;
+			_railLength=l;
+			percentage=p;
 		}
 
 		function handleMouse(event:MouseEvent):void{
@@ -81,10 +92,13 @@ package codeplay.ui.aqua{
 					stage.addEventListener(MouseEvent.MOUSE_UP,handleMouse);
 					stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
 					removeEventListener(MouseEvent.MOUSE_OUT,handleMouse);
-					startDrag(false,new Rectangle(x0,y0,0,railLenght-_barLength));
+					if(vertical)
+						startDrag(false,new Rectangle(x,y0,0,_railLength-_barLength));
+					else
+						startDrag(false,new Rectangle(x0,y,_railLength-_barLength,0));
 					break;
 				case MouseEvent.MOUSE_UP:
-					parent.dispatchEvent(new customEvent(customEvent.SCROLLED,{percentage:percentage}));
+					parent.dispatchEvent(new customEvent(customEvent.SCROLLED,{percentage:percentage,vertical:vertical}));
 					stage.removeEventListener(MouseEvent.MOUSE_UP,handleMouse);
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
 					addEventListener(MouseEvent.MOUSE_OUT,handleMouse);
@@ -92,22 +106,28 @@ package codeplay.ui.aqua{
 					stopDrag();
 					break;
 				case MouseEvent.MOUSE_MOVE:
-					parent.dispatchEvent(new customEvent(customEvent.SCROLL,{percentage:percentage}));
-					parent.dispatchEvent(new customEvent(customEvent.SCROLLING,{percentage:percentage}));
+//					parent.dispatchEvent(new customEvent(customEvent.SCROLL,{percentage:percentage}));
+					parent.dispatchEvent(new customEvent(customEvent.SCROLLING,{percentage:percentage,vertical:vertical}));
 					break;
 			}
 		}
 
 		function get percentage():Number{
-			return (y-y0)/(railLenght-_barLength);
+			return (vertical?(y-y0):(x-x0))/(_railLength-_barLength);
 		}
 
 		function set percentage(p:Number):void{
-			y=y0+Math.round((railLenght-_barLength)*p);
+			if(vertical)
+				y=y0+Math.round((_railLength-_barLength)*p);
+			else
+				x=x0+Math.round((_railLength-_barLength)*p);
 		}
 
 		function set barLength(l:int):void{
-			height=_barLength=l;
+			if(vertical)
+				height=_barLength=l;
+			else
+				width=_barLength=l;
 		}
 
 	}
