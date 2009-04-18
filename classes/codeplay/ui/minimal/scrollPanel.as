@@ -29,6 +29,7 @@ package codeplay.ui.minimal{
 
 		public var scrollDelta:int=10;
 		public var snapping:Boolean=false;
+		public var stageWheelResponding:Boolean=false;
 
 		public function scrollPanel(data:Object=null):void {
 			if (data!=null) {
@@ -44,6 +45,9 @@ package codeplay.ui.minimal{
 				if (data.snapping!=undefined) {
 					snapping=data.snapping;
 				}
+				if (data.stageWheelResponding!=undefined) {
+					stageWheelResponding=data.stageWheelResponding;
+				}
 			}
 			addEventListener(Event.ADDED_TO_STAGE,init);
 			addEventListener(Event.REMOVED_FROM_STAGE,dispose);
@@ -52,6 +56,8 @@ package codeplay.ui.minimal{
 		function init(event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE,init);
 			addEventListener(MouseEvent.MOUSE_WHEEL,handleWheel);
+			if(stageWheelResponding)
+				stage.addEventListener(MouseEvent.MOUSE_WHEEL,handleWheel);
 
 			// Adding mask
 			panelMask.graphics.beginFill(0x000000);
@@ -75,6 +81,8 @@ package codeplay.ui.minimal{
 		function dispose(event:Event):void {
 			parent.removeChild(panelMask);
 			parent.removeChild(vScrollBar);
+			if(stageWheelResponding)
+				stage.removeEventListener(MouseEvent.MOUSE_WHEEL,handleWheel);
 		}
 
 		function get contentWidth():int{
