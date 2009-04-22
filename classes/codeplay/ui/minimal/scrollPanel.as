@@ -22,6 +22,8 @@ package codeplay.ui.minimal{
 
 		var viewWidth:int=300;
 		var viewHeight:int=300;
+		var vScrolling:Boolean=true;
+		var hScrolling:Boolean=true;
 		var vScrollBar:scrollBar=null;
 		var hScrollBar:scrollBar=null;
 
@@ -38,6 +40,12 @@ package codeplay.ui.minimal{
 				}
 				if (data.viewHeight!=undefined) {
 					viewHeight=data.viewHeight;
+				}
+				if (data.vScrolling!=undefined) {
+					vScrolling=data.vScrolling;
+				}
+				if (data.hScrolling!=undefined) {
+					hScrolling=data.hScrolling;
 				}
 				if (data.delta!=undefined) {
 					scrollDelta=data.delta;
@@ -72,10 +80,14 @@ package codeplay.ui.minimal{
 			parent.addEventListener(customEvent.CONTENT_RESIZED,handleResize);
 			parent.addEventListener(customEvent.SCROLLING,handleScroll);
 			parent.addEventListener(customEvent.SCROLLED,handleScroll);
-			vScrollBar=new scrollBar({x:viewWidth-scrollBar.MINIMAL_WIDTH});
-			hScrollBar=new scrollBar({y:viewHeight-scrollBar.MINIMAL_HEIGHT,vertical:false});
-			parent.addChild(vScrollBar);
-			parent.addChild(hScrollBar);
+			if(vScrolling){
+				vScrollBar=new scrollBar({x:viewWidth-scrollBar.MINIMAL_WIDTH});
+				parent.addChild(vScrollBar);
+			}
+			if(hScrolling){
+				hScrollBar=new scrollBar({y:viewHeight-scrollBar.MINIMAL_HEIGHT,vertical:false});
+				parent.addChild(hScrollBar);
+			}
 		}
 
 		function dispose(event:Event):void {
@@ -143,19 +155,23 @@ package codeplay.ui.minimal{
 			y=Math.min(Math.max(viewHeight-contentHeight,y),0);
 			panelMask.width=viewWidth;
 			panelMask.height=viewHeight;
-			vScrollBar.visible=(viewHeight<contentHeight);
-			if (vScrollBar.visible) {
-				vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
-				vScrollBar.barLength=Math.round(viewHeight*viewHeight/contentHeight);
-				vScrollBar.railLength=viewHeight;
-				vScrollBar.percentage=-y/(contentHeight-viewHeight);
+			if(vScrolling){
+				vScrollBar.visible=(viewHeight<contentHeight);
+				if (vScrollBar.visible) {
+					vScrollBar.x=viewWidth-scrollBar.MINIMAL_WIDTH;
+					vScrollBar.barLength=Math.round(viewHeight*viewHeight/contentHeight);
+					vScrollBar.railLength=viewHeight;
+					vScrollBar.percentage=-y/(contentHeight-viewHeight);
+				}
 			}
-			hScrollBar.visible=(viewWidth<contentWidth);
-			if (hScrollBar.visible) {
-				hScrollBar.y=viewHeight-scrollBar.MINIMAL_HEIGHT;
-				hScrollBar.barLength=Math.round(viewWidth*viewWidth/contentWidth);
-				hScrollBar.railLength=viewWidth;
-				hScrollBar.percentage=-x/(contentWidth-viewWidth);
+			if(hScrolling){
+				hScrollBar.visible=(viewWidth<contentWidth);
+				if (hScrollBar.visible) {
+					hScrollBar.y=viewHeight-scrollBar.MINIMAL_HEIGHT;
+					hScrollBar.barLength=Math.round(viewWidth*viewWidth/contentWidth);
+					hScrollBar.railLength=viewWidth;
+					hScrollBar.percentage=-x/(contentWidth-viewWidth);
+				}
 			}
 		}
 
