@@ -2,10 +2,10 @@
 <settings>
 	<version>
 		<version>1.0</version>
-		<release>61</release>
-		<date>3-31-2009</date>
+		<release>68</release>
+		<date>5-9-2009</date>
 	</version>
-	<updatefeedurl>http://www.withloveandjoy.net/download/pixus_update.xml</updatefeedurl>
+	<updatefeedurl>http://www.jpeg.cn/pixus/pixus_update.xml</updatefeedurl>
 	<skinpresets>
 		<skin title="Ruler" subtitle="Pixus Native Skin" >
 			<file thumbnail="skin/skin_pixus_ruler_tn.png" />

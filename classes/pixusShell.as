@@ -30,6 +30,7 @@ package {
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	import flash.system.Capabilities;
+	import com.google.analytics.GATracker;
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 	import codeplay.utils.copyObjectDeep;
@@ -88,6 +89,9 @@ package {
 		public static var options:Object=so.data;
 		public static var isMacOS:Boolean=(Capabilities.os.indexOf('Mac')!=-1);
 
+		// Creating a Google Analytics tracker
+		public static var tracker;
+
 		var loader:URLLoader=new URLLoader();
 		// Must initialize SharedObject first for Max OS X compatibility. Never use SharedObject.getLocal(APP_NAME,APP_PATH).data directly.
 
@@ -104,6 +108,10 @@ package {
 		}
 
 		function init(event:Event):void {
+
+			// Creating a Google Analytics tracker
+			tracker = new GATracker( this, 'UA-1806074-16', 'AS3', false );
+
 			settings=new XML(event.target.data);
 			skinpresets=settings.skinpresets;
 			if (options.skin==undefined) {
@@ -279,11 +287,14 @@ package {
 		}
 
 		function handlePresets(event:Event):void {
-			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,(event.target as NativeMenuItem).data));
+			var data:Object=(event.target as NativeMenuItem).data;
+			tracker.trackPageview( 'TrayMenu/Preset_'+data.width+'_'+data.height);
+			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,data));
 		}
 
 		// Toggle Pixus
 		function handleIcon(event:Event):void {
+			tracker.trackPageview( 'TrayIcon/'+(windowPixus.visible?'Hide':'Show'));
 			togglePixusWindow();
 		}
 
@@ -301,6 +312,7 @@ package {
 		}
 
 		function handleFindBack(event:Event):void { // Invoked from sys tray / dock menu
+			tracker.trackPageview( 'TrayMenu/FindBack');
 			// Strange! handleFindBackEvent accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(EVENT_FIND_BACK));
 		}
@@ -323,19 +335,23 @@ package {
 		}
 
 		function doResetPresets(event:Event):void {
+			tracker.trackPageview( 'TrayMenu//ResetPresets');
 			pixusShell.options.presets=copyObjectDeep(pixusShell.PRESETS);
 			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_PRESETS_CHANGE));
 		}
 
 		function handleExit(event:Event):void {
+			tracker.trackPageview( 'TrayMenu//Exit');
 			NativeApplication.nativeApplication.exit();
 		}
 
 		function handlePreferences(event:Event):void {
+			tracker.trackPageview( 'TrayMenu//Preferences');
 			togglePreferencesWindow(true);
 		}
 
 		function handleUpdate(event:Event):void {
+			tracker.trackPageview( 'TrayMenu//Update');
 			toggleUpdateWindow(true);
 		}
 
