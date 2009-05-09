@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<application xmlns="http://ns.adobe.com/air/application/1.5">
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><application xmlns="http://ns.adobe.com/air/application/1.5">
 
   <id>com.codeplay.pixus</id>
 
@@ -15,7 +14,7 @@
 
   <name>Pixus</name>
 
-  <copyright>(cc) 2007-2009 codeplay</copyright>
+  <copyright>(cc) 2007-2009 JPEG Interactive</copyright>
 
   <initialWindow>
     <content>pixus.swf</content>
@@ -35,7 +34,7 @@
     
   </initialWindow>
 
-  <programMenuFolder>codeplay</programMenuFolder>
+  <programMenuFolder>JPEG Interactive</programMenuFolder>
 
   <icon>
     <image128x128>icons/AIRApp_128.png</image128x128>
@@ -48,7 +47,7 @@
 
   <allowBrowserInvocation>false</allowBrowserInvocation>
 
-  <installFolder>codeplay</installFolder>
+  <installFolder>jpeg</installFolder>
 
 
 

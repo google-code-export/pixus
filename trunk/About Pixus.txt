@@ -26,6 +26,12 @@ Features to add
 - Screen capture under Windows
 
 
+Pixus Version 1.0 R68 - May 9, 2009
+
+Features Added
+- Google Analytics tracking.
+
+
 Pixus Version 1.0 R61 - Mar 31, 2009
 
 Bugs Fixed
