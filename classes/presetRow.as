@@ -15,9 +15,12 @@ package {
 	import flash.desktop.NativeApplication;
 	import flash.net.SharedObject;
 	import codeplay.event.customEvent;
+	import com.google.analytics.GATracker;
 	import caurina.transitions.Tweener;
 
 	public class presetRow extends menuRow {
+
+		private var tracker:GATracker=pixusShell.tracker;
 
 		public function presetRow() {
 			super(pixusShell.ROW_WIDTH,pixusShell.PRESET_ROW_HEIGHT,'presetRow');
@@ -50,12 +53,15 @@ package {
 		public function handleChange(event:Event):void {
 			switch(event.target){
 				case tfWidth:
+					tracker.trackPageview('Preferences/Presets/Edit/Width');
 					pixusShell.options.presets[id].width=int(tfWidth.text);
 					break;
 				case tfHeight:
+					tracker.trackPageview('Preferences/Presets/Edit/Height');
 					pixusShell.options.presets[id].height=int(tfHeight.text);
 					break;
 				case tfComments:
+					tracker.trackPageview('Preferences/Presets/Edit/Comments');
 					pixusShell.options.presets[id].comments=tfComments.text;
 					break;
 			}
@@ -66,12 +72,14 @@ package {
 		public function handleRemove(event:MouseEvent):void {
 			switch (event.type) {
 				case MouseEvent.CLICK :
+					tracker.trackPageview('Preferences/Presets/Remove');
 					remove();
 			}
 		}
 
 		// Handles Apply Button Click
 		function handleApply(event:Event):void {
+			tracker.trackPageview('Preferences/Presets/Apply/'+pixusShell.options.presets[id].width+'_'+pixusShell.options.presets[id].height);
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,pixusShell.options.presets[id]));
 		}
 
@@ -97,6 +105,7 @@ package {
 		public function handleDrag(event:MouseEvent):void {
 			switch (event.type) {
 				case MouseEvent.MOUSE_DOWN :
+					tracker.trackPageview('Preferences/Presets/Drag');
 					dragging=true;
 					stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMove);
 					stage.addEventListener(MouseEvent.MOUSE_UP, handleDrag);

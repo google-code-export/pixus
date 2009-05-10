@@ -29,6 +29,7 @@ package {
 	import flash.utils.getTimer;
 	import flash.utils.setInterval;
 	import flash.utils.clearInterval;
+	import com.google.analytics.GATracker;
 
 	public class update extends Sprite {
 
@@ -48,6 +49,7 @@ package {
 		private var file:File;
 		private var downloadSince:int; // Time value for estimating time remaining
 		private var intervalId:int;
+		private var tracker:GATracker=pixusShell.tracker;
 
 		function update():void {
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -87,6 +89,7 @@ package {
 		}
 
 		public function handleCloseButton(event:MouseEvent):void {
+			tracker.trackPageview( 'Update/Hide');
 			stage.nativeWindow.visible=false;
 		}
 
@@ -94,19 +97,23 @@ package {
 			switch (event.target) {
 				case panels.bCheck01 :
 				case panels.bCheck02 :
+					tracker.trackPageview( 'Update/Check');
 					checkUpdate();
 					break;
 				case panels.bDownload01 :
 				case panels.bDownload02 :
 				case panels.bDownload03 :
 //					trace(updateInfo.source[0]);
+					tracker.trackPageview( 'Update/Download');
 					downloadUpdate(updateInfo.source[0]);
 					break;
 				case panels.bInstall :
+					tracker.trackPageview( 'Update/Install');
 					var updater:Updater=new Updater();
 					updater.update(file,updateInfo.latest.version.toString());
 					break;
 				case panels.bCancel :
+					tracker.trackPageview( 'Update/Cancel');
 					cancelUpdate();
 					break;
 			}
@@ -115,11 +122,13 @@ package {
 		function handleLoader(event:Event):void {
 			switch(event.type){
 				case Event.COMPLETE: // Update feed XML successfully loaded
+					tracker.trackPageview( 'Update/Check/Succeeded');
 					updateInfo=new XML(event.target.data);
 					panels.tfInfo01.text=panels.tfInfo02.text=updateInfo.latest.version+'\n'+updateInfo.latest.release+'\n'+updateInfo.latest.date+'\n'+updateInfo.latest.size;
 					compareVersions();
 					break;
 				default:
+					tracker.trackPageview( 'Update/Check/Failed');
 					panels.slideToPanel(STATE_CONNECTION_FAILED);
 					break;
 			}
@@ -127,9 +136,11 @@ package {
 
 		function compareVersions(){
 			if(pixusShell.options.version.release<updateInfo.latest.release){
+				tracker.trackPageview( 'Update/Check/UpdateAvailable');
 				panels.slideToPanel(STATE_OUTOFDATE);
 				stage.nativeWindow.visible=true;
 			} else
+				tracker.trackPageview( 'Update/Check/UpToDate');
 				panels.slideToPanel(STATE_LATEST);
 		}
 
@@ -153,6 +164,7 @@ package {
 		}
 
 		function downloadUpdate(url:XML){
+			tracker.trackPageview( 'Update/Download/Began');
 			panels.slideToPanel(STATE_DOWNLOADING);
 			downloadSince=getTimer();
 			urlStream.addEventListener(Event.COMPLETE,updateLoaded); 
@@ -160,6 +172,7 @@ package {
 		}
 
 		function handleDownloadUpdateError():void {
+			tracker.trackPageview( 'Update/Download/Failed');
 			panels.slideToPanel(STATE_DOWNLOAD_FAILED);
 			urlStream.removeEventListener(Event.COMPLETE,updateLoaded); 
 		}
@@ -176,6 +189,7 @@ package {
 		} 
  
 		function updateLoaded(event:Event):void { 
+			tracker.trackPageview( 'Update/Download/Downloaded');
 			panels.progress01.setProgress(1);
 			panels.progress02.setProgress(1);
 			urlStream.removeEventListener(Event.COMPLETE,updateLoaded); 
