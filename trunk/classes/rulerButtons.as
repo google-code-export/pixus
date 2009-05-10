@@ -12,10 +12,12 @@ package {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.desktop.NativeApplication;
+	import com.google.analytics.GATracker;
 	import codeplay.event.customEvent;
 
 	public class rulerButtons extends Sprite {
 		var shell:pixusShell;
+		private var tracker:GATracker=pixusShell.tracker;
 
 		public function rulerButtons():void {
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -33,14 +35,18 @@ package {
 				case buttonMove:
 					if(shell.freeDragging)
 						shell.stopFreeDrag();
-					else
+					else{
+						tracker.trackPageview('Pixus/FreeDrag');
 						NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_START_FREE_DRAG));
+					}
 					break;
 				case buttonOverlay:
+					tracker.trackPageview('Pixus/Overlay/'+(pixusShell.options.pixusWindow.overlayMode?'On':'Off'));
 					shell.stopFreeDrag();
 					(parent.parent.parent as pixus).toggleOverlay();
 					break;
 				case buttonClose:
+					tracker.trackPageview('Pixus/Hide');
 					shell.stopFreeDrag();
 					NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.HIDE_PIXUS));
 					break;

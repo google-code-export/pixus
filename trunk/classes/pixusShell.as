@@ -109,8 +109,9 @@ package {
 
 		function init(event:Event):void {
 
-			// Creating a Google Analytics tracker
+			// Creating a Google Analytics tracker object and track the launch
 			tracker = new GATracker( this, 'UA-1806074-16', 'AS3', false );
+			tracker.trackPageview( 'Launch/R'+options.version.release);
 
 			settings=new XML(event.target.data);
 			skinpresets=settings.skinpresets;
@@ -288,7 +289,7 @@ package {
 
 		function handlePresets(event:Event):void {
 			var data:Object=(event.target as NativeMenuItem).data;
-			tracker.trackPageview( 'TrayMenu/Preset_'+data.width+'_'+data.height);
+			tracker.trackPageview( 'TrayMenu/Presets/Apply/'+data.width+'_'+data.height);
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(customEvent.SET_WINDOW_SIZE,data));
 		}
 
@@ -335,23 +336,22 @@ package {
 		}
 
 		function doResetPresets(event:Event):void {
-			tracker.trackPageview( 'TrayMenu//ResetPresets');
 			pixusShell.options.presets=copyObjectDeep(pixusShell.PRESETS);
 			NativeApplication.nativeApplication.dispatchEvent(new Event(EVENT_PRESETS_CHANGE));
 		}
 
 		function handleExit(event:Event):void {
-			tracker.trackPageview( 'TrayMenu//Exit');
+			tracker.trackPageview( 'TrayMenu/Exit');
 			NativeApplication.nativeApplication.exit();
 		}
 
 		function handlePreferences(event:Event):void {
-			tracker.trackPageview( 'TrayMenu//Preferences');
+			tracker.trackPageview( 'TrayMenu/Preferences');
 			togglePreferencesWindow(true);
 		}
 
 		function handleUpdate(event:Event):void {
-			tracker.trackPageview( 'TrayMenu//Update');
+			tracker.trackPageview( 'TrayMenu/Update');
 			toggleUpdateWindow(true);
 		}
 

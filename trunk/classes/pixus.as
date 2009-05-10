@@ -35,6 +35,7 @@ package {
 	import flash.ui.Keyboard;
 	import flash.geom.Point;
 	import flash.net.SharedObject;
+	import com.google.analytics.GATracker;
 	import caurina.transitions.Tweener;
 	import codeplay.event.customEvent;
 
@@ -46,6 +47,7 @@ package {
 
 		public var shell:pixusShell;
 		private var w:NativeWindow;
+		private var tracker:GATracker=pixusShell.tracker;
 
 		function pixus(pshell:pixusShell):void {
 			shell=pshell;
@@ -119,15 +121,34 @@ package {
 		}
 
 		function startMove():void {
-//			if(!shell.freeDragging){
-				stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
-				stage.addEventListener(MouseEvent.MOUSE_UP,handleMouse);
-				main.startDrag();
-//			}
+			tracker.trackPageview( 'Pixus/Drag');
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouse);
+			stage.addEventListener(MouseEvent.MOUSE_UP,handleMouse);
+			main.startDrag();
 		}
 
 		//
 		function handleKeys(event:KeyboardEvent) {
+
+			// GA tracking the keyboard control
+			switch(event.keyCode){
+				case Keyboard.LEFT:
+				case Keyboard.RIGHT:
+				case Keyboard.UP:
+				case Keyboard.DOWN:
+					var t:String='Pixus/KeyboardControl';
+					if((event.controlKey || event.commandKey)&& event.shiftKey)
+						t+='/QuickResize';
+					else if(event.controlKey || event.commandKey)
+						t+='/Resize';
+					else if(event.shiftKey)
+						t+='/QuickMove';
+					else
+						t+='/Move';
+					tracker.trackPageview(t);
+					break;
+			}
+
 			var inc:int=event.shiftKey?10:1; // Shift = Speed Up
 			if(shell.freeDragging){
 				switch(event.keyCode){
@@ -145,37 +166,37 @@ package {
 						break;
 				}
 			} else {
-			if(event.controlKey || event.commandKey){ // Control / Command + Directions = Resize
-				switch(event.keyCode){
-					case Keyboard.LEFT:
-						resizeRel(-inc,0);
-						break;
-					case Keyboard.RIGHT:
-						resizeRel(inc,0);
-						break;
-					case Keyboard.UP:
-						resizeRel(0,-inc);
-						break;
-					case Keyboard.DOWN:
-						resizeRel(0,inc);
-						break;
+				if(event.controlKey || event.commandKey){ // Control / Command + Directions = Resize
+					switch(event.keyCode){
+						case Keyboard.LEFT:
+							resizeRel(-inc,0);
+							break;
+						case Keyboard.RIGHT:
+							resizeRel(inc,0);
+							break;
+						case Keyboard.UP:
+							resizeRel(0,-inc);
+							break;
+						case Keyboard.DOWN:
+							resizeRel(0,inc);
+							break;
+					}
+				}else{ // Directions = Move
+					switch(event.keyCode){
+						case Keyboard.LEFT:
+							moveRel(-inc,0);
+							break;
+						case Keyboard.RIGHT:
+							moveRel(inc,0);
+							break;
+						case Keyboard.UP:
+							moveRel(0,-inc);
+							break;
+						case Keyboard.DOWN:
+							moveRel(0,inc);
+							break;
+					}
 				}
-			}else{ // Directions = Move
-				switch(event.keyCode){
-					case Keyboard.LEFT:
-						moveRel(-inc,0);
-						break;
-					case Keyboard.RIGHT:
-						moveRel(inc,0);
-						break;
-					case Keyboard.UP:
-						moveRel(0,-inc);
-						break;
-					case Keyboard.DOWN:
-						moveRel(0,inc);
-						break;
-				}
-			}
 			}
 		}
 

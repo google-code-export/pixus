@@ -18,6 +18,7 @@ package {
 	import flash.geom.Rectangle;
 	import codeplay.ui.aqua.scrollPanel;
 	import codeplay.event.customEvent;
+	import com.google.analytics.GATracker;
 	import caurina.transitions.Tweener;
 
 	public class preferences extends Sprite {
@@ -32,6 +33,7 @@ package {
 		var skins:scrollPanel;
 		var currentPanel:int=0;
 		var panelsX0:int;
+		private var tracker:GATracker=pixusShell.tracker;
 
 		function preferences(pshell:pixusShell):void {
 			shell=pshell;
@@ -110,9 +112,11 @@ package {
 		function handleOptionCheckBox(event:MouseEvent):void {
 			switch(event.target){
 				case panels.panelOptions.inner.cbAlwaysInFront:
+					tracker.trackPageview('Preferences/Options/AlwaysInFront/'+event.target.checked);
 					shell.alwaysInFront=event.target.checked;
 					break;
 				case panels.panelOptions.inner.cbStartAtLogin:
+					tracker.trackPageview('Preferences/Options/StartAtLogin/'+event.target.checked);
 					NativeApplication.nativeApplication.startAtLogin=event.target.checked;
 					break;
 			}
@@ -124,15 +128,18 @@ package {
 		}
 
 		function handleFindBackButton(event:MouseEvent):void {
+			tracker.trackPageview('Preferences/Skins/FindPanels');
 			// Strange! The handler accepts an Event parameter but I have to trigger a customEvent or I will get a runtime error.
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.EVENT_FIND_BACK));
 		}
 
 		function handleResetPresets(event:Event):void {
+			tracker.trackPageview('Preferences/Presets/Reset');
 			NativeApplication.nativeApplication.dispatchEvent(new Event(pixusShell.EVENT_RESET_PRESETS));
 		}
 
 		function handleUpdate(event:Event):void {
+			tracker.trackPageview('Preferences/About/Update');
 			shell.toggleUpdateWindow(true);
 		}
 
@@ -198,22 +205,27 @@ package {
 		public function handleTab(event:MouseEvent):void {
 			switch (event.target) {
 				case bTabPresets :
+					tracker.trackPageview('Preferences/Presets');
 					iconPresets.activate();
 					panels.slideToPanel(0);
 					break;
 				case bTabSkins :
+					tracker.trackPageview('Preferences/Skins');
 					iconSkins.activate();
 					panels.slideToPanel(1);
 					break;
 				case bTabOptions :
+					tracker.trackPageview('Preferences/Options');
 					iconOptions.activate();
 					panels.slideToPanel(2);
 					break;
 				case bTabHelp :
+					tracker.trackPageview('Preferences/Help');
 					iconHelp.activate();
 					panels.slideToPanel(3);
 					break;
 				case bTabAbout :
+					tracker.trackPageview('Preferences/About');
 					iconAbout.activate();
 					panels.slideToPanel(4);
 					break;
@@ -225,10 +237,12 @@ package {
 		}
 
 		public function handleClose(event:MouseEvent):void {
+			tracker.trackPageview('Preferences/Hide');
 			NativeApplication.nativeApplication.dispatchEvent(new customEvent(pixusShell.HIDE_PREFERENCES));
 		}
 
 		public function handleAdd(event:MouseEvent):void {
+			tracker.trackPageview('Preferences/Presets/Add');
 			presets.addChild(new presetRow());
 			panels.panelPresets.dispatchEvent(new customEvent(customEvent.RESIZE));
 			syncMenu();
