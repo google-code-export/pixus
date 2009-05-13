@@ -100,8 +100,8 @@ package {
 			if (options.presets==undefined) {
 				options.presets=PRESETS;
 			}
-			if (pixusShell.options.alwaysInFront==undefined)
-				pixusShell.options.alwaysInFront=true;
+			if (options.alwaysInFront==undefined)
+				options.alwaysInFront=true;
 
 			loader.addEventListener(Event.COMPLETE,init);
 			loader.load(new URLRequest('pixus-settings.xml'));
@@ -111,7 +111,6 @@ package {
 
 			// Creating a Google Analytics tracker object and track the launch
 			tracker = new GATracker( this, 'UA-1806074-16', 'AS3', false );
-			tracker.trackPageview( 'Launch/R'+options.version.release);
 
 			settings=new XML(event.target.data);
 			skinpresets=settings.skinpresets;
@@ -120,6 +119,8 @@ package {
 			}
 			options.updateFeedURL=settings.updatefeedurl;
 			options.version=settings.version;
+
+			tracker.trackPageview( 'Launch/R'+options.version.release);
 
 			// Create Pixus Window
 			var option:NativeWindowInitOptions;
