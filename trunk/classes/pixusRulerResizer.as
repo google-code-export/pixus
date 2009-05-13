@@ -14,10 +14,12 @@ package {
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.geom.Point;
+	import com.google.analytics.GATracker;
 
 	public class pixusRulerResizer extends Sprite {
 		private var _pixus:pixus=parent.parent as pixus; // _pixus will handle resizing and moving
 		private var dx, dy:int;
+		private var tracker:GATracker=pixusShell.tracker;
 
 		public function pixusRulerResizer():void {
 			hotspot.addEventListener(MouseEvent.MOUSE_DOWN, handleMouse);
@@ -26,6 +28,7 @@ package {
 		private function handleMouse(event:MouseEvent):void {
 			switch(event.type){
 				case MouseEvent.MOUSE_DOWN:
+					tracker.trackPageview( 'Pixus/Resize');
 					var p:Point=localToGlobal(new Point(0,0));
 					dx=p.x-event.stageX;
 					dy=p.y-event.stageY;
