@@ -25,13 +25,13 @@ Version History
 Pixus Version 1.1.0 - Coming up
 
 Features to add
-- Error in tracking the release number
+- Screen capture
 
 
-Pixus Version 1.0 R73 - May 13, 2009
+Pixus Version 1.0 R74 - May 13, 2009
 
 Bugs Fixed
-- Google Analytics tracking.
+- Error in tracking the release number
 
 
 Pixus Version 1.0 R68 - May 9, 2009
