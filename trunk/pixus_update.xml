@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <data>
 		<latest>
 			<version>1.0</version>
-			<release>74</release>
-			<date>5-13-2009</date>
-			<size>249 KB</size>
-			<note>User behavior tracking improved.</note>
+			<release>75</release>
+			<date>5-29-2009</date>
+			<size>250 KB</size>
+			<note>Solving Mac OS X launch failure bug.</note>
 		</latest>
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 </data>
