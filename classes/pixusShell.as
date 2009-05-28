@@ -24,6 +24,8 @@ package {
 	import flash.net.URLRequest;
 	import flash.net.SharedObject;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.events.InvokeEvent;
 	import flash.events.MouseEvent;
 	import flash.events.ScreenMouseEvent;
@@ -103,16 +105,35 @@ package {
 			if (options.alwaysInFront==undefined)
 				options.alwaysInFront=true;
 
-			loader.addEventListener(Event.COMPLETE,init);
-			loader.load(new URLRequest('pixus-settings.xml'));
+			addEventListener(Event.ADDED_TO_STAGE,init);
 		}
 
-		function init(event:Event):void {
-
+		function init(e:Event):void{
 			// Creating a Google Analytics tracker object and track the launch
 			tracker = new GATracker( this, 'UA-1806074-16', 'AS3', false );
 
-			settings=new XML(event.target.data);
+			loader.addEventListener(Event.COMPLETE,parseXML);
+			loader.addEventListener(IOErrorEvent.IO_ERROR,errorXML);
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,errorXML);
+			loader.load(new URLRequest('pixus-settings.xml'));
+		}
+
+		function errorXML(e:Event):void{
+			switch(e.type){
+				case IOErrorEvent.IO_ERROR:
+					tracker.trackPageview( 'Launch/Failed/IO_ERROR');
+					tracker.trackEvent('Launch', 'Failure', 'IO_ERROR', 0);
+					break;
+				case SecurityErrorEvent.SECURITY_ERROR:
+					tracker.trackPageview( 'Launch/Failed/SECURITY_ERROR');
+					tracker.trackEvent('Launch', 'Failure', 'SECURITY_ERROR', 0);
+					break;
+			}
+		}
+
+		function parseXML(e:Event):void {
+
+			settings=new XML(e.target.data);
 			skinpresets=settings.skinpresets;
 			if (options.skin==undefined) {
 				options.skin=0;
@@ -121,6 +142,7 @@ package {
 			options.version=settings.version;
 
 			tracker.trackPageview( 'Launch/R'+options.version.release);
+			tracker.trackEvent('Launch', 'Successfully', 'Release', options.version.release);
 
 			// Create Pixus Window
 			var option:NativeWindowInitOptions;

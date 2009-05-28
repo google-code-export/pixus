@@ -28,6 +28,13 @@ Features to add
 - Screen capture
 
 
+Pixus Version 1.0 R75 - May 28, 2009
+
+Bugs Fixed
+- Trying saving pixus-settings.xml in UTF-8 to solve mysterious launch failure under Mac OS X as reported by 2 users.
+- Tracking XML loading failures in both GA pageviews and events.
+
+
 Pixus Version 1.0 R74 - May 13, 2009
 
 Bugs Fixed
