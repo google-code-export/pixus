@@ -28,6 +28,12 @@ Features to add
 - Screen capture
 
 
+Pixus Version 1.0 R77 - July 13, 2009
+
+Features Added
+- Migrated to a Thawte approved code sign.
+
+
 Pixus Version 1.0 R75 - May 28, 2009
 
 Bugs Fixed
