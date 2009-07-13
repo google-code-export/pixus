@@ -2,10 +2,10 @@
 <data>
 		<latest>
 			<version>1.0</version>
-			<release>75</release>
-			<date>5-29-2009</date>
-			<size>250 KB</size>
-			<note>Solving Mac OS X launch failure bug.</note>
+			<release>77</release>
+			<date>7-13-2009</date>
+			<size>629 KB</size>
+			<note>Migrated to a Thawte approved code sign.</note>
 		</latest>
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 </data>
