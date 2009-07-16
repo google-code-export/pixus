@@ -135,13 +135,14 @@ package {
 		}
 
 		function compareVersions(){
-			if(pixusShell.options.version.release<updateInfo.latest.release){
+			if(int(pixusShell.options.version.release)<int(updateInfo.latest.release)){
 				tracker.trackPageview( 'Update/Check/UpdateAvailable');
 				panels.slideToPanel(STATE_OUTOFDATE);
 				stage.nativeWindow.visible=true;
-			} else
+			} else {
 				tracker.trackPageview( 'Update/Check/UpToDate');
 				panels.slideToPanel(STATE_LATEST);
+			}
 		}
 
 		function checkUpdate():void {
