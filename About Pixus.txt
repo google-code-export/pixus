@@ -28,6 +28,12 @@ Features to add
 - Screen capture
 
 
+Pixus Version 1.0 R78 - July 17, 2009
+
+Bugs Fixed
+- A bug always showing update-to-date even when an update is available fixed.
+
+
 Pixus Version 1.0 R77 - July 13, 2009
 
 Features Added

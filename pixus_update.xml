@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <data>
+		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
+			<version>1.0</version>
+			<release>78</release>
+			<date>7-17-2009</date>
+			<size>631 KB</size>
+			<note>A bug always showing update-to-date even when an update is available fixed.</note>
+		</latest>
+		<old>
 			<version>1.0</version>
 			<release>77</release>
 			<date>7-13-2009</date>
 			<size>629 KB</size>
 			<note>Migrated to a Thawte approved code sign.</note>
-		</latest>
-		<source>http://www.jpeg.cn/pixus/pixus.air</source>
+		</old>
 </data>
