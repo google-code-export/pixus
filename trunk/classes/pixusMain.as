@@ -1,6 +1,6 @@
 ﻿// pixusMain class
-// The ruler MovieClip inside the pixus NativeWindow
-// 2009-03-18
+// The ruler Sprite inside the pixus NativeWindow
+// 2009-08-9
 // (cc)2007-2009 codeplay
 // By Jam Zhang
 // jammind@gmail.com
@@ -11,6 +11,7 @@ package {
 	import flash.display.NativeWindowSystemChrome;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.geom.ColorTransform;
 	import flash.events.Event;
 	import flash.events.NativeWindowDisplayStateEvent;
 	import flash.text.TextField;
@@ -18,10 +19,16 @@ package {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.desktop.NativeApplication;
+	import codeplay.event.customEvent;
 	import caurina.transitions.Tweener;
 	import codeplay.display.slicePlus;
 
 	public class pixusMain extends Sprite {
+		
+		public static const RESIZE:String='pixusMainEventResize';
+		public static const RESIZE_WIDTH:String='pixusMainEventResizeWidth';
+		public static const RESIZE_HEIGHT:String='pixusMainEventResizeHeight';
+		
 		const MIN_WIDTH:uint=20;
 		const MIN_HEIGHT:uint=20;
 		const RULER_WIDTH:uint=20;
@@ -36,18 +43,27 @@ package {
 		private var _rulerHeight:uint;
 		private var _pixus:pixus=parent as pixus;
 		private var currentSkin:slicePlus=null;
-		private var draggers:Array=[];
+		private var guideDaggers:Array=[];
+		private var guidesContainerInner:Sprite=new colorSwitchableSprite([0x00FF00,0x00FFFF]);
 		private var guides:Array=[];
 		private var w:NativeWindow;
 		private var tempPos:Object;
 		public var freeDragging:Boolean=false;
 
 		public function pixusMain() {
+			// Creating Guide guideDaggers
+			guideContainer.addChild(guideDaggers['VL']=new pixusGuideDragger(this,'VL'));
+			guideContainer.addChild(guideDaggers['VR']=new pixusGuideDragger(this,'VR'));
+			guideContainer.addChild(guideDaggers['HT']=new pixusGuideDragger(this,'HT'));
+			guideContainer.addChild(guideDaggers['HB']=new pixusGuideDragger(this,'HB'));
+			
 			// Creating Guides
-			guideContainer.addChild(draggers['VL']=new pixusGuideDragger(this,'VL',0));
-			guideContainer.addChild(draggers['VR']=new pixusGuideDragger(this,'VR',100));
-			guideContainer.addChild(draggers['HT']=new pixusGuideDragger(this,'HT',0));
-			guideContainer.addChild(draggers['HB']=new pixusGuideDragger(this,'HB',100));
+			guidesContainerInner.addChild(guides['VL']=new pixusGuide(this,'V'));
+			guidesContainerInner.addChild(guides['VR']=new pixusGuide(this,'V'));
+			guidesContainerInner.addChild(guides['HT']=new pixusGuide(this,'H'));
+			guidesContainerInner.addChild(guides['HB']=new pixusGuide(this,'H'));
+			guidesContainerInner.alpha=.75;
+			guideContainer.addChild(guidesContainerInner);
 
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -191,12 +207,12 @@ package {
 
 			// Show and hide
 			if(pixusShell.options.skin==0){ // Native Ruler
-				rulers.visible=true;
+				guideContainer.visible=rulers.visible=true;
 				br.hotspot.alpha=1;
 				syncDragger();
 			} else { // Custom Skin
 				br.hotspot.alpha=0;
-				rulers.visible=false;
+				guideContainer.visible=rulers.visible=false;
 				syncDragger();
 				skin.addChild(currentSkin=new slicePlus(shell.getSkin(),pixusShell.options.width,pixusShell.options.height));
 				skin.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
@@ -215,6 +231,10 @@ package {
 		
 		public function get rulerWidth():int {
 			return pixusShell.options.width;
+		}
+
+		public function get rulerHeight():int {
+			return pixusShell.options.height;
 		}
 
 		public function get minWidth():int{
@@ -237,51 +257,51 @@ package {
 			rulers.bg.width=w+RULER_WIDTH*2;
 			//guides.draggerVT.x=guides.draggerVB.x=
 			frame.width=_rulerWidth=r.x=br.x=w;
-			setHorizontalGuides(); // Sync with the new width by default
+			setVerticalGuides(); // Sync with the new width by default
 			b.x=int(w*0.5);
 			rulers.rulerHorizontal.setLength(w);
 			showSize(_rulerWidth,_rulerHeight);
-			if (currentSkin!=null) {
+			if (currentSkin==null) {
+				dispatchEvent(new Event(RESIZE_WIDTH));
+			} else {
 				currentSkin.setWidth(w);
 			}
-		}
-
-		public function get rulerHeight():int {
-			return pixusShell.options.height;
 		}
 
 		public function set rulerHeight(h:int):void {
 			h=Math.max(h,minHeight);
 			pixusShell.options.height=h;
 			rulers.bg.height=h+RULER_HEIGHT*2;
-			draggers['VL'].y=draggers['VR'].y=frame.height=_rulerHeight=b.y=br.y=h;
-			setVerticalGuides(); // Sync with the new height by default
+			guideDaggers['VL'].y=guideDaggers['VR'].y=frame.height=_rulerHeight=b.y=br.y=h;
+			setHorizontalGuides(); // Sync with the new height by default
 			r.y=int(h*0.5);
 			rulers.rulerVertical.setLength(h);
 			showSize(_rulerWidth,_rulerHeight);
-			if (currentSkin!=null) {
+			if (currentSkin==null) {
+				dispatchEvent(new Event(RESIZE_HEIGHT));
+			} else {
 				currentSkin.setHeight(h);
 			}
 		}
 
-		public function setHorizontalGuides(x:int=-1){
+		public function setVerticalGuides(x:int=-1){
 			// Sync with the new width by default
 			if(x==-1){
-				x=draggers['VL'].x;
+				x=guideDaggers['VL'].x;
 			}
 			x=Math.max(0,Math.min(_pixus.rulerWidth*.5,x));
-			draggers['VL'].x=x;
-			draggers['VR'].x=_pixus.rulerWidth-x;
+			guides['VL'].x=guideDaggers['VL'].x=x;
+			guides['VR'].x=guideDaggers['VR'].x=_pixus.rulerWidth-x;
 		}
 		
-		public function setVerticalGuides(y:int=-1){
+		public function setHorizontalGuides(y:int=-1){
 			// Sync with the new height by default
 			if(y==-1){
-				y=draggers['HT'].y;
+				y=guideDaggers['HT'].y;
 			}
 			y=Math.max(0,Math.min(_pixus.rulerHeight*.5,y));
-			draggers['HT'].y=y;
-			draggers['HB'].y=_pixus.rulerHeight-y;
+			guides['HT'].y=guideDaggers['HT'].y=y;
+			guides['HB'].y=guideDaggers['HB'].y=_pixus.rulerHeight-y;
 		}
 		
 		public function showSize(w:uint,h:uint):void {
