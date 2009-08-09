@@ -6,11 +6,13 @@
 // jam@01media.cn
 //
 // General Interface
-// Methods below have the complete logic are recommend to invoke for general purposes
+// Methods below have the complete logic and should be used for general purposes
 //   moveTo() - Absolute Move
 //   moveRel() - Relative Movement
 //   resizeTo() - Absolute Resizing
 //   resizeRel() - Relative Resizing
+//   rulerWidth() - Get or Set the Ruler Width
+//   rulerHeight() - Get or Set the Ruler Height
 
 package {
 	import flash.display.NativeWindow;

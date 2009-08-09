@@ -36,11 +36,19 @@ package {
 		private var _rulerHeight:uint;
 		private var _pixus:pixus=parent as pixus;
 		private var currentSkin:slicePlus=null;
+		private var draggers:Array=[];
+		private var guides:Array=[];
 		private var w:NativeWindow;
 		private var tempPos:Object;
 		public var freeDragging:Boolean=false;
 
 		public function pixusMain() {
+			// Creating Guides
+			guideContainer.addChild(draggers['VL']=new pixusGuideDragger(this,'VL',0));
+			guideContainer.addChild(draggers['VR']=new pixusGuideDragger(this,'VR',100));
+			guideContainer.addChild(draggers['HT']=new pixusGuideDragger(this,'HT',0));
+			guideContainer.addChild(draggers['HB']=new pixusGuideDragger(this,'HB',100));
+
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
@@ -48,6 +56,7 @@ package {
 			w=stage.nativeWindow;
 			panelFreeDrag.visible=false;
 			shell=(parent as pixus).shell;
+			
 			rulers.addEventListener(MouseEvent.MOUSE_DOWN, handleDrag);
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_APPLY_SKIN, handleSkin);
 			NativeApplication.nativeApplication.addEventListener(pixusShell.EVENT_START_FREE_DRAG, handleFreeDrag);
@@ -202,6 +211,8 @@ package {
 			}
 		}
 
+		// Ruler Size
+		
 		public function get rulerWidth():int {
 			return pixusShell.options.width;
 		}
@@ -224,7 +235,9 @@ package {
 			w=Math.max(w,minWidth);
 			pixusShell.options.width=w;
 			rulers.bg.width=w+RULER_WIDTH*2;
+			//guides.draggerVT.x=guides.draggerVB.x=
 			frame.width=_rulerWidth=r.x=br.x=w;
+			setHorizontalGuides(); // Sync with the new width by default
 			b.x=int(w*0.5);
 			rulers.rulerHorizontal.setLength(w);
 			showSize(_rulerWidth,_rulerHeight);
@@ -241,7 +254,8 @@ package {
 			h=Math.max(h,minHeight);
 			pixusShell.options.height=h;
 			rulers.bg.height=h+RULER_HEIGHT*2;
-			frame.height=_rulerHeight=b.y=br.y=h;
+			draggers['VL'].y=draggers['VR'].y=frame.height=_rulerHeight=b.y=br.y=h;
+			setVerticalGuides(); // Sync with the new height by default
 			r.y=int(h*0.5);
 			rulers.rulerVertical.setLength(h);
 			showSize(_rulerWidth,_rulerHeight);
@@ -250,6 +264,26 @@ package {
 			}
 		}
 
+		public function setHorizontalGuides(x:int=-1){
+			// Sync with the new width by default
+			if(x==-1){
+				x=draggers['VL'].x;
+			}
+			x=Math.max(0,Math.min(_pixus.rulerWidth*.5,x));
+			draggers['VL'].x=x;
+			draggers['VR'].x=_pixus.rulerWidth-x;
+		}
+		
+		public function setVerticalGuides(y:int=-1){
+			// Sync with the new height by default
+			if(y==-1){
+				y=draggers['HT'].y;
+			}
+			y=Math.max(0,Math.min(_pixus.rulerHeight*.5,y));
+			draggers['HT'].y=y;
+			draggers['HB'].y=_pixus.rulerHeight-y;
+		}
+		
 		public function showSize(w:uint,h:uint):void {
 			var t=w+'x'+h;
 			dragger.tfSize.text=t;
