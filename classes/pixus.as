@@ -149,6 +149,9 @@ package {
 						t+='/Move';
 					tracker.trackPageview(t);
 					break;
+				case Keyboard.SPACE:
+					NativeApplication.nativeApplication.dispatchEvent(new Event(colorSwitchableSprite.TOGGLE_WIREFRAME_COLOR));
+					break;
 			}
 
 			var inc:int=event.shiftKey?10:1; // Shift = Speed Up

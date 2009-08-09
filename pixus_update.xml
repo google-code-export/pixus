@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.0</version>
+			<release>82</release>
+			<date>8-10-2009</date>
+			<size>630 KB</size>
+			<note>Quick Guides and guide color switching by Spacebar.</note>
+		</latest>
+		<old>
+			<version>1.0</version>
 			<release>78</release>
 			<date>7-17-2009</date>
 			<size>631 KB</size>
 			<note>A bug always showing update-to-date even when an update is available fixed.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.0</version>
 			<release>77</release>

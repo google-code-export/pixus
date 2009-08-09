@@ -16,7 +16,7 @@ Source code available at GoogleCode
 http://code.google.com/p/pixus/
 
 (cc)2007-2009 codeplay
-Created by Jam Zhang a.k.a. BigDaddyJ
+Created by Jam Zhang
 jammind@gmail.com
 
 
@@ -26,6 +26,13 @@ Pixus Version 1.1.0 - Coming up
 
 Features to add
 - Screen capture
+
+
+Pixus Version 1.0 R83 - August 10, 2009
+
+Features Added
+- Quick Guides.
+- Switch colors of guides and inner ruler border by pressing Spacebar.
 
 
 Pixus Version 1.0 R78 - July 17, 2009
