@@ -22,17 +22,17 @@ jammind@gmail.com
 
 Version History
 
-Pixus Version 1.1.0 - Coming up
+Pixus Version 1.1 R85 - August 11, 2009
 
-Features to add
-- Screen capture
+Bugs Fixed
+- Guide length wrong when switching from a custom skin back to the Ruler.
 
 
-Pixus Version 1.0 R83 - August 10, 2009
+Pixus Version 1.1 R83 - August 10, 2009
 
 Features Added
 - Quick Guides.
-- Switch colors of guides and inner ruler border by pressing Spacebar.
+- Toggle guide colors by pressing Spacebar.
 
 
 Pixus Version 1.0 R78 - July 17, 2009
