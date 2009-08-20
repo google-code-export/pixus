@@ -5,6 +5,7 @@ The AIR pixel ruler application. A handy tool for web and interface designers.
 2) Preview your design with skins and presets.
 3) Multi-screen support.
 4) Auto update.
+5) Quick guides.
 
 
 Support via jammind@gmail.com
@@ -21,6 +22,12 @@ jammind@gmail.com
 
 
 Version History
+
+Pixus Version 1.1 R89 - August 20, 2009
+
+Features Added
+- Toggling and saving Quick Guides.
+
 
 Pixus Version 1.1 R85 - August 11, 2009
 

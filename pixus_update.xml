@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.1</version>
+			<release>89</release>
+			<date>8-20-2009</date>
+			<size>612 KB</size>
+			<note>Toggling and saving Quick Guides.</note>
+		</latest>
+		<old>
+			<version>1.1</version>
 			<release>85</release>
 			<date>8-11-2009</date>
 			<size>552 KB</size>
 			<note>Quick Guides and guide color switching by Spacebar.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.0</version>
 			<release>78</release>
