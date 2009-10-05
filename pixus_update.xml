@@ -1,13 +1,20 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <data>
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
+			<version>1.1</version>
+			<release>90</release>
+			<date>10-5-2009</date>
+			<size>627 KB</size>
+			<note>Apply skins from system tray /dock meny.</note>
+		</latest>
+		<old>
 			<version>1.1</version>
 			<release>89</release>
 			<date>8-20-2009</date>
 			<size>612 KB</size>
 			<note>Toggling and saving Quick Guides.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>85</release>

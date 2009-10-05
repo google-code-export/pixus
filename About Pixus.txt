@@ -23,6 +23,17 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R90 - October 5, 2009
+
+Features Added
+- Applying skins from system tray/ dock menu.
+
+Bugs Fixed
+- Guide visibility in Free Drag Mode.
+- Overlay visibility in Free Drag Mode.
+- Pixus ruler / skin size is always 1px smaller than the value specified.
+
+
 Pixus Version 1.1 R89 - August 20, 2009
 
 Features Added
