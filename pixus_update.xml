@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.1</version>
+			<release>93</release>
+			<date>10-12-2009</date>
+			<size>627 KB</size>
+			<note>Installation description shortened. Hyperlinks in About Panel set with _blank target.</note>
+		</latest>
+		<old>
+			<version>1.1</version>
 			<release>90</release>
 			<date>10-5-2009</date>
 			<size>627 KB</size>
-			<note>Apply skins from system tray /dock meny.</note>
-		</latest>
+			<note>Apply skins from system tray /dock menu.</note>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>89</release>
