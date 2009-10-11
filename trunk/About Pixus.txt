@@ -1,5 +1,6 @@
 Pixus
-The AIR pixel ruler application. A handy tool for web and interface designers.
+
+The pixel ruler for Adobe AIR. A handy tool for web and interface designers. (Runs on Windows / Mac OS X)
 
 1) Measure the screen objects in pixels using both mouse and keyboard control.
 2) Preview your design with skins and presets.
@@ -22,6 +23,13 @@ jammind@gmail.com
 
 
 Version History
+
+Pixus Version 1.1 R93 - October 12, 2009
+
+Bugs Fixed
+- Installation description shortened to keep the Install button inside the dialog.
+- Hyperlinks in About Panel set with _blank target to prevent a pop-up browser or email client taking over the focus until it quits.
+
 
 Pixus Version 1.1 R90 - October 5, 2009
 

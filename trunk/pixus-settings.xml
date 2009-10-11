@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>1.1</version>
-		<release>90</release>
-		<date>10-5-2009</date>
+		<release>93</release>
+		<date>10-12-2009</date>
 	</version>
 	<updatefeedurl>http://www.jpeg.cn/pixus/pixus_update.xml</updatefeedurl>
 	<skinpresets>
