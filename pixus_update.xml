@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.1</version>
+			<release>94</release>
+			<date>12-27-2009</date>
+			<size>727 KB</size>
+			<note>Shadow inside ruler removed. High contrast shadow. Ruler texture is transparent. Email link in About Panel removed.</note>
+		</latest>
+		<old>
+			<version>1.1</version>
 			<release>93</release>
 			<date>10-12-2009</date>
 			<size>627 KB</size>
 			<note>Installation description shortened. Hyperlinks in About Panel set with _blank target.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>90</release>
