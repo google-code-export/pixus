@@ -24,6 +24,15 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R94 - December 27, 2009
+
+Bugs Fixed
+- Shadow inside the ruler that prevents a clean screen capture with Pixus.
+- Outer shadow with higher contrast to stand out of white background.
+- Ruler texture is opaque while the ruler is translucent.
+- Removed email link in About Panel to prevent a pop-up browser or email client taking over the focus until it quits.
+
+
 Pixus Version 1.1 R93 - October 12, 2009
 
 Bugs Fixed
