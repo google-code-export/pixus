@@ -24,6 +24,13 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R95 - December 28, 2009
+
+Features Added
+- Shift + Drag Corner to resize Pixus with locked aspect ratio.
+- Shift + Drag Edges to resize Pixus and snap to 10px grids.
+
+
 Pixus Version 1.1 R94 - December 27, 2009
 
 Bugs Fixed

@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.1</version>
+			<release>95</release>
+			<date>12-28-2009</date>
+			<size>668 KB</size>
+			<note>Shift Resize features for locked aspect ratio and grid snapping.</note>
+		</latest>
+		<old>
+			<version>1.1</version>
 			<release>94</release>
 			<date>12-27-2009</date>
 			<size>727 KB</size>
 			<note>Shadow inside ruler removed. High contrast shadow. Ruler texture is transparent. Email link in About Panel removed.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>93</release>
