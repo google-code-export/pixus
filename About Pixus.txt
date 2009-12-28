@@ -24,6 +24,12 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R96 - December 28, 2009
+
+Bugs Fixed
+- Custom Skins and Overlay are 1px smaller than the ruler.
+
+
 Pixus Version 1.1 R95 - December 28, 2009
 
 Features Added
