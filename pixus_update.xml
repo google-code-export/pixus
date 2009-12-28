@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.1</version>
+			<release>98</release>
+			<date>12-28-2009</date>
+			<size>732 KB</size>
+			<note>Double-click and input size right in the title bar.</note>
+		</latest>
+		<old>
+			<version>1.1</version>
 			<release>96</release>
 			<date>12-28-2009</date>
 			<size>750 KB</size>
 			<note>Custom Skins and Overlay's 1px smaller issue fixed.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>95</release>

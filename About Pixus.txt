@@ -24,6 +24,12 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R98 - December 28, 2009
+
+Features Added
+- Double-click and input size right in the title bar.
+
+
 Pixus Version 1.1 R96 - December 28, 2009
 
 Bugs Fixed
