@@ -17,11 +17,10 @@
 		<skin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />
 			<dragger x="70" y="-40" />
-			<resizer position="tr" offsety="-30" />
-			<resizer position="br" offsety="-20" />
-			<resizer position="bl" offsetx="20" offsety="-20" />
+			<resizer position="br" offsetx="0" offsety="-15" />
+			<resizer position="b" offsety="1" />
 			<resizer position="r" offsetx="15" />
-			<slice position="tl" x="0" y="0" w="250" h="65" _minw="75" offsetx="-10" offsety="-65" />
+			<slice position="tl" x="0" y="0" w="250" h="65" minw="250" offsetx="-10" offsety="-65" />
 			<slice position="tc" x="250" y="0" w="10" h="65" offsety="-65" />
 			<slice position="tr" x="300" y="0" w="220" h="80" offsetx="-197" offsety="-65" />
 			<slice position="l" x="0" y="80" w="10" h="10" offsetx="-10" />
@@ -30,11 +29,10 @@
 			<slice position="bc" x="10" y="150" w="10" h="10" />
 			<slice position="br" x="497" y="90" w="23" h="70" offsety="-60" />
 		</skin>
-		<skin title="Internet Explorer 7" subtitle="Windows XP" >
+		<skin title="Internet Explorer 6" subtitle="Windows XP" >
 			<file filename="skin/skin_ie6_winxp.png" thumbnail="skin/skin_ie6_winxp_tn.png" />
 			<dragger x="20" y="-100" />
-			<resizer position="tr" offsety="-100" />
-			<resizer position="bl" offsetx="20" />
+			<resizer position="br" offsetx="0" offsety="0" />
 			<resizer position="r" offsetx="24" />
 			<resizer position="b" offsety="28" />
 			<slice position="tl" x="0" y="0" w="525" h="120" minw="115" offsetx="-5" offsety="-119" />
@@ -45,6 +43,21 @@
 			<slice position="bl" x="0" y="172" w="25" h="28" offsetx="-5" />
 			<slice position="bc" x="25" y="172" w="10" h="28" />
 			<slice position="br" x="480" y="153" w="120" h="47" offsetx="-96" offsety="-19" />
+		</skin>
+		<skin title="iPhone" subtitle="Portrait" >
+			<file filename="skin/skin_iphone_portrait.png" thumbnail="skin/skin_iphone_portrait_tn.png" />
+			<sizelimit minw="320" minh="480" maxw="320" maxh="480" />
+			<dragger x="30" y="-110" />
+			<resizer position="r" offsetx="27" />
+			<resizer position="b" offsety="116" />
+			<slice position="tl" x="0" y="0" w="70" h="270" offsetx="-33" offsety="-130" />
+			<slice position="tc" x="70" y="0" w="243" h="130" offsety="-130" />
+			<slice position="tr" x="313" y="0" w="70" h="270" offsetx="-40" offsety="-130" />
+			<slice position="l" x="0" y="270" w="33" h="310" offsetx="-33" />
+			<slice position="r" x="353" y="270" w="30" h="310" />
+			<slice position="bl" x="0" y="580" w="70" h="147" offsetx="-33" offsety="-30" />
+			<slice position="bc" x="70" y="610" w="243" h="117" />
+			<slice position="br" x="313" y="580" w="70" h="147" offsetx="-40" offsety="-30" />
 		</skin>
 	</skinpresets>
 </settings>
