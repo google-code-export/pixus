@@ -24,6 +24,17 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R100 - February 8, 2010
+
+Features Added
+- Shows Adobe Air Runtime Version in Preferences / About Panel.
+- Safari 4 / iPhone skin added.
+- Skin can come with minimum / maximum size.
+
+Bugs Fixed
+- Skin improper resizing issue.
+
+
 Pixus Version 1.1 R98 - December 28, 2009
 
 Features Added

@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>1.1</version>
-		<release>98</release>
-		<date>12-28-2009</date>
+		<release>100</release>
+		<date>2-8-2010</date>
 	</version>
 	<updatefeedurl>http://www.jpeg.cn/pixus/pixus_update.xml</updatefeedurl>
 	<maxsize width="4000" height="4000" />
@@ -14,24 +14,41 @@
 			<resizer position="r" offsetx="20" />
 			<resizer position="b" offsety="20" />
 		</skin>
+		<skin title="Safari 4" subtitle="Mac OS X" >
+			<file filename="skin/skin_safari4_osx.png" thumbnail="skin/skin_safari4_osx_tn.png" />
+			<dragger x="70" y="-60" />
+			<resizer position="br" offsetx="0" offsety="-15" />
+			<resizer position="b" offsety="1" />
+			<resizer position="r" offsetx="15" />
+			<slice position="tl" x="0" y="0" w="300" h="87" minw="145" offsetx="-30" offsety="-87" />
+			<slice position="tc" x="410" y="0" w="10" h="87" offsety="-87" />
+			<slice position="tr" x="420" y="0" w="170" h="100" offsetx="-124" offsety="-87" />
+			<slice position="l" x="0" y="100" w="30" h="10" offsetx="-30" />
+			<slice position="r" x="544" y="100" w="46" h="10" />
+			<slice position="bl" x="0" y="187" w="30" h="44" offsetx="-30" />
+			<slice position="bc" x="30" y="187" w="10" h="44" />
+			<slice position="br" x="544" y="130" w="46" h="101" offsety="-57" />
+			<slice position="tl" float="true" x="30" y="65" w="270" h="22" offsety="-22" />
+			<slice position="tc" float="true" x="300" y="15" w="110" h="20" offsetx="-55" offsety="-72" />
+		</skin>
 		<skin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />
 			<dragger x="70" y="-40" />
 			<resizer position="br" offsetx="0" offsety="-15" />
 			<resizer position="b" offsety="1" />
 			<resizer position="r" offsetx="15" />
-			<slice position="tl" x="0" y="0" w="250" h="65" minw="250" offsetx="-10" offsety="-65" />
-			<slice position="tc" x="250" y="0" w="10" h="65" offsety="-65" />
-			<slice position="tr" x="300" y="0" w="220" h="80" offsetx="-197" offsety="-65" />
-			<slice position="l" x="0" y="80" w="10" h="10" offsetx="-10" />
-			<slice position="r" x="497" y="80" w="23" h="10" />
-			<slice position="bl" x="0" y="150" w="10" h="10" offsetx="-10" />
-			<slice position="bc" x="10" y="150" w="10" h="10" />
-			<slice position="br" x="497" y="90" w="23" h="70" offsety="-60" />
+			<slice position="tl" x="0" y="0" w="190" h="70" offsetx="-30" offsety="-70" />
+			<slice position="tc" x="190" y="0" w="10" h="70" offsety="-70" />
+			<slice position="tr" x="400" y="0" w="160" h="90" offsetx="-117" offsety="-70" />
+			<slice position="l" x="0" y="70" w="30" h="10" offsetx="-30" />
+			<slice position="r" x="517" y="90" w="43" h="5" />
+			<slice position="bl" x="0" y="155" w="30" h="45" offsetx="-30" />
+			<slice position="bc" x="30" y="155" w="10" h="45" />
+			<slice position="br" x="517" y="95" w="43" h="105" offsety="-60" />
 		</skin>
 		<skin title="Internet Explorer 6" subtitle="Windows XP" >
 			<file filename="skin/skin_ie6_winxp.png" thumbnail="skin/skin_ie6_winxp_tn.png" />
-			<dragger x="20" y="-100" />
+			<dragger x="20" y="-105" />
 			<resizer position="br" offsetx="0" offsety="0" />
 			<resizer position="r" offsetx="24" />
 			<resizer position="b" offsety="28" />
@@ -48,8 +65,6 @@
 			<file filename="skin/skin_iphone_portrait.png" thumbnail="skin/skin_iphone_portrait_tn.png" />
 			<sizelimit minw="320" minh="480" maxw="320" maxh="480" />
 			<dragger x="30" y="-110" />
-			<resizer position="r" offsetx="27" />
-			<resizer position="b" offsety="116" />
 			<slice position="tl" x="0" y="0" w="70" h="270" offsetx="-33" offsety="-130" />
 			<slice position="tc" x="70" y="0" w="243" h="130" offsety="-130" />
 			<slice position="tr" x="313" y="0" w="70" h="270" offsetx="-40" offsety="-130" />
