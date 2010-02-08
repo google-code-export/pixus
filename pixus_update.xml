@@ -2,12 +2,19 @@
 <data>
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
+			<version>1.2</version>
+			<release>101</release>
+			<date>2-9-2010</date>
+			<size>1154 KB</size>
+			<note>Skin resizing issue fixed. New skins added. Adobe Air runtime version shown in About panel.</note>
+		</latest>
+		<old>
 			<version>1.1</version>
 			<release>98</release>
 			<date>12-28-2009</date>
 			<size>732 KB</size>
 			<note>Double-click and input size right in the title bar.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.1</version>
 			<release>96</release>

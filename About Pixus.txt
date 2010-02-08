@@ -4,9 +4,9 @@ The pixel ruler for Adobe AIR. A handy tool for web and interface designers. (Ru
 
 1) Measure the screen objects in pixels using both mouse and keyboard control.
 2) Preview your design with skins and presets.
-3) Multi-screen support.
-4) Auto update.
-5) Quick guides.
+3) Quick guides for checking layout.
+4) Multi-screen support.
+5) Auto update.
 
 
 Support via jammind@gmail.com
@@ -24,12 +24,17 @@ jammind@gmail.com
 
 Version History
 
-Pixus Version 1.1 R100 - February 8, 2010
+Pixus Version 1.1 R101 - February 9, 2010
 
 Features Added
 - Shows Adobe Air Runtime Version in Preferences / About Panel.
-- Safari 4 / iPhone skin added.
+- New skins added.
+  - Safari 4 OS X
+  - FireFox 3 OS X
+  - Chrome 4 Beta OS X
+  - iPhone Landscape
 - Skin can come with minimum / maximum size.
+- Skin resizers are optional
 
 Bugs Fixed
 - Skin improper resizing issue.
