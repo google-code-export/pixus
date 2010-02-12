@@ -24,6 +24,16 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.1 R104 - February 12, 2010
+
+Features Added
+- New skins added.
+  - PSP 3000 Black
+
+Bugs Fixed
+- Multi-screen Drag feature fixed.
+
+
 Pixus Version 1.1 R101 - February 9, 2010
 
 Features Added

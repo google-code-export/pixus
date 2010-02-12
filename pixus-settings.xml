@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>1.2</version>
-		<release>101</release>
-		<date>2-9-2010</date>
+		<release>104</release>
+		<date>2-12-2010</date>
 	</version>
 	<updatefeedurl>http://www.jpeg.cn/pixus/pixus_update.xml</updatefeedurl>
 	<maxsize width="4000" height="4000" />
@@ -11,6 +11,7 @@
 		<skin title="Ruler" subtitle="Pixus Native Skin" >
 			<file thumbnail="skin/skin_pixus_ruler_tn.png" />
 			<dragger x="0" y="-5" />
+			<resizer position="br" offsetx="0" offsety="0" />
 			<resizer position="r" offsetx="20" />
 			<resizer position="b" offsety="20" />
 		</skin>
@@ -106,6 +107,12 @@
 			<slice position="bl" x="0" y="580" w="70" h="147" offsetx="-33" offsety="-30" />
 			<slice position="bc" x="70" y="610" w="243" h="117" />
 			<slice position="br" x="313" y="580" w="70" h="147" offsetx="-40" offsety="-30" />
+		</skin>
+		<skin title="PlayStation Portable" subtitle="PSP 3000 Black" >
+			<file filename="skin/skin_psp3000.png" thumbnail="skin/skin_psp3000_tn.png" />
+			<sizelimit minw="480" minh="272" maxw="480" maxh="272" />
+			<dragger x="0" y="-10" />
+			<slice position="tl" float="true" x="0" y="0" w="900" h="420" offsetx="-210" offsety="-40" />
 		</skin>
 	</skinpresets>
 </settings>
