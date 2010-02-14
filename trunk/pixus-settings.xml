@@ -32,7 +32,7 @@
 			<slice position="tl" float="true" x="30" y="65" w="270" h="22" offsety="-22" />
 			<slice position="tc" float="true" x="300" y="15" w="110" h="20" offsetx="-55" offsety="-72" />
 		</skin>
-		<skin title="Safari 3" subtitle="Mac OS X" >
+		<oldskin title="Safari 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_safari3_osx.png" thumbnail="skin/skin_safari3_osx_tn.png" />
 			<dragger x="70" y="-40" />
 			<resizer position="br" offsetx="0" offsety="-15" />
@@ -46,7 +46,7 @@
 			<slice position="bl" x="0" y="155" w="30" h="45" offsetx="-30" />
 			<slice position="bc" x="30" y="155" w="10" h="45" />
 			<slice position="br" x="517" y="95" w="43" h="105" offsety="-60" />
-		</skin>
+		</oldskin>
 		<skin title="FireFox 3" subtitle="Mac OS X" >
 			<file filename="skin/skin_firefox3_osx.png" thumbnail="skin/skin_firefox3_osx_tn.png" />
 			<dragger x="70" y="-70" />
@@ -79,6 +79,23 @@
 			<slice position="bc" x="30" y="210" w="10" h="45" />
 			<slice position="br" x="544" y="150" w="46" h="105" offsety="-60" />
 			<slice position="tr" float="true" x="400" y="85" w="120" h="25" offsetx="-110" offsety="-25" />
+		</skin>
+		<skin title="Internet Explorer 8" subtitle="Windows 7" >
+			<file filename="skin/skin_ie8_win7.png" thumbnail="skin/skin_ie8_win7_tn.png" />
+			<sizelimit minw="640" />
+			<dragger x="20" y="-85" w="26" h="30" />
+			<resizer position="br" offsetx="0" offsety="0" />
+			<resizer position="r" offsetx="25" />
+			<resizer position="b" offsety="30" />
+			<slice position="tl" x="0" y="0" w="280" h="130" offsetx="-22" offsety="-112" />
+			<slice position="tc" x="280" y="0" w="80" h="130" offsety="-112" />
+			<slice position="tr" x="360" y="0" w="390" h="130" offsetx="-348" offsety="-112" />
+			<slice position="l" x="0" y="130" w="22" h="70" offsetx="-22" />
+			<slice position="r" x="708" y="130" w="42" h="70" />
+			<slice position="bl" x="0" y="200" w="30" h="80" offsetx="-22" offsety="-19" />
+			<slice position="bc" x="30" y="219" w="10" h="61" />
+			<slice position="br" x="390" y="200" w="360" h="80" offsetx="-318" offsety="-19" />
+			<nonslice position="tr" float="true" x="290" y="75" w="70" h="37" offsetx="-348" offsety="-37" />
 		</skin>
 		<skin title="Internet Explorer 6" subtitle="Windows XP" >
 			<file filename="skin/skin_ie6_winxp.png" thumbnail="skin/skin_ie6_winxp_tn.png" />
