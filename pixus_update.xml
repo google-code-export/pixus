@@ -3,11 +3,18 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.2</version>
+			<release>106</release>
+			<date>2-18-2010</date>
+			<size>1322 KB</size>
+			<note>IE8 Windows 7 and iPhone Landscape Skins added. Multi-screen does always showing guides issue fixed. </note>
+		</latest>
+		<old>
+			<version>1.2</version>
 			<release>104</release>
 			<date>2-12-2010</date>
 			<size>1146 KB</size>
 			<note>Multi-screen drag mode fixed. PSP 3000 Black skins added.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.2</version>
 			<release>101</release>
