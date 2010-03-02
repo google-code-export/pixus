@@ -24,6 +24,12 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.2 R107 - March 1, 2010
+
+Bugs Fixed
+- Launching failure due to wrong settings data structure.
+
+
 Pixus Version 1.2 R106 - February 18, 2010
 
 Features Added
