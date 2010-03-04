@@ -3,11 +3,20 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.2</version>
+			<release>110</release>
+			<date>3-4-2010</date>
+			<size>1317 KB</size>
+			<note>New Preset with wrong dimensions fixed.
+Release Notes added to Update Window.
+Preferences Window now closes instead of hides.</note>
+		</latest>
+		<old>
+			<version>1.2</version>
 			<release>107</release>
 			<date>3-1-2010</date>
 			<size>1313 KB</size>
 			<note>Launching failure due to wrong settings data structure fixed.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.2</version>
 			<release>106</release>
