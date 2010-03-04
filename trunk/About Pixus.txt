@@ -24,6 +24,16 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.2 R110 - March 4, 2010
+
+Bugs Fixed
+- New Preset with wrong dimensions.
+
+Features Added
+- Release Notes added in Update window.
+- Preferences Window now closes instead of hides.
+
+
 Pixus Version 1.2 R107 - March 1, 2010
 
 Bugs Fixed
