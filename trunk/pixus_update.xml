@@ -3,13 +3,23 @@
 		<source>http://www.jpeg.cn/pixus/pixus.air</source>
 		<latest>
 			<version>1.2</version>
+			<release>111</release>
+			<date>3-14-2010</date>
+			<size>1328 KB</size>
+			<note>Press Alt key to toggle title bar.
+Update Window now closes.
+Windows auto-hide in background.
+Improved with Mac OS X Space.</note>
+		</latest>
+		<old>
+			<version>1.2</version>
 			<release>110</release>
 			<date>3-4-2010</date>
 			<size>1317 KB</size>
 			<note>New Preset with wrong dimensions fixed.
 Release Notes added to Update Window.
 Preferences Window now closes instead of hides.</note>
-		</latest>
+		</old>
 		<old>
 			<version>1.2</version>
 			<release>107</release>

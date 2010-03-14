@@ -24,6 +24,15 @@ jammind@gmail.com
 
 Version History
 
+Pixus Version 1.2 R111 - March 14, 2010
+
+Features Added
+- Press Alt key to toggle title bar for clean screenshots.
+- Update Window now closes instead of hides.
+- Preferences & Update Window auto-hide when Pixus loses focus.
+- All windows will appear in the current Space in Mac OS X Multi-Space environment.
+
+
 Pixus Version 1.2 R110 - March 4, 2010
 
 Bugs Fixed

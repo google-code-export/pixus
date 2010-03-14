@@ -2,8 +2,8 @@
 <settings>
 	<version>
 		<version>1.2</version>
-		<release>110</release>
-		<date>3-4-2010</date>
+		<release>111</release>
+		<date>3-14-2010</date>
 	</version>
 	<updatefeedurl>http://www.jpeg.cn/pixus/pixus_update.xml</updatefeedurl>
 	<maxsize width="4000" height="4000" />
